@@ -86,7 +86,8 @@ As this is a fundamental notion, we will state the required special case here.
         (g_1(x, y, z) : g_2(x, y, z) : g_3(x, y, z)) \ \text{is nonzero and equal to $\phi(x : y : z)$}
     \end{equation*}
     Here we define equivalence as $(f_1, f_2, f_3) \sim (g_1, g_2, g_3)$ if $f_i g_j = f_j g_i$ for all $i, j$.
-    We use the notation $\phi = [f_1, f_2, f_3]$.
+    We use the notation $\phi = [f_1, f_2, f_3]$ or $\phi = [f_1^{\mathrm{deh}}, f_2^{\mathrm{deh}}, f_3^{\mathrm{deh}}]$
+    \footnote{For a homogeneous polynomial $f \in K[x, y, z]$ the notation $f^{\mathrm{deh}}$ is the dehomogenization $f(x, y, 1)$. Note that $f$ corresponds to $f^{\mathrm{deh}}$ uniquely except for scaling by $z$, but scaling by $z$ does not change the defined rational map.}.
 \end{definition}
 
 This definition is quite technical, as for well-definedness, we require that no denominator polynomial evaluates to 0 and do not get the projective (non-)point $(0 : 0 : 0)$. 
@@ -175,7 +176,7 @@ The general Weierstraß equation is still relatively complicated. If the charact
 \begin{proof}
     Consider the rational map given by
     \begin{equation*}
-        \phi_1 = \Bigl[ x, y - \frac {a_1 x + a_3} 2, z \Bigr]
+        \phi_1 = \Bigl[ x, y - \frac {a_1 x + a_3} 2, 1 \Bigr]
     \end{equation*}
     Then have that
     \begin{align*}
@@ -192,7 +193,7 @@ The general Weierstraß equation is still relatively complicated. If the charact
 
     Similarly, consider the rational map given by
     \begin{equation*}
-        \phi_2 = \Bigl[ x - \frac {b_2} {12}, y, z \Bigr]
+        \phi_2 = \Bigl[ x - \frac {b_2} {12}, y, 1 \Bigr]
     \end{equation*}
     By an analogous computation as above, get that $\phi_2$ is an isomorphism $E_2 \to E_1$ where $E_2: y^2 = x^3 + Ax + B$ for $A = \frac 1 2 (b_4 - \frac 1 {24} b_2^2)$ and $B = \frac 1 4 (\frac 1 6 b_2 b_4 - \frac 1 {216} b_2^3 - b_6)$.
     Composing $\phi_1 \circ \phi_2$ yields an isomorphism between $E_2$ and $E$.
@@ -230,27 +231,29 @@ This can be done by the so-called j-invariant.
 \begin{prop}
     Let $E: y^2 = x^3 = Ax - B$ and $E': y^2 = x^3 - A'x - B'$ be elliptic curves. Then there is an isomorphism $E \to E'$ if and only if $j(E) = j(E')$.
 \end{prop}
-\begin{proof} First, assume $j(E) = j(E')$ and consider the morphism $\phi = [u^2 x, u^3 y, z]$ where $u^4 = A/A'$.
-Then
-\begin{align*}
-    (u^3 y)^2 =& \ u^6 y^2 \quad \text{and} \\
-    (u^2 x)^3 - A (u^2 x) - B =& \ u^6 \Bigl(x^3 - \frac 1 {u^4} A x - \frac 1 {u^6} B \Bigr) \\
-    =& \ u^6 \Bigl( x^3 - A' x - \frac 1 {u^6} B \Bigr)
-\end{align*}
-From $j(E) = j(E')$ we get
-\begin{equation*}
-    A^3 (27 B'^2 + 4A'^3) = A'^3 (27 B^2 + 4A^3)
-\end{equation*}
-Thus
-\begin{equation*}
-    A^3 \left( 27 B'^2 + 4\frac 1 {u^{12}} A^3 \right) = \frac 1 {u^{12}} A^3 (27 B^2 + 4A^3)
-\end{equation*}
-and so
-\begin{equation*}
-    B'^2 = \frac 1 {u^{12}} B^2 + \frac 1 {27 u^{12}} (4 A^3 - 4 A^3) = \frac 1 {u^{12}} B^2
-\end{equation*}
-It follows that $u^6 = B/B'$ and so $\phi$ maps $E$ to $E'$. It is only a linear transformation, hence also an isomorphism.
+\begin{proof}
+    First, assume $j(E) = j(E')$ and consider the morphism $\phi = [u^2 x, u^3 y, 1]$ where $u^4 = A/A'$.
+    Then
+    \begin{align*}
+        (u^3 y)^2 =& \ u^6 y^2 \quad \text{and} \\
+        (u^2 x)^3 - A (u^2 x) - B =& \ u^6 \Bigl(x^3 - \frac 1 {u^4} A x - \frac 1 {u^6} B \Bigr) \\
+        =& \ u^6 \Bigl( x^3 - A' x - \frac 1 {u^6} B \Bigr)
+    \end{align*}
+    From $j(E) = j(E')$ we get
+    \begin{equation*}
+        A^3 (27 B'^2 + 4A'^3) = A'^3 (27 B^2 + 4A^3)
+    \end{equation*}
+    Thus
+    \begin{equation*}
+        A^3 \left( 27 B'^2 + 4\frac 1 {u^{12}} A^3 \right) = \frac 1 {u^{12}} A^3 (27 B^2 + 4A^3)
+    \end{equation*}
+    and so
+    \begin{equation*}
+        B'^2 = \frac 1 {u^{12}} B^2 + \frac 1 {27 u^{12}} (4 A^3 - 4 A^3) = \frac 1 {u^{12}} B^2
+    \end{equation*}
+    It follows that $u^6 = B/B'$ and so $\phi$ maps $E$ to $E'$. It is only a linear transformation, hence also an isomorphism.
 
+    For the other direction, assume there is an isomorphism $\phi = [\phi_1, \phi_2, \phi_3]$ from $E$ to $E'$, where $\phi_1, \phi_2, \phi_3$ have all degree $d \in \N$.
 
 \end{proof}
 
