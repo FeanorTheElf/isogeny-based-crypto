@@ -160,18 +160,99 @@ Most importantly, this will suffice to define isogenies later.
 
 This description is almost a complete definition, in the sense that a map $\phi$ is rational if and only if its behavior on $\bar{K}^2$ is given by $\phi = [f_1, f_2, g]$ as above and the value $\phi(\O)$ is equal to the value at infinity one can define for $f_1, f_2, g$.
 
-\subsection{Simpler formulas}
+\subsection{A simpler formula}
 
 The general Weierstraß equation is still relatively complicated. If the characteristic of $K$ is not $2$ or $3$ however, we have the following simpler representation:
 
 \begin{prop}
-    Let $E$ be an elliptic curve defined over $K$ by the Weierstraß equation $y^2 + a_1 xy + a_3 y = x^3 + a_2 x^2 + a_4 x + a_6$.
+    Let $E$ be an elliptic curve defined over $K$ with $\mathrm{char}(K) \neq 2, 3$ by the Weierstraß equation $y^2 + a_1 xy + a_3 y = x^3 + a_2 x^2 + a_4 x + a_6$.
     Then $E$ is isomorphic to an elliptic curve defined by a Weierstraß equation of the form
     \begin{equation*}
-        y^2 = x^3 - Ax - B
+        y^2 = x^3 + Ax + B
     \end{equation*}
-    where $A, B \in K$. Here ``isomorphic'' means $K$-variety isomorphic (in the sense of Algebraic geometry).
+    where $A, B \in K$. Here ``isomorphic'' means $K$-variety isomorphic.
 \end{prop}
+\begin{proof}
+    Consider the rational map given by
+    \begin{equation*}
+        \phi_1 = \Bigl[ x, y - \frac {a_1 x + a_3} 2, z \Bigr]
+    \end{equation*}
+    Then have that
+    \begin{align*}
+        &\left( y - \frac {a_1 x + a_3} 2 \right)^2 + (a_1 x + a_3) \left( y - \frac {a_1 x + a_3} 2 \right) \\
+        = & \ y^2 - y (a_1 x + a_3) + (a_1 x + a_3) y - \left( \frac {a_1 x + a_3} 2 \right)^2 = y^2 - \frac 1 4 ( a_1 x + a_3 )^2
+    \end{align*}
+    Let $E_1$ be the elliptic curve defined by 
+    \begin{equation*}
+        E_1: y^2 = x^3 + \frac 1 4 b_2 x^2 + \frac 1 2 b_4 x + \frac 1 4 b_6
+    \end{equation*}
+    with $b_2 = 4a_2 + a_1^2$, $b_4 = 2 a_4 + a_1 a_3$ and $b_6 = 4a_6 + a_3^2$.
+    Then $\phi_1$ maps $E_1$ to $E$ as by the above computation, $\phi(x : y : z) \in E$ for all $(x : y : z) \in E_1$.
+    Furthermore, $\phi_1$ is given by a linear change of coordinates, hence it is an isomorphism.
+
+    Similarly, consider the rational map given by
+    \begin{equation*}
+        \phi_2 = \Bigl[ x - \frac {b_2} {12}, y, z \Bigr]
+    \end{equation*}
+    By an analogous computation as above, get that $\phi_2$ is an isomorphism $E_2 \to E_1$ where $E_2: y^2 = x^3 + Ax + B$ for $A = \frac 1 2 (b_4 - \frac 1 {24} b_2^2)$ and $B = \frac 1 4 (\frac 1 6 b_2 b_4 - \frac 1 {216} b_2^3 - b_6)$.
+    Composing $\phi_1 \circ \phi_2$ yields an isomorphism between $E_2$ and $E$.
+\end{proof}
+
+The reader might compare the $b_2, b_4, b_6$ used in this proof with the definition of the discriminant \ref{def:discriminant} to get an explanation for the choice of some parts of the discriminant formula.
+This formula also gets much simpler when using the simplified form.
+
+\begin{remark}
+    Let $E$ be an elliptic curve defined by $E: y^2 = x^3 + Ax + B$. Then
+    \begin{equation*}
+        \Delta(E) = -16(27 B^2 + 4 A^3)
+    \end{equation*}
+\end{remark}
+\begin{proof}
+    Just insert $a_4 = A, a_6 = B$ and $a_1 = a_2 = a_3 = 0$ into the definition \ref{def:discriminant}.
+\end{proof}
+
+For simplicity, we will from now on assume that the characteristic of $K$ is not $2$ or $3$ and hence use this simpler formula. 
+Most proofs work also in the general case, but the involved computations will be more complicated and less instructive.
+
+\subsection{More isomorphisms}
+
+Until now we have seen that each curve is isomorphic to a curve given by a relatively simple equation.
+To completely classify whether two curves are isomorphic, it is now left to study when two curves of this form are isomorphic.
+This can be done by the so-called j-invariant.
+
+\begin{definition}
+    Let $E$ be an elliptic curve defined by $E: y^2 = x^3 + Ax + B$. Then the j-invariant is given by
+    \begin{equation*}
+        j(E) := \frac {(-48 A)^3} {\Delta(E)} = 1728 \frac {4A^3} {27 B^2 + 4A^3}
+    \end{equation*}
+\end{definition}
+
+\begin{prop}
+    Let $E: y^2 = x^3 = Ax - B$ and $E': y^2 = x^3 - A'x - B'$ be elliptic curves. Then there is an isomorphism $E \to E'$ if and only if $j(E) = j(E')$.
+\end{prop}
+\begin{proof} First, assume $j(E) = j(E')$ and consider the morphism $\phi = [u^2 x, u^3 y, z]$ where $u^4 = A/A'$.
+Then
+\begin{align*}
+    (u^3 y)^2 =& \ u^6 y^2 \quad \text{and} \\
+    (u^2 x)^3 - A (u^2 x) - B =& \ u^6 \Bigl(x^3 - \frac 1 {u^4} A x - \frac 1 {u^6} B \Bigr) \\
+    =& \ u^6 \Bigl( x^3 - A' x - \frac 1 {u^6} B \Bigr)
+\end{align*}
+From $j(E) = j(E')$ we get
+\begin{equation*}
+    A^3 (27 B'^2 + 4A'^3) = A'^3 (27 B^2 + 4A^3)
+\end{equation*}
+Thus
+\begin{equation*}
+    A^3 \left( 27 B'^2 + 4\frac 1 {u^{12}} A^3 \right) = \frac 1 {u^{12}} A^3 (27 B^2 + 4A^3)
+\end{equation*}
+and so
+\begin{equation*}
+    B'^2 = \frac 1 {u^{12}} B^2 + \frac 1 {27 u^{12}} (4 A^3 - 4 A^3) = \frac 1 {u^{12}} B^2
+\end{equation*}
+It follows that $u^6 = B/B'$ and so $\phi$ maps $E$ to $E'$. It is only a linear transformation, hence also an isomorphism.
+
+
+\end{proof}
 
 \section{Isogenies}
 
