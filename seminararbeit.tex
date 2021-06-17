@@ -119,6 +119,7 @@ However, much of the theory of elliptic curves requires a distinguished point.
 By defining this point to be ``the point at infinity'', we will not require the rules for working at infinity.
 This is not really an affine setting, as we still (and need) the point at infinity, but working in this setting often feels like an affine one.
 It is also the convention that the notation focuses on this point of view (as one can already see from our previous definition, which uses non-homogeneous polynomials and ideals).
+In this section, we embed $\bar{K}^2 \to \mathbb{P}, \ (x, y) \mapsto (x : y : 1)$.
 
 \begin{remark}
     A (possibly nonsmooth) elliptic curve $E$ defined over a field $K$ is the affine zero set
@@ -133,9 +134,11 @@ It is also the convention that the notation focuses on this point of view (as on
 \end{remark}
 
 Now we come to rational maps and morphisms. First, we require the affine coordinate ring of an elliptic curve.
+To be precise, for an elliptic curve $E$ this is the affine coordinate ring of the affine variety $E \cap \bar{K}^2$.
+But as we will fix the embedding $(x, y) \mapsto (x : y : 1)$ we will just call it ``the'' affine coordinate ring.
 
 \begin{definition}
-    The affine coordinate ring of an elliptic curve defined by $F(x, y) := y^2 + a_1 xy + a_3 y - x^3 - a_2 x^2 - a_4 x - a_6 = 0$ is given as $K[E] := K[x, y] / (F(x, y))$.
+    The affine coordinate ring of an elliptic curve defined by $F(x, y) := y^2 + a_1 xy + a_3 y - x^3 - a_2 x^2 - a_4 x - a_6 = 0$ is given as $\bar{K}[E] := \bar{K}[x, y] / (F(x, y))$.
 \end{definition}
 
 Note that we may evaluate elements $f \in K[E]$ at points $(x, y) \in E$, as each representative in the equivalence class will evaluate to the same value at $(x, y)$.
@@ -237,6 +240,7 @@ This can be done by the so-called j-invariant.
 \end{definition}
 
 \begin{prop}
+    \label{prop:j_invariant}
     Let $E: y^2 = x^3 = Ax - B$ and $E': y^2 = x^3 - A'x - B'$ be elliptic curves. Then there is an isomorphism $E \to E'$ if and only if $j(E) = j(E')$.
 \end{prop}
 \begin{proof}
@@ -293,6 +297,7 @@ This can be done by the so-called j-invariant.
     Furthermore have $X (X^2 + A Z^2) = X (X^2 + A \alpha X^2) = X^3 (1 + A \alpha)$ and $1 + A \alpha$ is a unit.
     Therefore $\langle X \rangle^3 = \langle Z \rangle$ and thus $x = X / Z$ has valuation $1 - 3 = -2$.
     The same calculation for $X' := x' Z', Z' := 1/y'$ shows that $x' = X' / Z'$ has valuation -2.
+    Here we require that $\phi$ maps $\O$ to $\O$, as then $Z' \in \mathfrak{m}$ and hence $\alpha' = 1 - B' Z'^2$ is a unit.
     The Riemann-Roche theorem tells us that
     \begin{equation*}
         V_2 := \{ f \in K(E)^* = K(\tilde{E})^* \ | \ \text{valuation of $f$ in $R$} \geq -2 \} \cup \{ 0 \}
@@ -302,6 +307,20 @@ This can be done by the so-called j-invariant.
     This shows the claim.
 
     Now we have $x'^3 + A' x' + B' = y'^2$ and by plugging in the linear transformation $x' = (x - r) / u_1$ and $y' = (y - t - s_2 x') / u_2$ one can compute that $j(E) = j(E')$.
+\end{proof}
+
+\section{The group structure}
+
+Apart from the geometric nature of an elliptic curve, they have additional important structure: Elliptic curves are groups.
+In particular for cryptography, this is crucial. 
+In this section, we will see how this group structure looks like.
+
+\begin{prop}
+    \label{prop:dedekind_domain}
+    Let $E: y^2 = x^3 + Ax + B$ be an elliptic curve. Then the affine coordinate ring $K[E]$ is a Dedekind domain.
+\end{prop}
+\begin{proof}
+    See the (unpublished) lecture notes \cite{lecture_notes_crypta}.
 \end{proof}
 
 \section{Isogenies}
