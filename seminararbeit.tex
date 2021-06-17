@@ -26,7 +26,8 @@
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\F}{\mathbb{F}}
-\newcommand{\aff}{\mathrm{aff}}
+\newcommand{\proj}{\mathrm{proj}}
+\newcommand{\Quot}{\mathrm{Quot}}
 \renewcommand{\O}{O}
 
 \newtheorem{prop}{Proposition}[section]
@@ -44,7 +45,7 @@
 
 \section{Elliptic Curves}
 
-\subsection{The projective point of view}
+\subsection{The geometric point of view}
 
 \begin{definition}
     A (possibly nonsmooth) elliptic curve $E$ defined over a field $K$ is the (projective) zero set
@@ -76,18 +77,19 @@ Here ``isomorphic'' refers to $K$-variety isomorphisms in the sense of Algebraic
 As this is a fundamental notion, we will state the required special case here.
 
 \begin{definition}
-    For a (projective) algebraic variety $V \subseteq \mathbb{P}_{\bar{K}}^2$ given as the zero set of an ideal $I \leq K[x, y, z]$, its (projective) coordinate ring is given as $K[V] := K[x, y, z] / I$.
+    For a (projective) algebraic variety $V \subseteq \mathbb{P}_{\bar{K}}^2$ given as the zero set of an ideal $I \leq K[x, y, z]$, its (projective) coordinate ring is given as $K^+[V] := K[x, y, z] / I$.
 \end{definition}
 
 \begin{definition}
     Given irreducible varieties $V, W \subseteq \mathbb{P}_{\bar{K}}^2$, a partial map $\phi: V \to W$ is called rational if it is given by rational functions.
-    Namely, $\phi$ is rational if there are homogeneous $f_1, f_2, f_3 \in \bar{K}[V]$ of same degree and not all zero such that for each point $(x : y : z)$ at which $\phi$ is defined, there are ``equivalent'' polynomials $(g_1, g_2, g_3) \in \bar{K}[V], \ (g_1, g_2, g_3) \sim (f_1, f_2, f_3)$ such that
+    Namely, $\phi$ is rational if there are homogeneous $f_1, f_2, f_3 \in \bar{K}^+[V]$ of same degree and not all zero such that for each point $(x : y : z)$ at which $\phi$ is defined, there are ``equivalent'' polynomials $(g_1, g_2, g_3) \in \bar{K}^+[V], \ (g_1, g_2, g_3) \sim (f_1, f_2, f_3)$ such that
     \begin{equation*}
         (g_1(x, y, z) : g_2(x, y, z) : g_3(x, y, z)) \ \text{is nonzero and equal to $\phi(x : y : z)$}
     \end{equation*}
     Here we define equivalence as $(f_1, f_2, f_3) \sim (g_1, g_2, g_3)$ if $f_i g_j = f_j g_i$ for all $i, j$.
     We use the notation $\phi = [f_1, f_2, f_3]$ or $\phi = [f_1^{\mathrm{deh}}, f_2^{\mathrm{deh}}, f_3^{\mathrm{deh}}]$
     \footnote{For a homogeneous polynomial $f \in K[x, y, z]$ the notation $f^{\mathrm{deh}}$ is the dehomogenization $f(x, y, 1)$. Note that $f$ corresponds to $f^{\mathrm{deh}}$ uniquely except for scaling by $z$, but scaling by $z$ does not change the defined rational map.}.
+    The rational map is said to be defined over $K$, if $f_1, f_2, f_3 \in K^+[V]$.
 \end{definition}
 
 This definition is quite technical, as for well-definedness, we require that no denominator polynomial evaluates to 0 and do not get the projective (non-)point $(0 : 0 : 0)$. 
@@ -100,16 +102,23 @@ Instead, we define a tuple of polynomials as equivalent, if the ratio of differe
 Now equivalent polynomial tuples can be obtained from each other by some kind of ``abstract'' division.
 
 \begin{definition}
-    A rational map between varieties that is defined everywhere is called morphism. If it is bijective and its inverse is a morphism, it is called isomorphism.
+    A rational map between varieties that is defined everywhere is called morphism. If it is bijective and its inverse is a morphism, it is called a variety isomorphism.
 \end{definition}
 
-In the case of elliptic curves, things are easier than that. For example, if the domain is a smooth (elliptic) curve, then each rational map is a morphism (see \cite[II Prop 2.1]{arithmetic_elliptic_curves}).
+These definitions are the general ones from Algebraic Geometry. In the case of elliptic curves however, some parts are simpler than in the general case.
+For example, if the domain is a smooth (elliptic) curve, then each rational map is a morphism (see \cite[II Prop 2.1]{arithmetic_elliptic_curves}).
+Furthermore, elliptic curves have only one point at infinity, with the result that we can introduce ``special rules'' for $\O$ and forget about the description of points at infinity that is given by projective geometry.
+This is described in the next section.
 
 \subsection{The affine point of view}
 
 Because of many reasons, projective geometry is the ``correct'' way to describe varieties, hence elliptic curves are usually defined as projective curves.
-In particular, most of Algebraic Geometry is done in projective space, and thus one may use the very powerful theory developed in this context.
-For readers that are not used to projective geometry, one can use the embedding of the affine space $\bar{K}^2 \subseteq \mathbb{P}_{\bar{K}}^2$ via $(x, y) \mapsto (x : y : 1)$ to give an easier formulation that only works for elliptic curves.
+To deal with geometric properties of elliptic curves, we will also use the theory of Algebraic Geometry, which heavily relies on projective geometry.
+In such a setting, different points on the curve are indistinguishable. 
+However, much of the theory of elliptic curves requires a distinguished point.
+By defining this point to be ``the point at infinity'', we will not require the rules for working at infinity.
+This is not really an affine setting, as we still (and need) the point at infinity, but working in this setting often feels like an affine one.
+It is also the convention that the notation focuses on this point of view (as one can already see from our previous definition, which uses non-homogeneous polynomials and ideals).
 
 \begin{remark}
     A (possibly nonsmooth) elliptic curve $E$ defined over a field $K$ is the affine zero set
@@ -126,40 +135,39 @@ For readers that are not used to projective geometry, one can use the embedding 
 Now we come to rational maps and morphisms. First, we require the affine coordinate ring of an elliptic curve.
 
 \begin{definition}
-    The affine coordinate ring of an elliptic curve defined by $F(x, y) := y^2 + a_1 xy + a_3 y - x^3 - a_2 x^2 - a_4 x - a_6 = 0$ is given as $K[E]_\aff := K[x, y] / (F(x, y))$.
+    The affine coordinate ring of an elliptic curve defined by $F(x, y) := y^2 + a_1 xy + a_3 y - x^3 - a_2 x^2 - a_4 x - a_6 = 0$ is given as $K[E] := K[x, y] / (F(x, y))$.
 \end{definition}
 
-Note that we may evaluate elements $f \in K[E]_\aff$ at points $(x, y) \in E$, as each representative in the equivalence class will evaluate to the same value at $(x, y)$.
+Note that we may evaluate elements $f \in K[E]$ at points $(x, y) \in E$, as each representative in the equivalence class will evaluate to the same value at $(x, y)$.
 
-Now we want to define a rational map, but encounter some problems.
-In particular, here we see a reason why the projective space is better suited for the study of elliptic curves, as the definition of rational maps using only the affine space is quite complicated and unsatisfying.
-As one might expect, rational maps are maps whose components are given by fractions of polynomials (or more precisely, fractions of elements of the affine coordinate ring $K[E]_\aff$).
-Problems now arise when considering points at which the denominator polynomial has a root.
-In the only case that interests us, namely if the domain of the map is a smooth elliptic curve, there are two possibilities:
+The definition of rational maps is somewhat problematic now, as rational maps in general may map $\O$ to a point ``not at infinity''.
+However, by considering only rational maps that map $\O$ to $\O$, we can eliminate this problem.
+In fact, as the point at infinity has a special role in the theory of elliptic curves, these are also the maps that are most interesting, and thus deserve a new name.
 
-Sometimes, one can find another representative of the fraction in the quotient field of $K[E]_\aff$ where this problem no longer exists.
-In this case, everything is well.
+\begin{definition}
+    A morphism between elliptic curves $\phi: E \to E'$ that maps $\phi(\O) = \phi(\O)$ is called isogeny.
+\end{definition}
 
-However, it can happen that no such representative exists. In this case, we will always find a representative, in which at least one of the numerators of the components evaluate to a nonzero value.
-In this component, we conceptually have a $\frac 1 0 = \infty$, so will get a point at infinity. However, these points at infinity are not contained in the affine space and thus we cannot describe them sufficiently.
-In the case of elliptic curves, there is only one point at infinity (namely $\O$), so this might be possible in theory. 
-However, the resulting definition would be cluttered case distinctions and highly non-instructive.
+We will also use the term ``isomorphism'' for variety isomorphisms that map $\O$ to $\O$.
+Maps that are isomorphisms only in the geometric sense (i.e. bijective morphisms whose inverse is a morphism) will be called variety isomorphisms.
+We will rarely use them.
 
-Here, we settle now for a moderately simple description of rational maps $\phi: E \to E'$ between elliptic curves that describes their behavior everywhere except at $\O$.
-Most importantly, this will suffice to define isogenies later.
+\begin{definition}
+    A bijective isogeny whose inverse is also an isogeny is called isomorphism (between elliptic curves).
+\end{definition}
+
+Now we can find an ``affine'' characterization:
 
 \begin{remark}
-    A rational map $\phi: E \to E'$ between elliptic curves fulfills the following condition:
-    Either $\phi = \O$ is constant or there are elements $f_1, f_2, g \in \bar{K}[E]_\aff, g \neq 0$ such that for all points $(x, y) \in \bar{K}^2$ at which $\phi$ is defined, there are $f_1', f_2', g' \in K[E]_\aff, g' \neq 0$ with
+    A non-constant map $\phi: E \to E'$ between elliptic curves is an isogeny, if and only if it fulfills the following condition:
+    There are elements $f_1, f_2, g \in \bar{K}[E], g \neq 0$ such that for all points $(x, y) \in \bar{K}^2$, there are $f_1', f_2', g' \in \bar{K}[E], g' \neq 0$ with
     \begin{align*}
-        \left(\frac {f_1'} {g'}, \frac {f_2'} {g'}\right) = \left(\frac {f_1} g, \frac {f_2} g\right) \ &\text{in the field of fractions of $K[E]_\aff$ and} \\
+        \left(\frac {f_1'} {g'}, \frac {f_2'} {g'}\right) = \left(\frac {f_1} g, \frac {f_2} g\right) \ &\text{in the field of fractions of $K[E]$ and} \\
         \left(\frac {f_1'(x, y)} {g'(x, y)}, \frac {f_2'(x, y)} {g'(x, y)}\right) \ &\text{is defined and equal to $\phi(x, y)$}
     \end{align*}
     Here we say that only $(\frac 0 0, \frac 0 0)$ is not defined, and let $(\frac a 0, \frac b 0) := \O = \infty$ for $(a, b) \neq (0, 0)$.
     We use the notation $\phi = [f_1, f_2, g]$.
 \end{remark}
-
-This description is almost a complete definition, in the sense that a map $\phi$ is rational if and only if its behavior on $\bar{K}^2$ is given by $\phi = [f_1, f_2, g]$ as above and the value $\phi(\O)$ is equal to the value at infinity one can define for $f_1, f_2, g$.
 
 \subsection{A simpler formula}
 
@@ -171,10 +179,10 @@ The general Weierstraß equation is still relatively complicated. If the charact
     \begin{equation*}
         y^2 = x^3 + Ax + B
     \end{equation*}
-    where $A, B \in K$. Here ``isomorphic'' means $K$-variety isomorphic.
+    where $A, B \in K$.
 \end{prop}
 \begin{proof}
-    Consider the rational map given by
+    Consider the isogeny given by
     \begin{equation*}
         \phi_1 = \Bigl[ x, y - \frac {a_1 x + a_3} 2, 1 \Bigr]
     \end{equation*}
@@ -191,7 +199,7 @@ The general Weierstraß equation is still relatively complicated. If the charact
     Then $\phi_1$ maps $E_1$ to $E$ as by the above computation, $\phi(x : y : z) \in E$ for all $(x : y : z) \in E_1$.
     Furthermore, $\phi_1$ is given by a linear change of coordinates, hence it is an isomorphism.
 
-    Similarly, consider the rational map given by
+    Similarly, consider the isogeny given by
     \begin{equation*}
         \phi_2 = \Bigl[ x - \frac {b_2} {12}, y, 1 \Bigr]
     \end{equation*}
@@ -232,7 +240,7 @@ This can be done by the so-called j-invariant.
     Let $E: y^2 = x^3 = Ax - B$ and $E': y^2 = x^3 - A'x - B'$ be elliptic curves. Then there is an isomorphism $E \to E'$ if and only if $j(E) = j(E')$.
 \end{prop}
 \begin{proof}
-    First, assume $j(E) = j(E')$ and consider the morphism $\phi = [u^2 x, u^3 y, 1]$ where $u^4 = A/A'$.
+    First, assume $j(E) = j(E')$ and consider the isogeny $\phi = [u^2 x, u^3 y, 1]$ where $u^4 = A/A'$.
     Then
     \begin{align*}
         (u^3 y)^2 =& \ u^6 y^2 \quad \text{and} \\
@@ -253,8 +261,43 @@ This can be done by the so-called j-invariant.
     \end{equation*}
     It follows that $u^6 = B/B'$ and so $\phi$ maps $E$ to $E'$. It is only a linear transformation, hence also an isomorphism.
 
-    For the other direction, assume there is an isomorphism $\phi = [\phi_1, \phi_2, \phi_3]$ from $E$ to $E'$, where $\phi_1, \phi_2, \phi_3$ have all degree $d \in \N$.
-
+    For the other direction, assume there is an isomorphism $\phi = [x', y', 1]$ from $E$ to $E'$ where $E': y^2 = x^3 + A'x + B'$ and $x', y' \in K[E]$.
+    \paragraph{Claim} Then $x = u_1 x' + r$ and $y = u_2 y' + x_2 x' + t$ for $u_1, u_2 \in \bar{K}^*$ and $r, t \in \bar{K}$.
+    To prove this claim, we require some advanced Algebraic Geometry. 
+    To examine $\O$ using an ``affine'' approach, we change our embedding $K^2 \to \mathbb{P}^2$ such that $(x, z) \mapsto (x : 1 : z)$ and get the affine curve
+    \begin{align*}
+        E \ &\text{defined by} \ Z = X^3 + A X Z^2 + B Z^3 \ \text{resp.} \\
+        E' \ &\text{defined by} \ Z = X^3 + A' X Z^2 + B' Z^3
+    \end{align*}
+    The curves do not change by this, we just consider another affine part of the projective plane that now contains $\O$. In particular, $\O$ is now the origin $(0, 0)$.
+    Note that this is just a conceptual tool, formally this is given by the isomorphism 
+    \begin{equation*}
+        K(E) = \Quot\left(K[x, y] / (y^2 - x^3 - A x - B)\right) \cong \Quot\left(K[X, Z]/(Z - X^3 - A X Z^2 - B Z^3)\right)
+    \end{equation*}
+    via $x \mapsto X/Z, \ y \mapsto 1/Z$. We identify those two representations.
+    
+    Now consider the localization
+    \begin{equation*}
+        R := K[E]_{(0, 0)} := K[E]_{\mathfrak{m}} \ \text{where} \ \mathfrak{m} = \langle x, z \rangle = \{ f \in K[E] \ | \ f(0, 0) = 0 \}
+    \end{equation*}
+    of the coordinate ring $K[E] = K[X, Z]/(Z - X^3 - A X Z^2 - B Z^3)$ at $(0, 0) \in K^2$.
+    This is a local ring with unique maximal ideal $\mathfrak{m}$.
+    We show that the valuation of $X$ and $X' := x'/y'$ in $R$ is -2.
+    Now have that $Z = X^3 + A X Z^2 + B Z^3$ and hence
+    \begin{equation*}
+        \underbrace{\left( 1 - B Z^2 \right)}_{=:\ \alpha \ \in R^*} Z = X (Z^2 + A Z^2)
+    \end{equation*}
+    It follows that $Z \in \langle X \rangle$ and thus $\mathfrak{m} = \langle X \rangle$.
+    Furthermore have $X (X^2 + A Z^2) = X (X^2 + A \alpha X^2) = X^3 (1 + A \alpha)$ and $1 + A \alpha$ is a unit.
+    Therefore $\langle X \rangle^3 = \langle Z \rangle$ and thus $x = X / Z$ has valuation $1 - 3 = -2$.
+    The same calculation for $X' := x' Z', Z' := 1/y'$ shows that $x' = X' / Z'$ has valuation -2.
+    The Riemann-Roche theorem tells us that
+    \begin{equation*}
+        V_2 := \{ f \in K(E)^* \ | \ \text{valuation of $f$ in $R$} \geq -2 \} \cup \{ 0 \}
+    \end{equation*}
+    is a 2-dimensional $K$-vector space. By the above, $x, x' \in V_2$ and thus there must be a linear dependency between $1, x$ and $x'$.
+    By an analogue computation we also find a linear dependency between $1, x, y, y'$ as the corresponding $V_3$ is 3-dimensional by Riemann-Roche.
+    This shows the claim.
 \end{proof}
 
 \section{Isogenies}
