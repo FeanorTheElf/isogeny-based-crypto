@@ -271,16 +271,18 @@ This can be done by the so-called j-invariant.
     \end{align*}
     The curves do not change by this, we just consider another affine part of the projective plane that now contains $\O$. In particular, $\O$ is now the origin $(0, 0)$.
     Note that this is just a conceptual tool, formally this is given by the isomorphism 
-    \begin{equation*}
-        K(E) = \Quot\left(K[x, y] / (y^2 - x^3 - A x - B)\right) \cong \Quot\left(K[X, Z]/(Z - X^3 - A X Z^2 - B Z^3)\right)
-    \end{equation*}
-    via $x \mapsto X/Z, \ y \mapsto 1/Z$. We identify those two representations.
+    \begin{align*}
+        K(E) &= \Quot\left(K[x, y] / (y^2 - x^3 - A x - B)\right) \\
+        \cong \ K(\tilde{E}) &= \Quot\left(K[X, Z]/(Z - X^3 - A X Z^2 - B Z^3)\right)
+    \end{align*}
+    via $x \mapsto X/Z, \ y \mapsto 1/Z$, where $\tilde{E} = E \cap K^2$ is the considered affine part of the curve. 
+    We identify those two representations, in particular have $x, y, x', y' \in K(\tilde{E})$.
     
     Now consider the localization
     \begin{equation*}
-        R := K[E]_{(0, 0)} := K[E]_{\mathfrak{m}} \ \text{where} \ \mathfrak{m} = \langle x, z \rangle = \{ f \in K[E] \ | \ f(0, 0) = 0 \}
+        R := K[\tilde{E}]_{(0, 0)} := K[\tilde{E}]_{\mathfrak{m}} \subseteq K(\tilde{E}) \ \text{where} \ \mathfrak{m} = \langle x, z \rangle = \{ f \in K[\tilde{E}] \ | \ f(0, 0) = 0 \}
     \end{equation*}
-    of the coordinate ring $K[E] = K[X, Z]/(Z - X^3 - A X Z^2 - B Z^3)$ at $(0, 0) \in K^2$.
+    of the affine coordinate ring $K[\tilde{E}] = K[X, Z]/(Z - X^3 - A X Z^2 - B Z^3)$ at $(0, 0) \in K^2$.
     This is a local ring with unique maximal ideal $\mathfrak{m}$.
     We show that the valuation of $X$ and $X' := x'/y'$ in $R$ is -2.
     Now have that $Z = X^3 + A X Z^2 + B Z^3$ and hence
@@ -293,11 +295,13 @@ This can be done by the so-called j-invariant.
     The same calculation for $X' := x' Z', Z' := 1/y'$ shows that $x' = X' / Z'$ has valuation -2.
     The Riemann-Roche theorem tells us that
     \begin{equation*}
-        V_2 := \{ f \in K(E)^* \ | \ \text{valuation of $f$ in $R$} \geq -2 \} \cup \{ 0 \}
+        V_2 := \{ f \in K(E)^* = K(\tilde{E})^* \ | \ \text{valuation of $f$ in $R$} \geq -2 \} \cup \{ 0 \}
     \end{equation*}
     is a 2-dimensional $K$-vector space. By the above, $x, x' \in V_2$ and thus there must be a linear dependency between $1, x$ and $x'$.
     By an analogue computation we also find a linear dependency between $1, x, y, y'$ as the corresponding $V_3$ is 3-dimensional by Riemann-Roche.
     This shows the claim.
+
+    Now we have $x'^3 + A' x' + B' = y'^2$ and by plugging in the linear transformation $x' = (x - r) / u_1$ and $y' = (y - t - s_2 x') / u_2$ one can compute that $j(E) = j(E')$.
 \end{proof}
 
 \section{Isogenies}
