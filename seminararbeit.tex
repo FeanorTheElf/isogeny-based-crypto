@@ -148,6 +148,7 @@ However, by considering only rational maps that map $\O$ to $\O$, we can elimina
 In fact, as the point at infinity has a special role in the theory of elliptic curves, these are also the maps that are most interesting, and thus deserve a new name.
 
 \begin{definition}
+    \label{def:isogeny}
     A morphism between elliptic curves $\phi: E \to E'$ that maps $\phi(\O) = \phi(\O)$ is called isogeny.
 \end{definition}
 
@@ -317,13 +318,64 @@ In this section, we will see how this group structure looks like.
 
 \begin{prop}
     \label{prop:dedekind_domain}
-    Let $E: y^2 = x^3 + Ax + B$ be an elliptic curve. Then the affine coordinate ring $K[E]$ is a Dedekind domain.
+    Let $E: y^2 = x^3 + Ax + B$ be an elliptic curve. Then the affine coordinate ring $\bar{K}[E]$ is a Dedekind domain and there is a bijection
+    \begin{equation*}
+        \phi: E \to \mathrm{Cl}(\bar{K}[E]), \quad (\lambda, \mu) \mapsto \overline{\langle x - \lambda, y - \mu \rangle}, \ \O \mapsto \overline{\langle 1 \rangle}
+    \end{equation*}
 \end{prop}
 \begin{proof}
     See the (unpublished) lecture notes \cite{lecture_notes_crypta}.
 \end{proof}
 
+\begin{prop}
+    \label{prop:bezout_theorem_case}
+    Let $E$ be an elliptic curve. Then each projective line meets $E$ at exactly three points, with multiplicity.
+\end{prop}
+
+\begin{prop}
+    \label{prop:group_operation}
+    Let $E: y^2 = x^3 + Ax + B$ be an elliptic curve. Then the following maps are all equal:
+    \begin{itemize}
+        \item The group structure induced by the bijection $\phi$ from \ref{prop:dedekind_domain}; Namely
+        \begin{equation*}
+            E \times E \to E, \quad (P, Q) \mapsto \phi^{-1}(\phi(P) \phi(Q))
+        \end{equation*}
+        \item The map $E \times E \to E$ that is given by the following geometric construction: Let $P, Q \in E$.
+        Then the line through $P$ and $Q$ meets $E$ at a third point $R$ (with multiplicity, so if $P = Q$ consider the tangent at $P$ instead).
+        Now the line through $R$ and $\O$ meets $E$ at a third point $P + Q$, which is the result (again, if $R = \O$ consider the tangent and have $\O$ as third point).
+        This is well-defined by \ref{prop:bezout_theorem_case}.
+        \item The map 
+        \begin{equation*}
+            E \times E \to E, \quad ((x_1, y_1), (x_2, y_2)) \mapsto (x_3, y_3), \ (\O, P), (P, \O) \mapsto P
+        \end{equation*}
+        where
+        \begin{align*}
+            \lambda &:= \begin{cases}
+                \frac {y_2 - y_1} {x_2 - x_1} \ \text{if} \ x_1 \neq x_2 \\
+                \frac {3 x_1^2 + A} {2 y_1} \ \text{otherwise}
+            \end{cases} \\
+            x_3 &:= -x_1 - x_2 + \lambda^2 \\
+            (x_1, y_1) + (x_2, y_2) &:= (x_3, - y_1 + \lambda (x_1 - x_3))
+        \end{align*}
+    \end{itemize}
+\end{prop}
+
+This now gives rise to a group structure.
+
+\begin{definition}
+    Let $E: y^2 = x^3 + Ax + B$ be an elliptic curve. Then we endow $E$ with a group structure, where $\O$ is the neutral element and the map from \ref{prop:group_operation} is the group operation.
+\end{definition}
+
 \section{Isogenies}
+
+In \ref{def:isogeny} we have already defined what an isogeny is.
+Since this work is about isogeny-based cryptography, they will play a crucial role in the following parts.
+Hence it is important that we study the properties of isogenies in more detail.
+
+A very fascinating and fundamental result is that isogenies are group homomorphisms.
+\begin{prop}
+    Let $E, E'$ be elliptic curves and $\phi: E \to E'$ an isogeny. Then $\phi$ is a group homomorphisms.
+\end{prop}
 
 \begin{prop}
     \label{prop:unique_isogeny}
