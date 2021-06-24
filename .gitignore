@@ -8,7 +8,6 @@ arithmetic_elliptic_curve_book_original.pdf
 *.fdb_latexmk
 *.fls
 *.log
-*.pdf
 *.run.xml
 *.synctex.gz
 *.to
@@ -16,3 +15,7 @@ arithmetic_elliptic_curve_book_original.pdf
 *.nav
 *.out
 *.snm
+arithmetic_elliptic_curve_book.pdf
+arithmetic_elliptic_curve_book_original.pdf
+presentation.pdf
+seminararbeit.pdf

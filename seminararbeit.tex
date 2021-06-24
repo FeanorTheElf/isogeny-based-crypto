@@ -32,6 +32,7 @@
 
 \newtheorem{prop}{Proposition}[section]
 \newtheorem{theorem}[prop]{Theorem}
+\newtheorem{corollary}[prop]{Corollary}
 \newtheorem{alg}[prop]{Algorithm}
 \newtheorem{definition}[prop]{Definition}
 \newtheorem{example}[prop]{Example}
@@ -87,7 +88,7 @@ As this is a fundamental notion, we will state the required special case here.
         (g_1(x, y, z) : g_2(x, y, z) : g_3(x, y, z)) \ \text{is nonzero and equal to $\phi(x : y : z)$}
     \end{equation*}
     Here we define equivalence as $(f_1, f_2, f_3) \sim (g_1, g_2, g_3)$ if $f_i g_j = f_j g_i$ for all $i, j$.
-    We use the notation $\phi = [f_1, f_2, f_3]$ or $\phi = [f_1^{\mathrm{deh}}, f_2^{\mathrm{deh}}, f_3^{\mathrm{deh}}]$
+    We use the notation $\phi = [f_1, f_2, f_3]$ or $\phi = [f_1^{\mathrm{deh}}, f_2^{\mathrm{deh}}, f_3^{\mathrm{deh}}]$ or $\phi = [f_1^{\mathrm{deh}} / f_3^{\mathrm{deh}}, f_2^{\mathrm{deh}} / f_3^{\mathrm{deh}}, 1]$
     \footnote{For a homogeneous polynomial $f \in K[x, y, z]$ the notation $f^{\mathrm{deh}}$ is the dehomogenization $f(x, y, 1)$. Note that $f$ corresponds to $f^{\mathrm{deh}}$ uniquely except for scaling by $z$, but scaling by $z$ does not change the defined rational map.}.
     The rational map is said to be defined over $K$, if $f_1, f_2, f_3 \in K^+[V]$.
 \end{definition}
@@ -139,6 +140,7 @@ But as we will fix the embedding $(x, y) \mapsto (x : y : 1)$ we will just call 
 
 \begin{definition}
     The affine coordinate ring of an elliptic curve defined by $F(x, y) := y^2 + a_1 xy + a_3 y - x^3 - a_2 x^2 - a_4 x - a_6 = 0$ is given as $\bar{K}[E] := \bar{K}[x, y] / (F(x, y))$.
+    We denote its quotient field by $\bar{K}(E)$.
 \end{definition}
 
 Note that we may evaluate elements $f \in K[E]$ at points $(x, y) \in E$, as each representative in the equivalence class will evaluate to the same value at $(x, y)$.
@@ -166,11 +168,11 @@ Now we can find an ``affine'' characterization:
     A non-constant map $\phi: E \to E'$ between elliptic curves is an isogeny, if and only if it fulfills the following condition:
     There are elements $f_1, f_2, g \in \bar{K}[E], g \neq 0$ such that for all points $(x, y) \in \bar{K}^2$, there are $f_1', f_2', g' \in \bar{K}[E], g' \neq 0$ with
     \begin{align*}
-        \left(\frac {f_1'} {g'}, \frac {f_2'} {g'}\right) = \left(\frac {f_1} g, \frac {f_2} g\right) \ &\text{in the field of fractions of $K[E]$ and} \\
+        \left(\frac {f_1'} {g'}, \frac {f_2'} {g'}\right) = \left(\frac {f_1} g, \frac {f_2} g\right) \ &\text{in $K(E)$ and} \\
         \left(\frac {f_1'(x, y)} {g'(x, y)}, \frac {f_2'(x, y)} {g'(x, y)}\right) \ &\text{is defined and equal to $\phi(x, y)$}
     \end{align*}
     Here we say that only $(\frac 0 0, \frac 0 0)$ is not defined, and let $(\frac a 0, \frac b 0) := \O = \infty$ for $(a, b) \neq (0, 0)$.
-    We use the notation $\phi = [f_1, f_2, g]$.
+    We use the notation $\phi = [f_1, f_2, g]$ or $\phi = [f_1 / g, f_2 / g, 1]$.
 \end{remark}
 
 \subsection{A simpler formula}
@@ -317,6 +319,36 @@ In particular for cryptography, this is crucial.
 In this section, we will see how this group structure looks like.
 
 \begin{prop}
+    \label{prop:bezout_theorem_case}
+    Let $E$ be an elliptic curve. Then each projective line meets $E$ at exactly three points, with multiplicity.
+\end{prop}
+
+\begin{definition}
+    Define a map
+    \begin{equation*}
+        +_{\mathrm{geo}}: E \times E \to E
+    \end{equation*}
+    that for $P, Q \in E$ is given by the following geometric construction:
+    \begin{itemize}
+        \item Let $L$ be the line through $P, Q$ (with multiplicity)
+        \item Let $R$ be the third point of intersection of $E$ with $L$ (exists by \ref{prop:bezout_theorem_case})
+        \item Let $L'$ be the line through $R, \O$
+        \item Set $P +_{\mathrm{geo}} Q$ to be the third point of intersection of $E$ with $L'$
+    \end{itemize}
+\end{definition}
+
+Two special cases can occur in this construction: If $P = Q$ or $R = \O$ then the ``with multiplicity'' is important, so the line $L$ resp. $L'$ is chosen to be the tangent at that point.
+Furthermore, if we construct a line through $\O$ and a second point $P$, this has the following, affine interpretation: It is the unique line containing $P$ that is parallel to the y-axis.
+Combining these two, we see that the unique line through $\O$ and $\O$ must be the line at infinity (which only exists in the projective space), whose third point of intersection with $E$ is again $\O$.
+So have the following special cases
+\begin{align*}
+    &P +_{\mathrm{geo}} \O = \O +_{\mathrm{geo}} P = P \\
+    &(x, y) +_{\mathrm{geo}} (x, -y) = (x, -y) +_{\mathrm{geo}} (x, y) = \O
+\end{align*}
+
+Now we consider a second binary operation $+_{\mathrm{alg}}$ on $E$. This will be described using algebra, hence we require the following theorem.
+
+\begin{prop}
     \label{prop:dedekind_domain}
     Let $E: y^2 = x^3 + Ax + B$ be an elliptic curve. Then the affine coordinate ring $\bar{K}[E]$ is a Dedekind domain and there is a bijection
     \begin{equation*}
@@ -327,38 +359,69 @@ In this section, we will see how this group structure looks like.
     See the (unpublished) lecture notes \cite{lecture_notes_crypta}.
 \end{proof}
 
-\begin{prop}
-    \label{prop:bezout_theorem_case}
-    Let $E$ be an elliptic curve. Then each projective line meets $E$ at exactly three points, with multiplicity.
-\end{prop}
+\begin{definition}
+    Define the map
+    \begin{equation*}
+        +_{\mathrm{alg}}: E \times E \to E, \quad (P, Q) \mapsto  \phi^{-1}(\phi(P) \phi(Q))
+    \end{equation*}
+\end{definition}
+
+Lastly, we look at a third operation $+_{poly}$ that is given explicitly by rational functions.
+
+\begin{definition}
+    Define the map 
+    \begin{align*}
+        +_{\mathrm{poly}}: E \times E \to E, \quad ((x_1, y_1), (x_2, y_2)) &\mapsto (x_3, y_3), \\
+        (\O, P), (P, \O) &\mapsto P \\
+        ((x, y), (x, -y)) &\mapsto \O
+    \end{align*}
+    where for $P = (x_1, y_1), \ Q = (x_2, y_2) \neq (x_1, -y_1)$ we set
+    \begin{align*}
+        \lambda &:= \begin{cases}
+            \frac {y_2 - y_1} {x_2 - x_1} \ \text{if} \ x_1 \neq x_2 \\
+            \frac {3 x_1^2 + A} {2 y_1} \ \text{otherwise}
+        \end{cases} \\
+        x_3 &:= -x_1 - x_2 + \lambda^2 \\
+        y_3 &:= -y_1 + \lambda (x_1 - x_3)
+    \end{align*}
+\end{definition}
+
+Note that $+_{\mathrm{poly}}$ is given by polynomials. We do not consider the general case here, but note that both the ``translation'' map and the ``scalar multiplication'' map are morphisms:
+Let $P = (u, v) \in E$ and consider the map $\tau_P: E \to E, \ Q \mapsto Q + P$.
+In $K(E)$ we have
+\begin{equation*}
+    \frac {v - y} {u - x} = \frac {v^2 - y^2} {(u - x)(v + y)} = \frac {u^3 + Au - x^3 - Ax} {(u - x)(v + y)} = \frac {u^2 + ux + x^2 + A} {v + y}
+\end{equation*}
+and so 
+\begin{equation*}
+    \tau_P = [-u - x + \lambda^2, \ -y_1 + \lambda (x - \lambda^2), 1] \ \text{where} \ \lambda = \frac {v - y} {u - x} \in K(E)
+\end{equation*}
+is a morphism ($\lambda$ is regular everywhere except at $(u, -v)$, but here we clearly get $\O$).
+
+Similarly, the scalar multiplication 
+\begin{equation*}
+    [m]: E \to E, \ Q \mapsto \underbrace{Q + ... + Q}_{m \ \text{times}}
+\end{equation*}
+is a morphism and hence an isogeny (almost the same calculation).
+
+Now we get the fundamental result on the group structure of elliptic curves.
 
 \begin{prop}
     \label{prop:group_operation}
-    Let $E: y^2 = x^3 + Ax + B$ be an elliptic curve. Then the following maps are all equal:
-    \begin{itemize}
-        \item The group structure induced by the bijection $\phi$ from \ref{prop:dedekind_domain}; Namely
-        \begin{equation*}
-            E \times E \to E, \quad (P, Q) \mapsto \phi^{-1}(\phi(P) \phi(Q))
-        \end{equation*}
-        \item The map $E \times E \to E$ that is given by the following geometric construction: Let $P, Q \in E$.
-        Then the line through $P$ and $Q$ meets $E$ at a third point $R$ (with multiplicity, so if $P = Q$ consider the tangent at $P$ instead).
-        Now the line through $R$ and $\O$ meets $E$ at a third point $P + Q$, which is the result (again, if $R = \O$ consider the tangent and have $\O$ as third point).
-        This is well-defined by \ref{prop:bezout_theorem_case}.
-        \item The map 
-        \begin{equation*}
-            E \times E \to E, \quad ((x_1, y_1), (x_2, y_2)) \mapsto (x_3, y_3), \ (\O, P), (P, \O) \mapsto P
-        \end{equation*}
-        where
-        \begin{align*}
-            \lambda &:= \begin{cases}
-                \frac {y_2 - y_1} {x_2 - x_1} \ \text{if} \ x_1 \neq x_2 \\
-                \frac {3 x_1^2 + A} {2 y_1} \ \text{otherwise}
-            \end{cases} \\
-            x_3 &:= -x_1 - x_2 + \lambda^2 \\
-            (x_1, y_1) + (x_2, y_2) &:= (x_3, - y_1 + \lambda (x_1 - x_3))
-        \end{align*}
-    \end{itemize}
+    Let $E: y^2 = x^3 + Ax + B$ be an elliptic curve. Then $+ := +_{\mathrm{geo}} = +_{\mathrm{alg}} = +_{\mathrm{poly}}$.
 \end{prop}
+
+Now combining the well-known properties of the different definitions of $+$, we get the
+
+\begin{corollary}
+    Let $E: y^2 = x^3 + Ax + B$ be an elliptic curve. Then 
+    \begin{itemize}
+        \item $E$ together with the binary operation $+$ from \ref{prop:group_operation} is a group.
+        \item $E$ has neutral element $\O$
+        \item $E$ is abelian
+        \item the $K$-rational points $E(K) := E \cap \mathbb{P}_K^2$ form a subgroup
+    \end{itemize}
+\end{corollary}
 
 This now gives rise to a group structure.
 
@@ -374,8 +437,36 @@ Hence it is important that we study the properties of isogenies in more detail.
 
 A very fascinating and fundamental result is that isogenies are group homomorphisms.
 \begin{prop}
-    Let $E, E'$ be elliptic curves and $\phi: E \to E'$ an isogeny. Then $\phi$ is a group homomorphisms.
+    Let $E, E'$ be elliptic curves and $\psi: E \to E'$ an isogeny. Then $\psi$ is a group homomorphisms.
 \end{prop}
+\begin{proof}
+    Have $\psi = [\psi_1, \psi_2, \psi_3]$ and consider the ring homomorphism
+    \begin{equation*}
+        \phi^*: \bar{K}[E'] \to \bar{K}[E], \quad \overline{f} \mapsto \overline{f^{\mathrm{hom}}\left(\psi_1, \psi_2, \psi_3\right)}
+    \end{equation*}
+    Note that
+    \begin{equation*}
+        f^{\mathrm{hom}}(\psi_1, \psi_2, \psi_3) = \psi_3^d \ f\left(\frac {\psi_1} {\psi_3}, \frac {\psi_2} {\psi_3}\right) \ \text{for some} \ d \in \N
+    \end{equation*}
+    and in the class group $\mathrm{Cl}(\bar{K}[E])$ have further $\overline{\langle \psi_3 \rangle} = 1$.
+    Now we have by \ref{prop:dedekind_domain} that the following diagram is commutative
+    
+    \begin{center}
+    \begin{tikzpicture}
+        \node (E) {$E$};
+        \node[below = of E] (KE) {$\mathrm{Cl}(\bar{K}[E])$};
+        \node[right = of KE] (KEp) {$\mathrm{Cl}(\bar{K}[E'])$};
+        \node[above = of KEp] (Ep) {$E'$};
+
+        \draw[->] (E) -- (Ep) node[midway, above] {$\psi$};
+        \draw[->] (E) -- (KE) node[midway, left] {$\phi$};
+        \draw[->] (Ep) -- (KEp) node[midway, left] {$\phi$};
+        \draw[->] (KEp) -- (KE) node[midway, above] {$\overline{\psi^*}$};
+    \end{tikzpicture}
+    \end{center}
+    Clearly $\overline{\psi^*}: \mathrm{Cl}(\bar{K}[E']) \to \mathrm{Cl}(\bar{K}[E])$ is a group homomorphism, and by \ref{prop:group_operation} we know that $\phi$ is a group isomorphism.
+    The claim follows.
+\end{proof}
 
 \begin{prop}
     \label{prop:unique_isogeny}
