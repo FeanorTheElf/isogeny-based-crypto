@@ -37,6 +37,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \end{equation*}
     of some irreducible polynomial $F(x, y) = y^2 - x^3 - Ax - B \in K[x, y]$ together with a point $\O = \infty$ at infinity.
 \end{definition}
+\pause
 \begin{definition}
     An elliptic curve $E: y^2 = x^3 + Ax + B$ is called smooth, if the \emph{discriminant}
     \begin{equation*}
@@ -66,6 +67,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
         points of $E: x^3 - 2x + 1$ in $\R^2$
     \end{column}
     \begin{column}{0.49\textwidth}
+        \pause
         \begin{tikzpicture}
             \begin{axis}[
                 axis lines = middle,
@@ -92,10 +94,12 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
         \end{equation*}
         is the \emph{coordinate ring} of $E$.
     \end{definition}
+    \pause
     $f \in K[E]$ are the ``polynomial functions'' defined on $E$
     \begin{equation*}
         (f + gF)(x, y) = f(x, y) + \underbrace{F(x, y)}_{= 0 \ \text{if} \ (x, y) \in E} g(x, y) = f(x, y)
     \end{equation*}
+    \pause
     \begin{definition}
         Let $E: y^2 = x^3 + Ax + B$ be an elliptic curve. Then define the function field $K(E)$ as the quotient field of $K[E]$.
     \end{definition}
@@ -106,15 +110,18 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     Consider $E: y^2 = x^3 - x + 1$ and $f = \frac {(y - 1)(x + 1)} {x(x + 1)} \in K(E)$.
     
     We want to evaluate $f$.
+    \pause
     \begin{itemize}
         \item at $(1, 1)$
         \begin{equation*}
             f(1, 1) = \frac {(1 - 1)(1 + 1)} {1(1 + 1)} = \frac 0 2 = 0
         \end{equation*}
+        \pause
         \item at $(-1, -1)$
         \begin{equation*}
             f(-1, -1) = \frac {(-1 - 1)(-1 + 1)} {-1 (-1 - 1)} = \frac 0 0 \quad \text{\Huge\lightning}
         \end{equation*}
+        \pause
         but in $K(E)$ have
         \begin{equation*}
             \frac {(y - 1)(x + 1)} {x(x + 1)} = \frac {y - 1} {x} \ \Rightarrow \ f(-1, -1) = {-1 - 1} {-1} = 2
@@ -127,21 +134,25 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     Consider $E: y^2 = x^3 - x + 1$ and $f = \frac {(y - 1)(x + 1)} {x(x + 1)} = \frac {y - 1} {x} \in K(E)$.
     
     We want to evaluate $f$.
+    \pause
     \begin{itemize}
         \item at $(0, 1)$
         \begin{equation*}
             f(0, 1) = \frac {1 - 1} {0} = \frac 0 0 \quad \text{\Huge\lightning}
         \end{equation*}
+        \pause
         but in $K(E)$ we have $y^2 = x^3 - x + 1$ so
+        \pause
         \begin{equation*}
             \frac {y - 1} {x} = \frac {(y - 1)(y + 1)} {x(y + 1)} = \frac {y^2 - 1} {x(y + 1)} = \frac {x^3 - x} {x(y + 1)} = \frac {x^2 - 1} {y + 1}
         \end{equation*}
+        \pause
         Hence we define
         \begin{equation*}
             f(0, 1) = \frac {0 - 1} { 1 + 1} = -2
         \end{equation*}
     \end{itemize}
-    
+    \pause
     However: $\frac 1 x \in K(E)$ cannot be defined at $(0, 1)$.
 \end{frame}
 
@@ -151,14 +162,19 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \begin{equation*}
         \phi: E \to E', \quad (x, y) \mapsto (f(x, y), \ g(x, y)) \quad \text{for} \ f, g \in K(E)
     \end{equation*}
+    \pause
     These are called \emph{rational maps} or \emph{morphisms}.
+    \pause
     \vspace{2ex}
     \begin{itemize}
         \item $f(x, y), g(x, y)$ must fulfill the equation of $E'$ for all $(x, y) \in E$
         \\$\Rightarrow \ f, g$ fulfill the equation of $E'$ in $K(E)$ (Hilbert's Nullstellensatz)
+        \pause
         \item Define $\O := (\frac {\neq 0} 0, *) = (*, \frac {\neq 0} 0) = (\frac {\neq 0} 0, \frac {\neq 0} 0)$
         \\$\Rightarrow$ one can always define $f(x, y), \ g(x, y) \in E'$
+        \pause
         \item Write $\phi = [f, g]$
+        \pause
         \item What about $\phi(\O)$?
     \end{itemize}
 \end{frame}
@@ -169,6 +185,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \begin{definition}
         A morphism $E \to E'$ that maps $\O$ to $\O$ is called \emph{isogeny}.
     \end{definition}
+    \pause
     \begin{definition}
         A bijective isogeny $E \to E'$ whose inverse is an isogeny is called \emph{isomorphism}.
     \end{definition}
@@ -177,20 +194,28 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
 \begin{frame}
     \frametitle{Isogenies - Example}
     Let $E: y^2 = x^3 - x + 1$ and $E': y^2 = x^3 - 4x + 8$.
+    \pause
     \begin{equation*}
         \phi: E \to E', \quad \O \mapsto \O, \ (x, y) \mapsto (2x, \sqrt{8}y)
     \end{equation*}
+    \pause
     Have
     \begin{align*}
         &(\sqrt{8}y)^2 - (2x)^3 + 4(2x) - 8 = 8y^2 - 8x^3 + 8x - 8 \\
+        \uncover<4->{
         \Rightarrow \ & (\sqrt{8}y)^2 = (2x)^3 - 4(2x) + 8 \ \text{in} \ K[E]
+        }
     \end{align*}
+    \pause
+    \pause
     So $\phi$ is a well-defined isogeny.
 
+    \pause
     Its inverse is
     \begin{equation*}
         \phi^{-1}: E' \to E, \quad \O \mapsto \O, \ (x, y) \mapsto (\frac 1 2 x, \frac 1 {\sqrt{8}} y)
     \end{equation*}
+    \pause
     So $\phi$ is an isomorphism.
 \end{frame}
 
@@ -201,17 +226,20 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
         \phi: E \to E', \quad \O \mapsto \O, \ (x, y) \mapsto (2x, \sqrt{8}y)
     \end{equation*}
     is an isomorphism.
-    
+    \pause
+
     Recall the discriminant
     \begin{equation*}
         \Delta(E) := -16(27 B^2 + 4 A^3) \neq 0
     \end{equation*}
+    \pause
     \begin{definition}
         The \emph{j-invariant} is
         \begin{equation*}
             j(E) := \frac {(-48A)^3} {\Delta(E)}
         \end{equation*}
     \end{definition}
+    \pause
     \begin{equation*}
         j(E) = \frac {110592} {-368} = \frac {6912} {23}, \quad j(E') = \frac {7077888} {-23552} = \frac {6912} {23}
     \end{equation*}
@@ -225,15 +253,25 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
             j(E) := \frac {(-48A)^3} {\Delta(E)} = \frac {(-48A)^3} {-16(27B^2 + 4A^3)}
         \end{equation*}
     \end{definition}
+    \pause
     \begin{theorem}
         Two elliptic curves $E, E'$ are isomorphic if and only if $j(E) = j(E')$.
     \end{theorem}
+    \pause
     \textit{Proof Sketch:} Let $u^4 = \frac {A'} {A} \in \bar{K}$
+    \pause
     \begin{align*}
         &\Rightarrow \ A^3 (27B'^2 + 4u^{12}A^3) = u^{12} A^3 (27B^2 + 4A^3) \\
-        &\Rightarrow \ u^6 = \frac {B'} {B} \\
-        &\Rightarrow \ \phi: E \to E', \quad \O \mapsto \O, \ (x, y) \mapsto (u^2x, u^3y) \quad \text{is isomorphism}
+        \uncover<4->{
+            &\Rightarrow \ u^6 = \frac {B'} {B}
+        } \\
+        \uncover<5->{
+            &\Rightarrow \ \phi: E \to E', \quad \O \mapsto \O, \ (x, y) \mapsto (u^2x, u^3y) \quad \text{is isomorphism}
+        }
     \end{align*}
+    \pause
+    \pause
+    \pause
     This shows $\Leftarrow$.
 \end{frame}
 
@@ -248,14 +286,21 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
         Two elliptic curves $E, E'$ are isomorphic if and only if $j(E) = j(E')$.
     \end{theorem}
     \textit{Proof Sketch:} Let $\phi: E \to E'$ isomorphism.
+    \pause
     \begin{align*}
         \text{Riemann-Roche Theorem} \ \Rightarrow \ \text{$\phi$ is linear}
     \end{align*}
+    \pause
     So $\phi = [\lambda_1 x + \lambda_2 y + \lambda 3, \ \mu_1 x + \mu_2 y + \mu_3]$
+    \pause
     \begin{align*}
         \text{only monomial with $y$ is $y^2$} \ &\Rightarrow \ \lambda_1 = \lambda_3 = 0 \\
-        \text{no $x^2$ monomial} \ &\Rightarrow \ \mu_2 = \mu_3 = 0
+        \uncover<5->{
+            \text{no $x^2$ monomial} \ &\Rightarrow \ \mu_2 = \mu_3 = 0
+        }
     \end{align*}
+    \pause
+    \pause
     Let $u^2 = \mu_1$, then $\phi(x, y) = (u^2x, u^3y) \hfill\square$
     \\~
 \end{frame}
@@ -272,6 +317,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
                     axis lines = middle,
                     axis equal image = true,
                     xmax = 3.5,
+                    xmin = -3.2,
                     samples = 200
                 ]
                     \addplot[red, domain=1:3] {sqrt(\x*\x*\x - 2*\x + 1)};
@@ -279,11 +325,19 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
                     \addplot[red, domain=-1.618:0.618] {sqrt(\x*\x*\x - 2*\x + 1)};
                     \addplot[red, domain=-1.618:0.618] {-sqrt(\x*\x*\x - 2*\x + 1)};
 
-                    \node[blue, label={120:{$P$}}, circle, fill, inner sep = 1pt] at (axis cs: 0, 1) {};
-                    \node[blue, label={120:{$Q$}}, circle, fill, inner sep = 1pt] at (axis cs: -1.618, 0) {};
-                    \addplot[blue, domain=-3.2:3] {0.618*\x + 1};
-                    \node[blue, label={120:{$R$}}, circle, fill, inner sep = 1pt] at (axis cs: 2, 2.236) {};
-                    \node[blue, label={$P + Q$}, circle, fill, inner sep = 1pt] at (axis cs: 2, -2.236) {};
+                    \only<2->{
+                        \node[blue, label={120:{$P$}}, circle, fill, inner sep = 1pt] at (axis cs: 0, 1) {};
+                        \node[blue, label={120:{$Q$}}, circle, fill, inner sep = 1pt] at (axis cs: -1.618, 0) {};
+                    }
+                    \only<3->{
+                        \addplot[blue, domain=-3.2:3] {0.618*\x + 1};
+                    }
+                    \only<4->{
+                        \node[blue, label={120:{$R$}}, circle, fill, inner sep = 1pt] at (axis cs: 2, 2.236) {};
+                    }
+                    \only<5->{
+                        \node[blue, label={$P + Q$}, circle, fill, inner sep = 1pt] at (axis cs: 2, -2.236) {};
+                    }
                 \end{axis}
             \end{tikzpicture}
         \end{column}
@@ -291,19 +345,24 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
             \begin{theorem}
                 Each line meets $E$ in exactly three points (with multiplicity)
             \end{theorem}
+            \pause
             Define $P +_{\mathrm{geo}} Q$ by
+            \pause
             \begin{itemize}
                 \item $L :=$ line through $P, Q$
                 \begin{itemize}
                     \item If $P = Q$ use tangent
                 \end{itemize}
+                \pause
                 \item $R :=$ third intersection point of $L$ and $E$
+                \pause
                 \item $P +_{\mathrm{geo}} Q := -R$
                 \begin{itemize}
                     \item $-(x, y) := (x, -y)$
                 \end{itemize}
             \end{itemize}
             \vspace{2ex}
+            \pause
             Set $\O +_{\mathrm{geo}} P = P +_{\mathrm{geo}} \O = P$.
         \end{column}
     \end{columns}
@@ -315,6 +374,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \begin{theorem}
         The coordinate ring $K[E]$ is a Dedekind domain.
     \end{theorem}
+    \pause
     \begin{theorem}
         There is a bijection
         \begin{equation*}
@@ -322,6 +382,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
         \end{equation*}
         where $\mathrm{Cl}(K[E])$ is the ideal class group of $K[E]$.
     \end{theorem}
+    \pause
     \begin{definition}
         Define $+_{\mathrm{alg}}$ on $E$ by $P +_{\mathrm{alg}} Q = \rho^{-1}(\rho P \cdot \rho Q)$.
     \end{definition}
@@ -330,36 +391,53 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
 \begin{frame}
     \frametitle{Rational Group Structure}
     Let $E: y^2 = x^3 + Ax + B$.
-    
+    \pause
     For $P = (x_1, y_1), \ Q = (x_2, y_2) \neq -P$ define
     \begin{align*}
         \lambda &:= \begin{cases}
             \frac {y_2 - y_1} {x_2 - x_1} & \text{if} \ x_1 \neq x_2 \\
             \frac {3x_1^2 + A} {2 y_1} & \text{otherwise}
         \end{cases} \\
-        x_3 &:= -x_1 - x_2 + \lambda^2 \\
-        y_3 &:= -y_1 + \lambda(x_1 - x_3) \\
-        P +_{\mathrm{poly}} Q &:= (x_3, y_3)
+        \uncover<3->{
+            x_3 &:= -x_1 - x_2 + \lambda^2 \\
+        }
+        \uncover<4->{
+            y_3 &:= -y_1 + \lambda(x_1 - x_3) \\
+        }
+        \uncover<5->{
+            P +_{\mathrm{poly}} Q &:= (x_3, y_3)
+        }
     \end{align*}
+    \pause
+    \pause
+    \pause
+    \pause
     Further $P +_{\mathrm{poly}} (-P) := \O$.
 \end{frame}
 
 \begin{frame}
     \frametitle{Elliptic Curves as Groups}
 
+    \pause
     \begin{theorem}
         Let $E$ be an elliptic curve. Then $+ := +_{\mathrm{geo}} = +_{\mathrm{alg}} = +_{\mathrm{poly}}$.
     \end{theorem}
 
+    \pause
     \begin{corollary}
         Let $E$ be an elliptic curve. Then
+        \pause
         \begin{itemize}
             \item $E$ with $+$ is a group
+            \pause
             \item $E$ is abelian
+            \pause
             \item $E$ has neutral element $\O$
         \end{itemize}
     \end{corollary}
+    \pause
     For field tower $\bar{K} | L | K$ let $E(L) := E \cap L^2 \cup \{ \O \}$ be the $L$-rational points.
+    \pause
     \begin{corollary}
         $E(L)$ is a subgroup of $E$
     \end{corollary}
@@ -369,10 +447,12 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \frametitle{Isogenies}
 
     Let $E, E'$ be elliptic curves.
+    \pause
     \begin{theorem}
         An isogeny $\phi: E \to E'$ is a group homomorphism.
     \end{theorem}
 
+    \pause
     \begin{theorem}
         Let $\Phi \leq E$ be a finite subgroup. Then there is a unique elliptic curve $\tilde{E}$ and a (separable) isogeny $\phi: E \to \tilde{E}$ with $\ker \phi = \Phi$ (up to isomorphism).
     \end{theorem}
@@ -380,8 +460,9 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
         Write $E/\Phi = \tilde{E}$
     \end{center}
 
+    \pause
     \begin{prob}[Isogeny Path]
-        Given elliptic curves $E, E'$ defined over $\F_q$ with $\#E(\F_q) = \#E'(\F_q)$, find an isogeny $E \to E'$ of smooth degree.
+        Given elliptic curves $E, E'$ defined over $\F_q$ with $\#E(\F_q) = \#E'(\F_q)$, find an isogeny $E \to E'$ of smooth degree ($\mathrm{deg}\phi := \#\ker\phi$).
     \end{prob}
     \begin{center}
         smooth $\sim$ only small factors
@@ -393,6 +474,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \begin{center}
         \includegraphics{scheme1.pdf}
 
+        \pause
         How to compute $E/\langle A, B \rangle$?
     \end{center}
 \end{frame}
@@ -402,15 +484,18 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \begin{definition}
         Define $\mathrm{End}(E) := \{ \phi: E \to E \ | \ \phi \ \text{isogeny} \}$, equipped with addition $+$ and composition $\circ$.
     \end{definition}
+    \pause
     \begin{definition}
         Assume $\mathrm{char}(K) \neq 0$. Then $E$ is called supersingular, if $\mathrm{End}(K)$ is not commutative.
     \end{definition}
+    \pause
     \begin{theorem}
         Let $E$ be supersingular, defined over $\F_{p^2}$. If $j(E) \neq 0, 1728$ then 
         \begin{equation*}
             E\left( \F_{p^2} \right) \cong \left( \Z / (p \pm 1)\Z \right)^2
         \end{equation*}
     \end{theorem}
+    \pause
     We also need $E[n] := \left\{ P \in E\left(\F_{p^2}\right) \ \middle| \ \mathrm{ord}P \ | \ n \right\} \leq E\left(\F_{p^2}\right)$
 \end{frame}
 
@@ -424,8 +509,22 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
         \end{equation*}
     \end{theorem}
     \begin{center}
-        \includegraphics{scheme2_5.pdf}
+        \uncover<2->{
+            \only<1-2>{\includegraphics{scheme2_0.pdf}}
+            \only<3>{\includegraphics{scheme2_1.pdf}}
+            \only<4>{\includegraphics{scheme2_2.pdf}}
+            \only<5>{\includegraphics{scheme2_3.pdf}}
+            \only<6>{\includegraphics{scheme2_4.pdf}}
+            \only<7>{\includegraphics{scheme2_5.pdf}}
+        }
     \end{center}
+    \pause
+    \pause
+    \pause
+    \pause
+    \pause
+    \pause
+    \pause
     \begin{equation*}
         \text{Claim:} \ E / \langle A, B \rangle \cong E / \langle B \rangle / \langle A' \rangle \ \text{where} \ A' = [m_A] \beta(P_A) + [n_A] \beta(Q_A)
     \end{equation*}
@@ -441,9 +540,74 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
         \text{Claim:} \ E / \langle A, B \rangle \cong E / \langle B \rangle / \langle A' \rangle
     \end{equation*}
     \begin{align*}
-        &A' := \beta(A) = [m_A]\beta(P_A) + [n_A]\beta(Q_A), \quad \alpha': E/\langle B \rangle \to E/\langle B \rangle / \langle A' \rangle & \\
-        \Rightarrow \ & \beta^{-1}(\{A'\}) = \langle B \rangle + A \quad \Rightarrow \ \ker(\alpha' \circ \beta) = \beta^{-1}(\ker \alpha') = \langle A, B \rangle & \\
-        \Rightarrow \ & E / \langle A, B \rangle \cong E / \langle B \rangle / \langle A' \rangle, \ \text{hence the j-invariants are equal} &\square
+        &A' := \beta(A) = [m_A]\beta(P_A) + [n_A]\beta(Q_A), \quad 
+        \uncover<2->{
+            \alpha': E/\langle B \rangle \to E/\langle B \rangle / \langle A' \rangle & \\
+        }
+        \uncover<3->{
+            \Rightarrow \ & \beta^{-1}(\{A'\}) = \langle B \rangle + A \quad
+        }
+        \uncover<4->{
+            \Rightarrow \ \ker(\alpha' \circ \beta) = \beta^{-1}(\ker \alpha') = \langle A, B \rangle & \\
+        }
+        \uncover<5->{
+            \Rightarrow \ & E / \langle A, B \rangle \cong E / \langle B \rangle / \langle A' \rangle, \ \text{hence the j-invariants are equal} &\square
+        }
     \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Computing Isogenies}
+
+    \pause
+    \begin{itemize}
+        \item $E, P_A, Q_A, P_B, Q_B$ are fixed, namely $E: y^2 = x^3 + 6x^2 + x$
+        \pause
+        \item $[n]P$ using ``double-and-add''
+        \pause
+        \item So its left to compute $E / \langle A \rangle$ and $E \to E/\langle A \rangle$
+    \end{itemize}
+    \pause
+
+    \begin{theorem}[Vélu's formulas]
+        Let $G \leq E$ be a finite subgroup and $\phi: E \to E/G$. Then
+        \pause
+        \begin{itemize}
+            \item $E/G: y^2 = x^3 + A'x + B'$ where
+            \pause
+            \begin{align*}
+                A' := A - 5\sum_{(x, y) \in G'} 3x^2 + A, \quad
+                B' := B - 7\sum_{(x, y) \in G'} 5x^3 + 3Ax + B
+            \end{align*}
+            \pause
+            \item For $P \not\in G$, $\phi(P)$ is
+            \begin{align*}
+                \left( x(P) + \sum_{Q \in G'} x(P + Q) - x(Q), \quad y(P) + \sum_{Q \in G'} y(P + Q) - y(Q) \right)
+            \end{align*}
+        \end{itemize}
+    \end{theorem}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Computing Isogenies}
+    \begin{theorem}[Vélu's formulas]
+        Let $G \leq E$ be a finite subgroup and $\phi: E \to E/G$. Then
+        \begin{itemize}
+            \item $E/G: y^2 = x^3 + A'x + B'$ where
+            \begin{align*}
+                A' := A - 5\sum_{(x, y) \in G'} 3x^2 + A, \quad
+                B' := B - 7\sum_{(x, y) \in G'} 5x^3 + 3Ax + B
+            \end{align*}
+            \item For $P \not\in G$, $\phi(P)$ is
+            \begin{align*}
+                \left( x(P) + \sum_{Q \in G'} x(P + Q) - x(Q), \quad y(P) + \sum_{Q \in G'} y(P + Q) - y(Q) \right)
+            \end{align*}
+        \end{itemize}
+    \end{theorem}
+
+    \pause
+    However, $\#G = 2^{e_A}$ resp. $\#G = 3^{e_B}$ is exponential
+    \pause
+    \\$\Rightarrow$ Decompose $\phi = \phi_1 \circ ... \circ \phi_e$ where $\ker\phi_i = 2$ resp. $3$
 \end{frame}
 \end{document}
