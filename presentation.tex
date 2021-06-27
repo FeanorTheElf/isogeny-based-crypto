@@ -124,7 +124,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
         \pause
         but in $K(E)$ have
         \begin{equation*}
-            \frac {(y - 1)(x + 1)} {x(x + 1)} = \frac {y - 1} {x} \ \Rightarrow \ f(-1, -1) = {-1 - 1} {-1} = 2
+            \frac {(y - 1)(x + 1)} {x(x + 1)} = \frac {y - 1} {x} \ \Rightarrow \ f(-1, -1) = \frac {-1 - 1} {-1} = 2
         \end{equation*}
     \end{itemize}
 \end{frame}
@@ -262,10 +262,10 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \pause
     \begin{align*}
         &\Rightarrow \ A^3 (27B'^2 + 4u^{12}A^3) = u^{12} A^3 (27B^2 + 4A^3) \\
-        \uncover<4->{
+        \uncover<5->{
             &\Rightarrow \ u^6 = \frac {B'} {B}
         } \\
-        \uncover<5->{
+        \uncover<6->{
             &\Rightarrow \ \phi: E \to E', \quad \O \mapsto \O, \ (x, y) \mapsto (u^2x, u^3y) \quad \text{is isomorphism}
         }
     \end{align*}
@@ -291,7 +291,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
         \text{Riemann-Roche Theorem} \ \Rightarrow \ \text{$\phi$ is linear}
     \end{align*}
     \pause
-    So $\phi = [\lambda_1 x + \lambda_2 y + \lambda 3, \ \mu_1 x + \mu_2 y + \mu_3]$
+    So $\phi = [\lambda_1 x + \lambda_2 y + \lambda_3, \ \mu_1 x + \mu_2 y + \mu_3]$
     \pause
     \begin{align*}
         \text{only monomial with $y$ is $y^2$} \ &\Rightarrow \ \lambda_1 = \lambda_3 = 0 \\
@@ -301,7 +301,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \end{align*}
     \pause
     \pause
-    Let $u^2 = \mu_1$, then $\phi(x, y) = (u^2x, u^3y) \hfill\square$
+    Let $u^2 = \mu_1$, then $\phi(x, y) = (u^2x, u^3y)$ .... $\hfill\square$
     \\~
 \end{frame}
 
@@ -378,9 +378,9 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \begin{theorem}
         There is a bijection
         \begin{equation*}
-            \rho: \mathrm{Cl}(K[E]) \to E, \quad \O \mapsto K[E], \ (\lambda, \mu) \mapsto \overline{\langle x - \lambda, y - \mu \rangle}
+            \rho: E \to \mathrm{Cl}(\bar{K}[E]), \quad \O \mapsto \overline{\bar{K}[E]}, \ (\lambda, \mu) \mapsto \overline{\langle x - \lambda, y - \mu \rangle}
         \end{equation*}
-        where $\mathrm{Cl}(K[E])$ is the ideal class group of $K[E]$.
+        where $\mathrm{Cl}(\bar{K}[E])$ is the ideal class group of $\bar{K}[E]$.
     \end{theorem}
     \pause
     \begin{definition}
@@ -436,7 +436,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
         \end{itemize}
     \end{corollary}
     \pause
-    For field tower $\bar{K} | L | K$ let $E(L) := E \cap L^2 \cup \{ \O \}$ be the $L$-rational points.
+    For fields $\bar{K} | L | K$ let $E(L) := E \cap L^2 \cup \{ \O \}$ be the $L$-rational points.
     \pause
     \begin{corollary}
         $E(L)$ is a subgroup of $E$
@@ -516,6 +516,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
             \only<5>{\includegraphics{scheme2_3.pdf}}
             \only<6>{\includegraphics{scheme2_4.pdf}}
             \only<7>{\includegraphics{scheme2_5.pdf}}
+            \only<8->{\includegraphics{scheme2_6.pdf}}
         }
     \end{center}
     \pause
@@ -525,8 +526,9 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \pause
     \pause
     \pause
+    \pause
     \begin{equation*}
-        \text{Claim:} \ E / \langle A, B \rangle \cong E / \langle B \rangle / \langle A' \rangle \ \text{where} \ A' = [m_A] \beta(P_A) + [n_A] \beta(Q_A)
+        \text{Claim:} \ E / \langle A, B \rangle \cong E / \langle B \rangle / \langle A' \rangle
     \end{equation*}
 \end{frame}
 
@@ -534,7 +536,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \frametitle{Correctness SIDH}
     
     \begin{center}
-        \includegraphics{scheme2_5.pdf}
+        \includegraphics{scheme2_6.pdf}
     \end{center}
     \begin{equation*}
         \text{Claim:} \ E / \langle A, B \rangle \cong E / \langle B \rangle / \langle A' \rangle
@@ -570,7 +572,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \pause
 
     \begin{theorem}[Vélu's formulas]
-        Let $G \leq E$ be a finite subgroup and $\phi: E \to E/G$. Then
+        Let $G \leq E$ be finite and $\phi: E \to E/G$. With $G' = G \setminus \{0\}$ have
         \pause
         \begin{itemize}
             \item $E/G: y^2 = x^3 + A'x + B'$ where
@@ -591,7 +593,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
 \begin{frame}
     \frametitle{Computing Isogenies}
     \begin{theorem}[Vélu's formulas]
-        Let $G \leq E$ be a finite subgroup and $\phi: E \to E/G$. Then
+        Let $G \leq E$ be finite and $\phi: E \to E/G$. With $G' = G \setminus \{0\}$ have
         \begin{itemize}
             \item $E/G: y^2 = x^3 + A'x + B'$ where
             \begin{align*}
