@@ -6,6 +6,9 @@
 \usepackage{xcolor}
 \usepackage{graphicx}
 \usepackage{wasysym}
+\usepackage[language=english, backend=biber, style=alphabetic, sorting=nyt]{biblatex}
+
+\addbibresource{bibliography.bib}
 
 \title{SIKE - PQC based on isogenies}
 \author{Simon Pohmann}
@@ -361,7 +364,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
                     \item $-(x, y) := (x, -y)$
                 \end{itemize}
             \end{itemize}
-            \vspace{2ex}
+            \vspace{3ex}
             \pause
             Set $\O +_{\mathrm{geo}} P = P +_{\mathrm{geo}} \O = P$.
         \end{column}
@@ -446,10 +449,10 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
 \begin{frame}
     \frametitle{Isogenies}
 
-    Let $E, E'$ be elliptic curves.
+    Let $E, E'$ be elliptic curves. \cite{arithmetic_elliptic_curves} shows
     \pause
     \begin{theorem}
-        An isogeny $\phi: E \to E'$ is a group homomorphism.
+        An isogeny $\phi: E \to E'$ is a group homomorphism with finite kernel.
     \end{theorem}
 
     \pause
@@ -611,5 +614,41 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     However, $\#G = 2^{e_A}$ resp. $\#G = 3^{e_B}$ is exponential
     \pause
     \\$\Rightarrow$ Decompose $\phi = \phi_1 \circ ... \circ \phi_e$ where $\ker\phi_i = 2$ resp. $3$
+\end{frame}
+
+\begin{frame}
+    \frametitle{Isogeny Path}
+    Decompose $\phi = \phi_1 \circ ... \circ \phi_e$ where $\ker\phi_i = 2$ resp. $3$
+    \begin{prob}[Isogeny Path]
+        Given elliptic curves $E, E'$ defined over $\F_q$ with $\#E(\F_q) = \#E'(\F_q)$, find an isogeny $E \to E'$ of smooth degree ($\mathrm{deg}\phi := \#\ker\phi$).
+    \end{prob}
+    
+    \begin{columns}
+        \begin{column}{0.4\textwidth}
+            \includegraphics[width = \textwidth]{isogeny_graph1.pdf}
+        \end{column}
+        \begin{column}{0.4\textwidth}
+            \includegraphics[width = \textwidth]{isogeny_graph2.pdf}
+        \end{column}
+        \begin{column}{0.2\textwidth}
+            nodes $\sim$ j-invariants
+            
+            \vspace{3ex}
+
+            edges $\sim$ isogenies
+        \end{column}
+    \end{columns}
+    \begin{center}
+        2 resp. 3-isogeny graph of $\F_{97^2}$ from \cite{mathematics_isogeny_crypto}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{References}
+    \printbibliography
+
+    \begin{center}
+        Thank you for your attention!
+    \end{center}
 \end{frame}
 \end{document}
