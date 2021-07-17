@@ -1,4 +1,4 @@
-\documentclass{beamer}
+\documentclass[handout]{beamer}
 \usetheme{CambridgeUS}
 
 \usepackage{tikz,pgfplots}
@@ -27,6 +27,11 @@
 \begin{document}
 
 \frame{\titlepage}
+
+\frame{
+    \frametitle{Contents}
+    \tableofcontents
+}
 
 \section{Elliptic Curves}
 
@@ -88,6 +93,10 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
 \end{columns}
 \end{frame}
 
+\section{Isogenies}
+
+\subsection{Morphisms}
+
 \begin{frame}
     \frametitle{Coordinate ring}
     \begin{definition}
@@ -122,7 +131,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
         \pause
         \item at $(-1, -1)$
         \begin{equation*}
-            f(-1, -1) = \frac {(-1 - 1)(-1 + 1)} {-1 (-1 - 1)} = \frac 0 0 \quad \text{\Huge\lightning}
+            f(-1, -1) = \frac {(-1 - 1)(-1 + 1)} {-1 (-1 + 1)} = \frac 0 0 \quad \text{\Huge\lightning}
         \end{equation*}
         \pause
         but in $K(E)$ have
@@ -163,10 +172,10 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \frametitle{Morphisms}
     Now we consider maps $E \to E'$ for elliptic curves $E, E'$.
     \begin{equation*}
-        \phi: E \to E', \quad (x, y) \mapsto (f(x, y), \ g(x, y)) \quad \text{for} \ f, g \in K(E)
+        \phi: E \to E', \quad (x, y) \mapsto (f(x, y), \ g(x, y)) \quad \text{for} \ f, g \in \bar{K}(E)
     \end{equation*}
     \pause
-    These are called \emph{rational maps} or \emph{morphisms}.
+    These are called \emph{morphisms}.
     \pause
     \vspace{2ex}
     \begin{itemize}
@@ -181,6 +190,8 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
         \item What about $\phi(\O)$?
     \end{itemize}
 \end{frame}
+
+\subsection{Isogenies}
 
 \begin{frame}
     \frametitle{Isogenies}
@@ -221,6 +232,8 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \pause
     So $\phi$ is an isomorphism.
 \end{frame}
+
+\subsection{Isomorphisms}
 
 \begin{frame}
     \frametitle{j-invariant}
@@ -446,6 +459,8 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \end{corollary}
 \end{frame}
 
+\subsection{Isogenies and the group structure}
+
 \begin{frame}
     \frametitle{Isogenies}
 
@@ -471,6 +486,8 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
         smooth $\sim$ only small factors
     \end{center}
 \end{frame}
+
+\section{SIDH}
 
 \begin{frame}
     \frametitle{Idea}
@@ -513,12 +530,12 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \end{theorem}
     \begin{center}
         \uncover<2->{
-            \only<1-2>{\includegraphics{scheme2_0.pdf}}
-            \only<3>{\includegraphics{scheme2_1.pdf}}
-            \only<4>{\includegraphics{scheme2_2.pdf}}
-            \only<5>{\includegraphics{scheme2_3.pdf}}
-            \only<6>{\includegraphics{scheme2_4.pdf}}
-            \only<7>{\includegraphics{scheme2_5.pdf}}
+            \only<1-2|handout:0>{\includegraphics{scheme2_0.pdf}}
+            \only<3|handout:0>{\includegraphics{scheme2_1.pdf}}
+            \only<4|handout:0>{\includegraphics{scheme2_2.pdf}}
+            \only<5|handout:0>{\includegraphics{scheme2_3.pdf}}
+            \only<6|handout:0>{\includegraphics{scheme2_4.pdf}}
+            \only<7|handout:0>{\includegraphics{scheme2_5.pdf}}
             \only<8->{\includegraphics{scheme2_6.pdf}}
         }
     \end{center}
@@ -545,7 +562,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
         \text{Claim:} \ E / \langle A, B \rangle \cong E / \langle B \rangle / \langle A' \rangle
     \end{equation*}
     \begin{align*}
-        &A' := \beta(A) = [m_A]\beta(P_A) + [n_A]\beta(Q_A), \quad 
+        &A' := \beta(A) = m_A\beta(P_A) + n_A\beta(Q_A), \quad 
         \uncover<2->{
             \alpha': E/\langle B \rangle \to E/\langle B \rangle / \langle A' \rangle & \\
         }
@@ -568,7 +585,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \begin{itemize}
         \item $E, P_A, Q_A, P_B, Q_B$ are fixed, namely $E: y^2 = x^3 + 6x^2 + x$
         \pause
-        \item $[n]P$ using ``double-and-add''
+        \item $nP$ using ``double-and-add''
         \pause
         \item So its left to compute $E / \langle A \rangle$ and $E \to E/\langle A \rangle$
     \end{itemize}
@@ -613,8 +630,10 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \pause
     However, $\#G = 2^{e_A}$ resp. $\#G = 3^{e_B}$ is exponential
     \pause
-    \\$\Rightarrow$ Decompose $\phi = \phi_1 \circ ... \circ \phi_e$ where $\ker\phi_i = 2$ resp. $3$
+    \\$\Rightarrow$ Decompose $\phi = \phi_1 \circ ... \circ \phi_e$ where $\#\ker\phi_i = 2$ resp. $3$
 \end{frame}
+
+\subsection{Isogeny Paths}
 
 \begin{frame}
     \frametitle{Isogeny Path}

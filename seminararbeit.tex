@@ -83,7 +83,7 @@ As this is a fundamental notion, we will state the required special case here.
 
 \begin{definition}
     Given irreducible varieties $V, W \subseteq \mathbb{P}_{\bar{K}}^2$, a partial map $\phi: V \to W$ is called rational if it is given by rational functions.
-    Namely, $\phi$ is rational if there are homogeneous $f_1, f_2, f_3 \in \bar{K}^+[V]$ of same degree and not all zero such that for each point $(x : y : z)$ at which $\phi$ is defined, there are ``equivalent'' polynomials $(g_1, g_2, g_3) \in \bar{K}^+[V], \ (g_1, g_2, g_3) \sim (f_1, f_2, f_3)$ such that
+    Namely, $\phi$ is rational if there are homogeneous $f_1, f_2, f_3 \in \bar{K}^+[V]$ of same degree and not all zero such that for each point $(x : y : z)$ at which $\phi$ is defined, there are ``equivalent'' homogeneous polynomials $(g_1, g_2, g_3) \in \bar{K}^+[V], \ (g_1, g_2, g_3) \sim (f_1, f_2, f_3)$ such that
     \begin{equation*}
         (g_1(x, y, z) : g_2(x, y, z) : g_3(x, y, z)) \ \text{is nonzero and equal to $\phi(x : y : z)$}
     \end{equation*}
@@ -437,13 +437,15 @@ Hence it is important that we study the properties of isogenies in more detail.
 
 A very fascinating and fundamental result is that isogenies are group homomorphisms.
 \begin{prop}
+    \label{prop:isogeny_homomorphism}
     Let $E, E'$ be elliptic curves and $\psi: E \to E'$ an isogeny. Then $\psi$ is a group homomorphisms.
 \end{prop}
 \begin{proof}
-    Have $\psi = [\psi_1, \psi_2, \psi_3]$ and consider the ring homomorphism
+    Have $\psi = [\psi_1, \psi_2, \psi_3]$ with $\psi_i \in K[E]$ and consider the ring homomorphism
     \begin{equation*}
-        \phi^*: \bar{K}[E'] \to \bar{K}[E], \quad \overline{f} \mapsto \overline{f^{\mathrm{hom}}\left(\psi_1, \psi_2, \psi_3\right)}
+        \psi^*: \bar{K}[E'] \to \bar{K}[E], \quad \overline{f} \mapsto \overline{f^{\mathrm{hom}}\left(\psi_1, \psi_2, \psi_3\right)}
     \end{equation*}
+    This is well-defined, as if $\overline{f} = \overline{g} \in \bar{K}[E']$, then $f - g$ vanishes on $E'$ an thus $f(\psi_1, \psi_2, \psi_3) - g(\psi_1, \psi_2, \psi_3)$ vanishes everywhere, thus is zero.
     Note that
     \begin{equation*}
         f^{\mathrm{hom}}(\psi_1, \psi_2, \psi_3) = \psi_3^d \ f\left(\frac {\psi_1} {\psi_3}, \frac {\psi_2} {\psi_3}\right) \ \text{for some} \ d \in \N
@@ -469,12 +471,105 @@ A very fascinating and fundamental result is that isogenies are group homomorphi
 \end{proof}
 
 \begin{prop}
-    \label{prop:unique_isogeny}
+    Let $E, E'$ be elliptic curves and $\psi: E \to E'$ a nonconstant isogeny. Then $\ker\psi \subseteq E$ is finite.
 \end{prop}
+\begin{proof}
+    The fiber
+    \begin{equation*}
+        V := \ker\psi = \psi^{-1}(\{ \O \})
+    \end{equation*}
+    is a variety (it is the intersection of $Z(\langle \psi_1, \psi_3, \psi_2 - 1 \rangle) \cup Z(\langle \psi_1, \psi_2, \psi_3 \rangle)$, where $(\psi_1, \psi_2, \psi_3)$ runs through all representations of $\psi$, because for each preimage point, there is a representation such that the point is not in $Z(\langle \psi_1, \psi_2, \psi_3\rangle)$).
+
+    We have $E \not\subseteq V$ as $\psi$ is nonconstant. So $E$ is a proper subvariety of $E$, an as $E$ is irreducible, it follows that $V$ is 0-dimensional, hence finite.
+\end{proof}
+
+The map $\psi^*$ considered in \ref{prop:isogeny_homomorphism} is indeed quite important, as it induces a field extension
+\begin{equation*}
+    \bar{K}(E) \ | \ \psi^*(\bar{K}(E'))
+\end{equation*}
+Using this, we can describe certain properties of isogenies.
+
+\begin{definition}
+    An isogeny $\psi: E \to E'$ is called separable, if the corresponding field extension $\bar{K}(E) | \psi^*\bar{K}(E)$ is separable.
+\end{definition}
+
+There are many nice propositions in this context. For example, the field extension $\bar{K}(E) | \psi^*\bar{K}(E)$ is always finite, and if the isogeny is separable, then its degree is equal to $\#\ker\psi$.
+This is not fundamental for the cryptosystem we consider later, but keeping it in mind helps with understanding the following theorems.
+
+\begin{prop}
+    \label{prop:unique_isogeny}
+    Let $E$ be an elliptic curve and $\Phi \subseteq E$ a finite subgroup. Then there is a unique elliptic curve $E' = E/\Phi$ (up to isomorphism) and a unique separable isogeny $\phi: E \to E'$ with kernel $\Phi$.
+\end{prop}
+\begin{proof}
+    We present the proof from \cite[III.4.12]{arithmetic_elliptic_curves}. However, it heavily relies on some strong results from Algebraic Geometry that we cannot present in this work.
+
+    For $T \in \Phi$ consider the translation-by-$T$ map
+    \begin{equation*}
+        \tau_T: E \to E, \quad P \mapsto P + T
+    \end{equation*}
+    As discussed earlier, this is a variety-isomorphism (only in the sense of Algebraic Geometry) and thus given by $\tau_T = [\tau_1, \tau_2, \tau_3]$. Hence it induces a field isomorphism
+    \begin{equation*}
+        \tau_T^*: \bar{K}(E) \to \bar{K}(E), \quad \overline{f} \mapsto \overline{\tau_3^{\deg f} f\left( \frac {\tau_1} {\tau_3}, \frac {\tau_2} {\tau_3} \right)}
+    \end{equation*}
+    Let $\bar{K}(E)^\Phi$ be the subfield of $\bar{K}(E)$ fixed by all $\tau_T^*$ for $T \in \Phi$. Now the Galois group is $\mathrm{Gal}(\bar{K}(E) | \bar{K}(E)^\Phi) = \Phi$.
+    As this extension is finite, $\bar{K}(E)^\Phi$ has transcendence degree 1 over $\bar{K}$. We want to construct an isogeny $\phi: E \to E'$ with $\phi^*\bar{K}(E') = \bar{K}(E)^\Phi$.
+
+    From \cite[II.2.4c]{arithmetic_elliptic_curves} we get that there is a unique smooth curve $C$ defined over $\bar{K}$ and a morphism $\phi: E \to C$ with $\phi^*\bar{K}(C) = \bar{K}(E)^\Phi$.
+    As $\phi^*\bar{K}(C)$ is invariant under $\tau_T^*$, have for $f \in \bar{K}(C)$ that
+    \begin{equation*}
+        f(\phi(P + T)) = (\tau_T^* \circ \phi^*)(P) = (\phi^*f)(P) = f(\phi(P))
+    \end{equation*}
+    Thus $\phi(P + T) = \phi(P)$. For $P \in E$ and $Q = \phi(P)$ we hence have
+    \begin{equation*}
+        \phi^{-1}(Q) \supseteq P + \Phi \ \text{so} \ \#\phi^{-1}(Q) \geq \#\Phi
+    \end{equation*}
+    And by \cite[II.2.6a]{arithmetic_elliptic_curves} it follows that
+    \begin{equation*}
+        \#\phi^{-1}(Q) \leq \deg\phi = \#\Phi
+    \end{equation*}
+    with equality if and only if $\phi$ is unramified in $Q$.
+    So we get that $\phi$ is unramified everywhere, and the Hurwitz genus formula (\cite[II.5.9]{arithmetic_elliptic_curves}) implies that $C$ is an elliptic curve.
+    Defining $\phi(\O)$ as the point at infinity of $C$ yields the claim (equivalently, compose $\phi$ with $\tau_{-\phi(\O)}$).
+\end{proof}
+
+As this curve is of fundamental importance, we introduce a new notation for it.
+
+\begin{definition}
+    Let $E$ be an elliptic curve and $G \leq E$ a finite subgroup. Then the unique elliptic curve $E'$ such that there is an isogeny $E \to E'$ with kernel $G$ is denoted by $E/G := E'$.
+\end{definition}
+
+We will not prove it in this work, but nonconstant isogenies are always surjective.
+This motivates the notation $E/G$, as the group structure of this curve is then equal to the quotient group structure on $E$ by $G$ by the isomorphism theorem.
+
+This last theorem is a fundamental component in the construction of isogeny based cryptosystems.
+For this, a non-constructive proof as in \ref{prop:unique_isogeny} is not sufficient however, as we have to be able to compute the elliptic curve $E/\Phi$ and the corresponding isogeny efficiently.
+Partly, this can be done by the famous Vélu formulas.
 
 \begin{prop}
     \label{prop:velu_formulas}
+    Let $E: y^2 = x^3 + Ax + B$ be an elliptic curve defined over $K$ and $G \leq E$ be a finite subgroup.
+    Then $E/G$ is defined by $y^2 = x^3 + A'x + B'$ where
+    \begin{align*}
+        A' &= A - 5\sum_{(u, v) \in G \setminus \{\O\}} 3u^2 + A \\
+        B' &= B - 7\sum_{(u, v) \in G \setminus \{\O\}} 5u^3 + 3Au + B
+    \end{align*}
+    and the isogeny $\phi: E \to E/G$ is given by
+    \begin{equation*}
+        \phi(P) = \left( x(P) + \sum_{Q \in G \setminus \{\O\}} x(P + Q) - x(Q), \quad y(P) + \sum_{Q \in G \setminus \{\O\}} y(P + Q) - y(Q) \right)
+    \end{equation*}
+    for $P \not\in G$.
+    (Here $x(P)$ resp. $y(P)$ are the $x$-resp. $y$-coordinates of $P \in \bar{K}^2$)
 \end{prop}
+\begin{proof}
+    Clearly $y^2 = x^3 + A'x + B'$ defines an elliptic curve and the map
+    \begin{align*}
+        \phi: E &\to E/G, \quad P \in G \mapsto \O \\
+        P \not\in G &\mapsto \Bigl( x(P) + \sum_{Q \in G \setminus \{\O\}} x(P + Q) - x(Q), \quad y(P) + \sum_{Q \in G \setminus \{\O\}} y(P + Q) - y(Q) \Bigr)
+    \end{align*}
+    is a morphism (as discussed earlier, the translation-by-$Q$ map is a morphism).
+    So it is left to show that $\phi$ is well-defined (in the sense that it maps to $E/G$), that it is separable and that its kernel is $G$.
+    Then the claim follows by the uniqueness of \ref{prop:unique_isogeny}.
+\end{proof}
 
 \section{Supersingular Diffie-Hellmann}
 

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70218" creator="Ipe 7.2.18">
-<info created="D:20210624161004" modified="D:20210627230713"/>
+<info created="D:20210624161004" modified="D:20210703113053"/>
 <preamble>\usepackage{amsmath,amssymb}</preamble>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
@@ -279,13 +279,13 @@ h
 <dashstyle name="dash dotted" value="[4 2 1 2] 0"/>
 <dashstyle name="dash dot dotted" value="[4 2 1 2 1 2] 0"/>
 <textsize name="large" value="\large"/>
+<textsize name="small" value="\small"/>
+<textsize name="tiny" value="\tiny"/>
 <textsize name="Large" value="\Large"/>
 <textsize name="LARGE" value="\LARGE"/>
 <textsize name="huge" value="\huge"/>
 <textsize name="Huge" value="\Huge"/>
-<textsize name="small" value="\small"/>
 <textsize name="footnote" value="\footnotesize"/>
-<textsize name="tiny" value="\tiny"/>
 <textstyle name="center" begin="\begin{center}" end="\end{center}"/>
 <textstyle name="itemize" begin="\begin{itemize}" end="\end{itemize}"/>
 <textstyle name="item" begin="\begin{itemize}\item{}" end="\end{itemize}"/>
@@ -334,8 +334,8 @@ h
 <layer name="epsilon"/>
 <layer name="zeta"/>
 <layer name="eta"/>
-<view layers="alpha beta gamma epsilon zeta eta" active="alpha"/>
-<path layer="alpha" matrix="1 0 0 1 16 -56" stroke="black" pen="fat">
+<view layers="alpha beta gamma delta epsilon zeta eta" active="alpha"/>
+<path layer="alpha" matrix="1 0 0 1 -8 -52" stroke="black" pen="fat">
 20 136 m
 24 148 l
 28 136 l
@@ -346,10 +346,10 @@ h
 24 156 l
 16 160 l
 </path>
-<path matrix="1 0 0 1 16 -56" stroke="black" pen="fat">
+<path matrix="1 0 0 1 -8 -52" stroke="black" pen="fat">
 4 0 0 4 24 164 e
 </path>
-<path matrix="1 0 0 1 216 -52" stroke="black" pen="fat">
+<path matrix="1 0 0 1 240 -52" stroke="black" pen="fat">
 20 136 m
 24 148 l
 28 136 l
@@ -360,37 +360,37 @@ h
 24 156 l
 16 160 l
 </path>
-<path matrix="1 0 0 1 216 -52" stroke="black" pen="fat">
+<path matrix="1 0 0 1 240 -52" stroke="black" pen="fat">
 4 0 0 4 24 164 e
 </path>
-<text matrix="1 0 0 1 0 -60" transformations="translations" pos="56 168" stroke="black" type="label" width="20.252" height="7.193" depth="0" valign="baseline">Alice</text>
-<text matrix="1 0 0 1 0 -60" transformations="translations" pos="208 168" stroke="black" type="label" width="16.766" height="7.193" depth="0" valign="baseline">Bob</text>
-<text matrix="1 0 0 1 -20 -56" transformations="translations" pos="112 160" stroke="black" type="label" width="104.1" height="8.107" depth="3.13" valign="baseline" style="math">E(\mathbb{F}_{p^2}) \cong (\mathbb{Z} / 2^{e_A}3^{e_B} \mathbb{Z})^2</text>
-<text layer="gamma" matrix="1 0 0 1 -8 -64" transformations="translations" pos="16 120" stroke="black" type="label" width="101.727" height="7.473" depth="2.49" valign="baseline" style="math">A := [m_A]P_A + [n_A]Q_A</text>
-<path layer="delta" matrix="1 0 0 1 0 -60" stroke="black" pen="fat" rarrow="normal/normal">
+<text matrix="1 0 0 1 -24 -56" transformations="translations" pos="56 168" stroke="black" type="label" width="20.252" height="7.193" depth="0" valign="baseline">Alice</text>
+<text matrix="1 0 0 1 24 -60" transformations="translations" pos="208 168" stroke="black" type="label" width="16.766" height="7.193" depth="0" valign="baseline">Bob</text>
+<text matrix="1 0 0 1 -20 -52" transformations="translations" pos="112 160" stroke="black" type="label" width="104.1" height="8.107" depth="3.13" valign="baseline" style="math">E(\mathbb{F}_{p^2}) \cong (\mathbb{Z} / 2^{e_A}3^{e_B} \mathbb{Z})^2</text>
+<text layer="gamma" matrix="1 0 0 1 -8 -60" transformations="translations" pos="16 120" stroke="black" type="label" width="90.657" height="6.815" depth="1.93" valign="baseline" style="math">A := m_AP_A + n_AQ_A</text>
+<path layer="delta" matrix="1 0 0 1 0 -48" stroke="black" pen="fat" rarrow="normal/normal">
 232 84 m
 48 84 l
 </path>
-<text layer="beta" matrix="1 0 0 1 -12 -8" transformations="translations" pos="64 96" stroke="black" type="label" width="81.093" height="7.473" depth="2.49" valign="baseline" style="math">E[2^{e_A}] = \langle P_A, Q_A \rangle</text>
-<text matrix="1 0 0 1 84 -8" transformations="translations" pos="64 96" stroke="black" type="label" width="82.066" height="7.473" depth="2.49" valign="baseline" style="math">E[3^{e_B}] = \langle P_B, Q_B \rangle</text>
-<text layer="gamma" matrix="1 0 0 1 0 -8" transformations="translations" pos="8 76" stroke="black" type="label" width="84.264" height="7.201" depth="1.93" valign="baseline">Choose $m_A, n_A \in \mathbb{Z}$</text>
-<text layer="zeta" matrix="1 0 0 1 152 -64" transformations="translations" pos="16 120" stroke="black" type="label" width="103.782" height="7.473" depth="2.49" valign="baseline" style="math">B := [m_B]P_B + [n_B]Q_B</text>
-<text matrix="1 0 0 1 180 -8" transformations="translations" pos="8 76" stroke="black" type="label" width="84.999" height="7.201" depth="1.93" valign="baseline">Choose $m_B, n_B \in \mathbb{Z}$</text>
-<text layer="delta" transformations="translations" pos="8 44" stroke="black" type="label" width="66.269" height="7.473" depth="2.49" valign="baseline" style="math">\alpha: E \to E/\langle A \rangle</text>
-<text layer="zeta" matrix="1 0 0 1 196 0" transformations="translations" pos="8 44" stroke="black" type="label" width="66.604" height="7.473" depth="2.49" valign="baseline" style="math">\beta: E \to E/\langle B \rangle</text>
+<text layer="beta" matrix="1 0 0 1 -36 -4" transformations="translations" pos="64 96" stroke="black" type="label" width="81.093" height="7.473" depth="2.49" valign="baseline" style="math">E[2^{e_A}] = \langle P_A, Q_A \rangle</text>
+<text matrix="1 0 0 1 108 -4" transformations="translations" pos="64 96" stroke="black" type="label" width="82.066" height="7.473" depth="2.49" valign="baseline" style="math">E[3^{e_B}] = \langle P_B, Q_B \rangle</text>
+<text layer="gamma" matrix="1 0 0 1 0 -4" transformations="translations" pos="8 76" stroke="black" type="label" width="84.264" height="7.201" depth="1.93" valign="baseline">Choose $m_A, n_A \in \mathbb{Z}$</text>
+<text layer="zeta" matrix="1 0 0 1 152 -60" transformations="translations" pos="16 120" stroke="black" type="label" width="92.712" height="6.815" depth="1.93" valign="baseline" style="math">B := m_BP_B + n_BQ_B</text>
+<text matrix="1 0 0 1 180 -4" transformations="translations" pos="8 76" stroke="black" type="label" width="84.999" height="7.201" depth="1.93" valign="baseline">Choose $m_B, n_B \in \mathbb{Z}$</text>
+<text layer="delta" matrix="1 0 0 1 0 4" transformations="translations" pos="8 44" stroke="black" type="label" width="66.269" height="7.473" depth="2.49" valign="baseline" style="math">\alpha: E \to E/\langle A \rangle</text>
+<text layer="zeta" matrix="1 0 0 1 196 4" transformations="translations" pos="8 44" stroke="black" type="label" width="66.604" height="7.473" depth="2.49" valign="baseline" style="math">\beta: E \to E/\langle B \rangle</text>
 <text layer="epsilon" matrix="1 0 0 1 20 12" transformations="translations" pos="68 28" stroke="black" type="label" width="93.29" height="7.473" depth="2.49" valign="baseline" style="math">E/\langle A \rangle, \alpha(P_B), \alpha(Q_B)</text>
 <path layer="zeta" matrix="1.02222 0 0 1 -1.06667 8" stroke="black" pen="fat" arrow="normal/normal">
 228 12 m
 48 12 l
 </path>
 <text matrix="1 0 0 1 20 -4" transformations="translations" pos="68 28" stroke="black" type="label" width="92.642" height="7.473" depth="2.49" valign="baseline" style="math">E/\langle B \rangle, \beta(P_A), \beta(Q_A)</text>
-<text layer="delta" transformations="translations" pos="120 28" stroke="black" type="label" width="28.131" height="7.473" depth="2.49" valign="baseline" style="math">E / \langle A \rangle</text>
+<text layer="delta" matrix="1 0 0 1 0 12" transformations="translations" pos="120 28" stroke="black" type="label" width="28.131" height="7.473" depth="2.49" valign="baseline" style="math">E / \langle A \rangle</text>
 <path layer="epsilon" matrix="1 0 0 1 0 -48" stroke="black" pen="fat" rarrow="normal/normal">
 232 84 m
 48 84 l
 </path>
-<text transformations="translations" pos="8 44" stroke="black" type="label" width="66.269" height="7.473" depth="2.49" valign="baseline" style="math">\alpha: E \to E/\langle A \rangle</text>
-<text layer="eta" matrix="1 0 0 1 0 -4" transformations="translations" pos="4 8" stroke="black" type="label" width="184.604" height="7.49" depth="2.49" valign="baseline">$E / \langle B \rangle / \langle A&apos; \rangle, \quad A&apos; = m_A \beta(P_A) + n_A \beta(Q_A)$</text>
-<text matrix="1 0 0 1 220 -4" transformations="translations" pos="4 8" stroke="black" type="label" width="51.712" height="7.49" depth="2.49" valign="baseline" style="math">E / \langle A \rangle / \langle B&apos; \rangle</text>
+<text matrix="1 0 0 1 0 4" transformations="translations" pos="8 44" stroke="black" type="label" width="66.269" height="7.473" depth="2.49" valign="baseline" style="math">\alpha: E \to E/\langle A \rangle</text>
+<text layer="eta" matrix="1 0 0 1 4 -4" transformations="translations" pos="4 8" stroke="black" type="label" width="184.604" height="7.49" depth="2.49" valign="baseline" style="math">E / \langle B \rangle / \langle A&apos; \rangle, \quad A&apos; = m_A \beta(P_A) + n_A \beta(Q_A)</text>
+<text matrix="1 0 0 1 428 -120" transformations="translations" pos="4 8" stroke="black" type="label" width="51.712" height="7.49" depth="2.49" valign="baseline" style="math">E / \langle A \rangle / \langle B&apos; \rangle</text>
 </page>
 </ipe>
