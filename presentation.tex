@@ -1,4 +1,4 @@
-\documentclass[handout]{beamer}
+\documentclass{beamer}
 \usetheme{CambridgeUS}
 
 \usepackage{tikz,pgfplots}
@@ -107,10 +107,9 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
         is the \emph{coordinate ring} of $E$.
     \end{definition}
     \pause
-    $f \in K[E]$ are the ``polynomial functions'' defined on $E$
-    \begin{equation*}
-        (f + gF)(x, y) = f(x, y) + \underbrace{F(x, y)}_{= 0 \ \text{if} \ (x, y) \in E} g(x, y) = f(x, y)
-    \end{equation*}
+    \begin{center}
+        $f \in K[E]$ are the ``polynomial functions'' defined on $E$
+    \end{center}
     \pause
     \begin{definition}
         Let $E: y^2 = x^3 + Ax + B$ be an elliptic curve. Then define the function field $K(E)$ as the quotient field of $K[E]$.
@@ -120,51 +119,19 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
 \begin{frame}
     \frametitle{Rational functions - Example}
     Consider $E: y^2 = x^3 - x + 1$ and $f = \frac {(y - 1)(x + 1)} {x(x + 1)} \in K(E)$.
-    
-    We want to evaluate $f$.
-    \pause
-    \begin{itemize}
-        \item at $(1, 1)$
-        \begin{equation*}
-            f(1, 1) = \frac {(1 - 1)(1 + 1)} {1(1 + 1)} = \frac 0 2 = 0
-        \end{equation*}
-        \pause
-        \item at $(-1, -1)$
-        \begin{equation*}
-            f(-1, -1) = \frac {(-1 - 1)(-1 + 1)} {-1 (-1 + 1)} = \frac 0 0 \quad \text{\Huge\lightning}
-        \end{equation*}
-        \pause
-        but in $K(E)$ have
-        \begin{equation*}
-            \frac {(y - 1)(x + 1)} {x(x + 1)} = \frac {y - 1} {x} \ \Rightarrow \ f(-1, -1) = \frac {-1 - 1} {-1} = 2
-        \end{equation*}
-    \end{itemize}
-\end{frame}
 
-\begin{frame}
-    \frametitle{Rational functions - Example}
-    Consider $E: y^2 = x^3 - x + 1$ and $f = \frac {(y - 1)(x + 1)} {x(x + 1)} = \frac {y - 1} {x} \in K(E)$.
-    
+    \vspace{2ex}
     We want to evaluate $f$.
     \pause
     \begin{itemize}
-        \item at $(0, 1)$
-        \begin{equation*}
-            f(0, 1) = \frac {1 - 1} {0} = \frac 0 0 \quad \text{\Huge\lightning}
-        \end{equation*}
+        \item at $(1, 1) \pause \quad \Rightarrow \quad f(1, 1) = 0$
         \pause
-        but in $K(E)$ we have $y^2 = x^3 - x + 1$ so
+        \item at $(-1, -1) \pause \quad \Rightarrow \quad f(1, 1) = 2$
         \pause
-        \begin{equation*}
-            \frac {y - 1} {x} = \frac {(y - 1)(y + 1)} {x(y + 1)} = \frac {y^2 - 1} {x(y + 1)} = \frac {x^3 - x} {x(y + 1)} = \frac {x^2 - 1} {y + 1}
-        \end{equation*}
-        \pause
-        Hence we define
-        \begin{equation*}
-            f(0, 1) = \frac {0 - 1} { 1 + 1} = -2
-        \end{equation*}
+        \item at $(0, 1) \pause \quad \Rightarrow \quad f(0, 1) = -2$
     \end{itemize}
     \pause
+    \vspace{2ex}
     However: $\frac 1 x \in K(E)$ cannot be defined at $(0, 1)$.
 \end{frame}
 
@@ -214,13 +181,9 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \end{equation*}
     \pause
     Have
-    \begin{align*}
-        &(\sqrt{8}y)^2 - (2x)^3 + 4(2x) - 8 = 8y^2 - 8x^3 + 8x - 8 \\
-        \uncover<4->{
-        \Rightarrow \ & (\sqrt{8}y)^2 = (2x)^3 - 4(2x) + 8 \ \text{in} \ K[E]
-        }
-    \end{align*}
-    \pause
+    \begin{equation*}
+       (\sqrt{8}y)^2 = (2x)^3 - 4(2x) + 8 \ \text{in} \ K[E]
+    \end{equation*}
     \pause
     So $\phi$ is a well-defined isogeny.
 
@@ -259,66 +222,6 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \begin{equation*}
         j(E) = \frac {110592} {-368} = \frac {6912} {23}, \quad j(E') = \frac {7077888} {-23552} = \frac {6912} {23}
     \end{equation*}
-\end{frame}
-
-\begin{frame}
-    \frametitle{j-invariant}
-    \begin{definition}
-        The \emph{j-invariant} is
-        \begin{equation*}
-            j(E) := \frac {(-48A)^3} {\Delta(E)} = \frac {(-48A)^3} {-16(27B^2 + 4A^3)}
-        \end{equation*}
-    \end{definition}
-    \pause
-    \begin{theorem}
-        Two elliptic curves $E, E'$ are isomorphic if and only if $j(E) = j(E')$.
-    \end{theorem}
-    \pause
-    \textit{Proof Sketch:} Let $u^4 = \frac {A'} {A} \in \bar{K}$
-    \pause
-    \begin{align*}
-        &\Rightarrow \ A^3 (27B'^2 + 4u^{12}A^3) = u^{12} A^3 (27B^2 + 4A^3) \\
-        \uncover<5->{
-            &\Rightarrow \ u^6 = \frac {B'} {B}
-        } \\
-        \uncover<6->{
-            &\Rightarrow \ \phi: E \to E', \quad \O \mapsto \O, \ (x, y) \mapsto (u^2x, u^3y) \quad \text{is isomorphism}
-        }
-    \end{align*}
-    \pause
-    \pause
-    \pause
-    This shows $\Leftarrow$.
-\end{frame}
-
-\begin{frame}
-    \begin{definition}
-        The \emph{j-invariant} is
-        \begin{equation*}
-            j(E) := \frac {(-48A)^3} {\Delta(E)} = \frac {(-48A)^3} {-16(27B^2 + 4A^3)}
-        \end{equation*}
-    \end{definition}
-    \begin{theorem}
-        Two elliptic curves $E, E'$ are isomorphic if and only if $j(E) = j(E')$.
-    \end{theorem}
-    \textit{Proof Sketch:} Let $\phi: E \to E'$ isomorphism.
-    \pause
-    \begin{align*}
-        \text{Riemann-Roche Theorem} \ \Rightarrow \ \text{$\phi$ is linear}
-    \end{align*}
-    \pause
-    So $\phi = [\lambda_1 x + \lambda_2 y + \lambda_3, \ \mu_1 x + \mu_2 y + \mu_3]$
-    \pause
-    \begin{align*}
-        \text{only monomial with $y$ is $y^2$} \ &\Rightarrow \ \lambda_1 = \lambda_3 = 0 \\
-        \uncover<5->{
-            \text{no $x^2$ monomial} \ &\Rightarrow \ \mu_2 = \mu_3 = 0
-        }
-    \end{align*}
-    \pause
-    \pause
-    Let $u^2 = \mu_1$, then $\phi(x, y) = (u^2x, u^3y)$ .... $\hfill\square$
-    \\~
 \end{frame}
 
 \section{The Group Structure}
@@ -550,32 +453,6 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \begin{equation*}
         \text{Claim:} \ E / \langle A, B \rangle \cong E / \langle B \rangle / \langle A' \rangle
     \end{equation*}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Correctness SIDH}
-    
-    \begin{center}
-        \includegraphics{scheme2_6.pdf}
-    \end{center}
-    \begin{equation*}
-        \text{Claim:} \ E / \langle A, B \rangle \cong E / \langle B \rangle / \langle A' \rangle
-    \end{equation*}
-    \begin{align*}
-        &A' := \beta(A) = m_A\beta(P_A) + n_A\beta(Q_A), \quad 
-        \uncover<2->{
-            \alpha': E/\langle B \rangle \to E/\langle B \rangle / \langle A' \rangle & \\
-        }
-        \uncover<3->{
-            \Rightarrow \ & \beta^{-1}(\{A'\}) = \langle B \rangle + A \quad
-        }
-        \uncover<4->{
-            \Rightarrow \ \ker(\alpha' \circ \beta) = \beta^{-1}(\ker \alpha') = \langle A, B \rangle & \\
-        }
-        \uncover<5->{
-            \Rightarrow \ & E / \langle A, B \rangle \cong E / \langle B \rangle / \langle A' \rangle, \ \text{hence the j-invariants are equal} &\square
-        }
-    \end{align*}
 \end{frame}
 
 \begin{frame}
