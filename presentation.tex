@@ -39,7 +39,7 @@
 \frametitle{Elliptic Curves}
 Let $K$ be a field of characteristic $\neq 2, 3$.
 \begin{definition}
-    A (possibly nonsmooth) \emph{elliptic curve} $E$ is the zero set
+    A (possibly non-smooth) \emph{elliptic curve} $E$ is the zero set
     \begin{equation*}
         \{ (x, y) \ | \ F(x, y) = 0 \} \subseteq \bar{K}^2
     \end{equation*}
@@ -72,7 +72,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
             \end{axis}
         \end{tikzpicture}
 
-        points of $E: x^3 - 2x + 1$ in $\R^2$
+        points of $E: y^2 = x^3 - 2x + 1$ in $\R^2$
     \end{column}
     \begin{column}{0.49\textwidth}
         \pause
@@ -88,7 +88,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
             \end{axis}
         \end{tikzpicture}
 
-        points of $E: x^3 - 3x + 2$ in $\R^2$
+        points of $E: y^2 = x^3 - 3x + 2$ in $\R^2$
     \end{column}
 \end{columns}
 \end{frame}
@@ -128,7 +128,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
         \pause
         \item at $(-1, -1) \pause \quad \Rightarrow \quad f(1, 1) = 2$
         \pause
-        \item at $(0, 1) \pause \quad \Rightarrow \quad f(0, 1) = -2$
+        \item at $(0, 1) \pause \quad \Rightarrow \quad f(0, 1) = -\frac 1 2$
     \end{itemize}
     \pause
     \vspace{2ex}
@@ -222,6 +222,19 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \begin{equation*}
         j(E) = \frac {110592} {-368} = \frac {6912} {23}, \quad j(E') = \frac {7077888} {-23552} = \frac {6912} {23}
     \end{equation*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{j-invariant}
+    \begin{definition}
+        The \emph{j-invariant} is
+        \begin{equation*}
+            j(E) := \frac {(-48A)^3} {\Delta(E)} = \frac {(-48A)^3} {-16(27B^2 + 4A^3)}
+        \end{equation*}
+    \end{definition}
+    \begin{theorem}
+        $E \cong E'$ if and only if $j(E) = j(E')$
+    \end{theorem}
 \end{frame}
 
 \section{The Group Structure}
@@ -423,7 +436,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
 \end{frame}
 
 \begin{frame}
-    \frametitle{SIDH}
+    \frametitle{Supersingular Isogeny Diffie-Hellman}
 
     \begin{theorem}
         Let $E$ be supersingular, defined over $\F_{p^2}$. If $j(E) \neq 0, 1728$ then 
