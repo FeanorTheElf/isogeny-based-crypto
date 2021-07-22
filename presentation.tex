@@ -21,6 +21,7 @@
 
 \newtheorem{prob}{Problem}
 
+\pgfplotsset{compat=1.16}
 \pgfplotsset{every x tick label/.append style={font=\tiny}}
 \pgfplotsset{every y tick label/.append style={font=\tiny}}
 
@@ -102,7 +103,7 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \begin{definition}
         Let $E: y^2 = x^3 + Ax + B$ be an elliptic curve. Then 
         \begin{equation*}
-            K[E] := K[x, y] / (F), \quad F(x, y) = y^2 - x^3 - Ax - B
+            K[E] := K[x, y] / (F), \quad F(x, y) = y^2 - x^3 - A x - B
         \end{equation*}
         is the \emph{coordinate ring} of $E$.
     \end{definition}
@@ -146,13 +147,13 @@ Let $K$ be a field of characteristic $\neq 2, 3$.
     \pause
     \vspace{2ex}
     \begin{itemize}
-        \item $f(x, y), g(x, y)$ must fulfill the equation of $E'$ for all $(x, y) \in E$
-        \\$\Rightarrow \ f, g$ fulfill the equation of $E'$ in $K(E)$ (Hilbert's Nullstellensatz)
+        \item $f(x, y), g(x, y)$ must satisfy the equation of $E'$ for all $(x, y) \in E$
+        \\$\Rightarrow \ f, g$ satisfy the equation of $E'$ in $K(E)$ (Hilbert's Nullstellensatz)
         \pause
         \item Define $\O := (\frac {\neq 0} 0, *) = (*, \frac {\neq 0} 0) = (\frac {\neq 0} 0, \frac {\neq 0} 0)$
         \\$\Rightarrow$ one can always define $f(x, y), \ g(x, y) \in E'$
         \pause
-        \item Write $\phi = [f, g]$
+        \item If $f, g \in K(E)$ say $\phi$ is defined over $K$
         \pause
         \item What about $\phi(\O)$?
     \end{itemize}
