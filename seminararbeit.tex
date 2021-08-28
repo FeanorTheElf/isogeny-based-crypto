@@ -20,7 +20,7 @@
 \usetikzlibrary{babel, positioning, shapes.geometric, arrows, arrows.meta}
 \addbibresource{bibliography.bib}
 
-\title{The Supersingular Diffie-Hellmann Key Exchange protocol}
+\title{SIKE - A key exchange scheme based on Supersingular Elliptic Curves}
 \author{Simon Pohmann}
 
 \newcommand{\N}{\mathbb{N}}
@@ -46,21 +46,37 @@
 
 \section{Elliptic Curves}
 
-\subsection{The geometric point of view}
+\subsection{Elliptic Curves as (projective) Varieties}
+
+For this work, we define elliptic curves as certain varieties in the projective plane over $\bar{K}$ as follows.
 
 \begin{definition}
     A (possibly nonsmooth) elliptic curve $E$ defined over a field $K$ is the (projective) zero set
     \begin{equation*}
-        E = \{ (x : y : 1) \ | \ y^2 + a_1 xy + a_3 y = x^3 + a_2 x^2 + a_4 x + a_6 \} \cup \{ \O \} \subseteq \mathbb{P}_{\bar{K}}^2
+        E = \mathcal{Z}_{\bar{K}}(Y^2Z + a_1 XYZ + a_3 YZ^2 - X^3 - a_2 X^2 Z - a_4 X Z^2 - a_6 Z^3) \subseteq \mathbb{P}_{\bar{K}}^2
     \end{equation*}
-    of some irreducible polynomial $F(x, y) = y^2 + a_1 xy + a_3 y - x^3 - a_2 x^2 - a_4 x - a_6 \in K[x, y]$. 
-    This equation is called a Weierstraß equation defining $E$.
-    The point $\O := (0 : 1 : 0)$ here is the point at infinity of the elliptic curve.
+    of some irreducible polynomial $Y^2Z + a_1 XYZ + a_3 YZ^2 - X^3 - a_2 X^2 Z - a_4 X Z^2 - a_6 Z^3 \in K[X, Y, Z]$.
+    The point $\O := (0 : 1 : 0) \in E$ is called the point at infinity of the elliptic curve.
 \end{definition}
+
+It is convention to define an Elliptic Curve by the dehomogenization
+\footnote{For a homogeneous polynomial $f \in K[x, y, z]$ the dehomogenization is $f(x, y, 1)$, denoted by $f^{\mathrm{deh}}$.}  
+of its defining polynomials, i.e. say that the curve $E$ is defined by the equation
+\begin{equation*}
+    E: \ Y^2 + a_1 XY + a_3 Y = X^3 + a_2 X^2 + a_4 X + a_6
+\end{equation*}
+By homogenizing the polynomial equation, one can retrieve the original homogeneous polynomial, so this representation defines the Elliptic Curve uniquely.
+
+Readers that are not used to working with projective geometry may also think of an Elliptic Curve as the (affine) set of solutions of this equation, together with a dedicated point $\O$ ``at infinity''.
+Using this point of view, we will also identify affine points $(x, y)$ with $(x : y : 1)$.
+
+Usually, one only considers elliptic curves that are smooth. 
+This is a property that can be defined for all varieties, but here we will only give a definition applicable only to elliptic curves.
+This relies on the so-called discriminant of an elliptic curve.
 
 \begin{definition}
     \label{def:discriminant}
-    A (possibly nonsmooth) elliptic curve $E$ defined by $y^2 + a_1 xy + a_3 y = x^3 + a_2 x^2 + a_4 x + a_6$ is called smooth, if the discriminant
+    A (possibly nonsmooth) elliptic curve $E$ defined by $Y^2 + a_1 XY + a_3 Y = X^3 + a_2 X^2 + a_4 X + a_6$ is called smooth, if the discriminant
     \begin{align*}
         \Delta(E) = & - b_2^2 b_8 - 8 b_4^3 - 27 b_6^2 + 9 b_2 b_4 b_6 \\
         \text{where} \ & b_2 = a_1^2 + 4 a_2 \\
@@ -71,109 +87,126 @@
     is nonzero. In this work, the term ``elliptic curve'' will be used for smooth elliptic curves.
 \end{definition}
 
-As elliptic curves are given as the zero set (or locus) of a polynomial, they are algebraic varieties and many properties can be studied using Algebraic Geometry.
-In the more general context of Algebraic Geometry, an elliptic curve is usually defined as a smooth projective curve of genus 1.
-As shown in \cite[III Prop 3.1]{arithmetic_elliptic_curves}, each elliptic curve by this definition is isomorphic to an elliptic curve defined by a Weierstraß equation.
-Here ``isomorphic'' refers to $K$-variety isomorphisms in the sense of Algebraic Geometry.
-As this is a fundamental notion, we will state the required special case here.
+One can now check by a lengthy computation that having a nonzero discriminant is equivalent to having a well-defined tangent line at every point.
+For the sake of brevity, we will only perform this computation for a simpler case later.
+
+\subsection*{Isogenies}
+
+In this section, we will introduce the notion of an isogeny, which are the structure-preserving maps between Elliptic Curves.
+A crucial part of this definition are morphisms, which are the structure-preserving maps in the category of algebraic varieties.
+Their theory is quite wide, and anything further than giving the definitions and some basic facts is beyond the scope of this work.
+The interested reader is advised to refer to a book on Algebraic Geometry.
+However, we try to give sufficient intuition that one can follow the rest of this work without a background in Algebraic Geometry.
 
 \begin{definition}
-    For a (projective) algebraic variety $V \subseteq \mathbb{P}_{\bar{K}}^2$ given as the zero set of an ideal $I \leq K[x, y, z]$, its (projective) coordinate ring is given as $K^+[V] := K[x, y, z] / I$.
+    \label{def:rational_map}
+    Given irreducible varieties $V = \mathcal{Z}_{\bar{K}}(I), W \subseteq \mathbb{P}_{\bar{K}}^2$, a partial map $\phi: V \to W$ is called rational if it is given locally by rational functions.
+    Namely, $\phi$ is rational if there are homogeneous $f_1, f_2, f_3 \in \bar{K}[X, Y, Z]$ of same degree and not all zero such that for each point $(x : y : z) \in V$ at which $\phi$ is defined, there are ``equivalent'' homogeneous polynomials $(g_1, g_2, g_3) \in \bar{K}[X, Y, Z], \ (g_1, g_2, g_3) \sim (f_1, f_2, f_3)$ of same degree such that
+    \begin{align*}
+        (g_1(a), g_2(a), g_3(a)) &\neq (0, 0, 0) \quad \text{and}\\
+        (g_1(a) : g_2(a) : g_3(a)) &= \phi((a_1 : a_2 : a_0))
+    \end{align*}
+    where $a = (x, y, z)$.
+
+    Here we define equivalence as $(f_1, f_2, f_3) \sim (g_1, g_2, g_3)$ if $f_i g_j = f_j g_i \mod I$ for all $i, j$.
+    We use the notation $\phi = [f_1^{\mathrm{deh}} / f_3^{\mathrm{deh}}, f_2^{\mathrm{deh}} / f_3^{\mathrm{deh}}, 1]$
+    \footnote{Note that $f$ corresponds to $f^{\mathrm{deh}}$ uniquely except for scaling by $z$, but scaling by $z$ does not change the defined rational map. This ``affine'' notation corresponds to the use of dehomogenized polynomials for defining Elliptic Curves.}.
+    The rational map is said to be defined over $K$, if $f_1, f_2, f_3 \in K[X, Y, Z]$.
 \end{definition}
 
-\begin{definition}
-    Given irreducible varieties $V, W \subseteq \mathbb{P}_{\bar{K}}^2$, a partial map $\phi: V \to W$ is called rational if it is given by rational functions.
-    Namely, $\phi$ is rational if there are homogeneous $f_1, f_2, f_3 \in \bar{K}^+[V]$ of same degree and not all zero such that for each point $(x : y : z)$ at which $\phi$ is defined, there are ``equivalent'' homogeneous polynomials $(g_1, g_2, g_3) \in \bar{K}^+[V], \ (g_1, g_2, g_3) \sim (f_1, f_2, f_3)$ such that
-    \begin{equation*}
-        (g_1(x, y, z) : g_2(x, y, z) : g_3(x, y, z)) \ \text{is nonzero and equal to $\phi(x : y : z)$}
-    \end{equation*}
-    Here we define equivalence as $(f_1, f_2, f_3) \sim (g_1, g_2, g_3)$ if $f_i g_j = f_j g_i$ for all $i, j$.
-    We use the notation $\phi = [f_1, f_2, f_3]$ or $\phi = [f_1^{\mathrm{deh}}, f_2^{\mathrm{deh}}, f_3^{\mathrm{deh}}]$ or $\phi = [f_1^{\mathrm{deh}} / f_3^{\mathrm{deh}}, f_2^{\mathrm{deh}} / f_3^{\mathrm{deh}}, 1]$
-    \footnote{For a homogeneous polynomial $f \in K[x, y, z]$ the notation $f^{\mathrm{deh}}$ is the dehomogenization $f(x, y, 1)$. Note that $f$ corresponds to $f^{\mathrm{deh}}$ uniquely except for scaling by $z$, but scaling by $z$ does not change the defined rational map.}.
-    The rational map is said to be defined over $K$, if $f_1, f_2, f_3 \in K^+[V]$.
-\end{definition}
+This definition is quite technical, as it is local in nature.
+The intuition is that each coordinate of such a map is given by a quotient of polynomials
+(or, as projective points are invariant under scaling of their coefficients, just by polynomials).
+However, this means we cannot define a correct value for the map if evaluating the polynomials yields ``$\frac 0 0$'' or ``$(0 : 0 : 0)$''.
+Now one can define such a polynomial function on a somewhat bigger set by using a local definition as explained above:
+We use different ``representations'' by polynomials for different subsets of the domain on which they are defined, and require that two of them coincide on points at which both are defined.
+For more information, the reader should refer to a book on Algebraic Geometry.
 
-This definition is quite technical, as for well-definedness, we require that no denominator polynomial evaluates to 0 and do not get the projective (non-)point $(0 : 0 : 0)$. 
-
-The intuition is that each component of a rational map is given by a quotient of polynomials.
-If we want to evaluate the map at a point where the quotient is not well-defined, then we are allowed to ``fix'' it by dividing out a corresponding polynomial factor from all components.
-This dividing out of a corresponding polynomial factor does not change the ratio of two homogeneous components, hence it does not change the projective point.
-As $\bar{K}[V]$ is not a UFD, defining this division is not straightforward. 
-Instead, we define a tuple of polynomials as equivalent, if the ratio of different components is the same in the coordinate ring.
-Now equivalent polynomial tuples can be obtained from each other by some kind of ``abstract'' division.
+Note that we still defined rational maps as partial maps, i.e. although we use a local definition, it is possible that no value is defined for a certain point.
+Rational maps that are not partial are then the ``nice'' maps of Algebraic Geometry.
 
 \begin{definition}
     A rational map between varieties that is defined everywhere is called morphism. If it is bijective and its inverse is a morphism, it is called a variety isomorphism.
 \end{definition}
 
-These definitions are the general ones from Algebraic Geometry. In the case of elliptic curves however, some parts are simpler than in the general case.
-For example, if the domain is a smooth (elliptic) curve, then each rational map is a morphism (see \cite[II Prop 2.1]{arithmetic_elliptic_curves}).
-Furthermore, elliptic curves have only one point at infinity, with the result that we can introduce ``special rules'' for $\O$ and forget about the description of points at infinity that is given by projective geometry.
-This is described in the next section.
+As we will see in the next part, Elliptic Curves contain more structure than just the geometric one.
+Thus we will work with the stronger notion than that of a morphism.
 
-\subsection{The affine point of view}
+\begin{definition}
+    A morphism $\phi$ between Elliptic Curves $E_1, E_2$ is called isogeny, if $\phi(\O) = \O$.
+    A bijective isogeny whose inverse is also an isogeny is called isomorphism.
+\end{definition}
 
-Because of many reasons, projective geometry is the ``correct'' way to describe varieties, hence elliptic curves are usually defined as projective curves.
-To deal with geometric properties of elliptic curves, we will also use the theory of Algebraic Geometry, which heavily relies on projective geometry.
-In such a setting, different points on the curve are indistinguishable. 
-However, much of the theory of elliptic curves requires a distinguished point.
-By defining this point to be ``the point at infinity'', we will not require the rules for working at infinity.
-This is not really an affine setting, as we still (and need) the point at infinity, but working in this setting often feels like an affine one.
-It is also the convention that the notation focuses on this point of view (as one can already see from our previous definition, which uses non-homogeneous polynomials and ideals).
-In this section, we embed $\bar{K}^2 \to \mathbb{P}, \ (x, y) \mapsto (x : y : 1)$.
+Similar to the convention of defining Elliptic Curves by dehomogenized polynomials, we will use a notation that does not rely on homogeneous coordinates.
+For this, we require the coordinate ring of an Elliptic Curve, which is the ring of ``polynomial functions'' defined on the curve.
 
-\begin{remark}
-    A (possibly nonsmooth) elliptic curve $E$ defined over a field $K$ is the affine zero set
+\begin{definition}
+    Let $E$ be an Elliptic Curve defined by the polynomial $F(X, Y) = Y^2 + a_1 XY + a_3 Y - X^3 - a_2 X^2 - a_4 X - a_6$.
+    Then the ring $K[E] := K[X, Y] / (F(X, Y))$ is called the (affine) coordinate ring of $E$.
+    Its field of fractions is called the function field of $E$ and denoted by $K(E)$.
+\end{definition}
+
+\begin{prop}
+    Let $E_1, E_2$ be Elliptic Curves and $\phi: E_1 \to E_2$ be a map with $\phi(\O) = \O$.
+    Then the following are equivalent:
+    \begin{itemize}
+        \item $\phi$ is an isogeny
+        \item There are elements $u, v \in K(E)$ such that for all $a = (x, y) \in E$ there are polynomials $g_1, g_2, g_3 \in K[X, Y]$ with
+        \begin{equation*}
+            \frac {\overline{g_1}} {\overline{g_3}} = u, \ \frac {\overline{g_2}} {\overline{g_3}} = v \quad \text{in $K(E)$}
+        \end{equation*}
+        and
+        \begin{equation*}
+            g_3(a) \neq 0, \ \phi(a) = \Bigl( \frac {g_1(a)} {g_3(a)}, \frac {g_2(a)} {g_3(a)} \Bigr) \quad \text{or} \quad (g_1(a), g_2(a)) \neq (0, 0), \ \phi(a) = \O
+        \end{equation*}
+    \end{itemize}
+    In this case we use the notation $\phi = [u, v, 1]$.
+\end{prop}
+\begin{proof}
+    For $\Leftarrow$ we have to show that $\phi$ is an isogeny, i.e. show the condition from \ref{def:rational_map}.
+    Let $f_1, f_2, f_3 \in K[X, Y, Z]$ homogeneous of same degree such that $f_1^{\mathrm{deh}} / f_3^{\mathrm{deh}}$ is a representative of $u$ and $f_2^{\mathrm{deh}} / f_3^{\mathrm{deh}}$ is a representative of $v$.
+    For a point $(x : y : z) \neq \O$ we have wlog that $z = 1$, so $(x : y : z) = (x, y)$.
+    
+    Let now be $g_1, g_2, g_3 \in K[X, Y]$ the polynomials given by the assumption and $d = \max \{ \deg g_1, \deg g_2, \deg g_3 \}$.
+    Then the polynomials $g_i' := g_i^{\mathrm{hom}} Z^{d - \deg g_i}$ are equivalent to $f_1, f_2, f_3$ as in \ref{def:rational_map}.
+    If $g_3(a) \neq 0$ have
     \begin{equation*}
-        \{ (x, y) \in \bar{K}^2 \ | \ y^2 + a_1 xy + a_3 y = x^3 + a_2 x^2 + a_4 x + a_6 \} \subseteq \bar{K}^2
+        \phi(a) = \Bigl( \frac {g_1(a)} {g_3(a)}, \frac {g_2(a)} {g_3(a)} \Bigr) = ( g_1(a) : g_2(a) : g_3(a) )
+    \end{equation*} 
+    and clearly $(g_1(a), g_2(a), g_3(a)) \neq (0, 0, 0)$.
+
+    Otherwise have $\phi(a) = \O$ and $g_3 = 0, \ (g_1(a), g_2(a)) \neq (0, 0)$.
+    Thus clearly\\$(g_1(a), g_2(a), g_3(a)) \neq (0, 0, 0)$ and $p := (g_1(a) : g_2(a) : g_3(a)) = (g_1(a) : g_2(a) : 0)$ is a point on the hyperplane at infinity $H = \mathcal{Z}_{\bar{K}}(Z)$.
+    As $H \cap E = \{ \O \}$ get $p = \O$ and thus $\phi(a) = \O = (g_1(a) : g_2(a) : g_3(a))$.
+
+    The direction $\Rightarrow$ works similarly, but instead of homogenizing the polynomials from the assumption we dehomogenize them, i.e. we choose
+    \begin{equation*}
+        u = \frac {\overline{f_1^{\mathrm{deh}}}} {\overline{f_3^{\mathrm{deh}}}}, \ v = \frac {\overline{f_2^{\mathrm{deh}}}} {\overline{f_3^{\mathrm{deh}}}} \quad \text{and} \quad g_i' = g_i^{\mathrm{deh}}
     \end{equation*}
-    of some irreducible polynomial $F(x, y) = y^2 + a_1 xy + a_3 y - x^3 - a_2 x^2 - a_4 x - a_6 \in K[x, y]$ together with a point at infinity $\O := \infty$. 
-\end{remark}
+\end{proof}
 
-\begin{remark}
-    A (possibly nonsmooth) elliptic curve $E$ is called smooth, if its discriminant $\Delta(E)$ (see \ref{def:discriminant}) is nonzero. In this work, the term ``elliptic curve'' will be used for smooth elliptic curves.
-\end{remark}
+\begin{prop}
+    Let $E_1, E_2$ be Elliptic Curves such that $E_2$ is defined by the equation $F(X, Y) = 0$ for $F \in \bar{K}[X, Y]$ and let $u, v \in \bar{K}(E_1)$ with $F(u, v) = 0 \in \bar{K}(E_1)$.
+    Then there is a unique isogeny $\phi: E_1 \to E_2$ such that $\phi = [u, v, 1]$.
+\end{prop}
+\begin{proof}
+    The uniqueness is clear, as each representative of $u$ resp. $v$ yields the same value when evaluated at a point on the curve.
+    To show the existence, it suffices to show that for each $a = (a_1, a_2) \in E_1$ there are polynomials $g_1, g_2, g_3 \in K[X, Y]$ such that $g_1/g_3$ and $g_2/g_3$ are representatives of $u$ resp. $v$ and $(g_1(a), g_2(a), g_3(a)) \neq (0, 0, 0)$.
+    These polynomials $g_1, g_2, g_3$ then give a well-defined value for $\phi(a)$.
 
-Now we come to rational maps and morphisms. First, we require the affine coordinate ring of an elliptic curve.
-To be precise, for an elliptic curve $E$ this is the affine coordinate ring of the affine variety $E \cap \bar{K}^2$.
-But as we will fix the embedding $(x, y) \mapsto (x : y : 1)$ we will just call it ``the'' affine coordinate ring.
-
-\begin{definition}
-    The affine coordinate ring of an elliptic curve defined by $F(x, y) := y^2 + a_1 xy + a_3 y - x^3 - a_2 x^2 - a_4 x - a_6 = 0$ is given as $\bar{K}[E] := \bar{K}[x, y] / (F(x, y))$.
-    We denote its quotient field by $\bar{K}(E)$.
-\end{definition}
-
-Note that we may evaluate elements $f \in K[E]$ at points $(x, y) \in E$, as each representative in the equivalence class will evaluate to the same value at $(x, y)$.
-
-The definition of rational maps is somewhat problematic now, as rational maps in general may map $\O$ to a point ``not at infinity''.
-However, by considering only rational maps that map $\O$ to $\O$, we can eliminate this problem.
-In fact, as the point at infinity has a special role in the theory of elliptic curves, these are also the maps that are most interesting, and thus deserve a new name.
-
-\begin{definition}
-    \label{def:isogeny}
-    A morphism between elliptic curves $\phi: E \to E'$ that maps $\phi(\O) = \phi(\O)$ is called isogeny.
-\end{definition}
-
-We will also use the term ``isomorphism'' for variety isomorphisms that map $\O$ to $\O$.
-Maps that are isomorphisms only in the geometric sense (i.e. bijective morphisms whose inverse is a morphism) will be called variety isomorphisms.
-We will rarely use them.
-
-\begin{definition}
-    A bijective isogeny whose inverse is also an isogeny is called isomorphism (between elliptic curves).
-\end{definition}
-
-Now we can find an ``affine'' characterization:
-
-\begin{remark}
-    A non-constant map $\phi: E \to E'$ between elliptic curves is an isogeny, if and only if it fulfills the following condition:
-    There are elements $f_1, f_2, g \in \bar{K}[E], g \neq 0$ such that for all points $(x, y) \in \bar{K}^2$, there are $f_1', f_2', g' \in \bar{K}[E], g' \neq 0$ with
-    \begin{align*}
-        \left(\frac {f_1'} {g'}, \frac {f_2'} {g'}\right) = \left(\frac {f_1} g, \frac {f_2} g\right) \ &\text{in $K(E)$ and} \\
-        \left(\frac {f_1'(x, y)} {g'(x, y)}, \frac {f_2'(x, y)} {g'(x, y)}\right) \ &\text{is defined and equal to $\phi(x, y)$}
-    \end{align*}
-    Here we say that only $(\frac 0 0, \frac 0 0)$ is not defined, and let $(\frac a 0, \frac b 0) := \O = \infty$ for $(a, b) \neq (0, 0)$.
-    We use the notation $\phi = [f_1, f_2, g]$ or $\phi = [f_1 / g, f_2 / g, 1]$.
-\end{remark}
+    As $E_1$ is smooth, we get that the localization $K[E_1]_a$ of $K[E_1]$ at the maximal ideal $(X - a_1, Y - a_2)$ is a discrete valuation domain (\cite[II.1.1]{arithmetic_elliptic_curves}).
+    Hence, $K[E_1]_a$ has a uniformizer $t \in K[E_1]$. 
+    Now let $u = u_1 / u_2$ and $v = v_1 / v_2$ for $u_1, u_2, v_1, v_2 \in K[E_1]$.
+    Then claim the follows with
+    \begin{equation*}
+        g_1 = t^{-d} u_1v_2, \quad g_2 = t^{-d} v_1u_2, \quad g_3 = t^{-d} v_2u_2
+    \end{equation*}
+    where
+    \begin{equation*}
+        d = \min \{ \mathrm{val}_t(u_1v_2), \mathrm{val}_t(v_1u_2), \mathrm{val}_t(v_2u_2) \} \in \N
+    \end{equation*}
+    and $\mathrm{val}_t$ is the valuation is the DVD $K[E_1]_a$.
+\end{proof}
 
 \subsection{A simpler formula}
 
