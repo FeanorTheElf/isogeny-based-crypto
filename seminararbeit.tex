@@ -32,6 +32,7 @@
 
 \newtheorem{prop}{Proposition}[section]
 \newtheorem{theorem}[prop]{Theorem}
+\newtheorem{lemma}[prop]{Lemma}
 \newtheorem{corollary}[prop]{Corollary}
 \newtheorem{alg}[prop]{Algorithm}
 \newtheorem{definition}[prop]{Definition}
@@ -44,9 +45,9 @@
 
 \tableofcontents
 
-\section{Elliptic Curves}
+\section{Elliptic Curves as Varieties}
 
-\subsection{Elliptic Curves as (projective) Varieties}
+\subsection{Definition}
 
 For this work, we define elliptic curves as certain varieties in the projective plane over $\bar{K}$ as follows.
 
@@ -88,9 +89,9 @@ This relies on the so-called discriminant of an elliptic curve.
 \end{definition}
 
 One can now check by a lengthy computation that having a nonzero discriminant is equivalent to having a well-defined tangent line at every point.
-For the sake of brevity, we will only perform this computation for a simpler case later.
+For the sake of brevity, we will not perform the computation in this work.
 
-\subsection*{Isogenies}
+\subsection{Isogenies}
 
 In this section, we will introduce the notion of an isogeny, which are the structure-preserving maps between Elliptic Curves.
 A crucial part of this definition are morphisms, which are the structure-preserving maps in the category of algebraic varieties.
@@ -133,6 +134,7 @@ As we will see in the next part, Elliptic Curves contain more structure than jus
 Thus we will work with the stronger notion than that of a morphism.
 
 \begin{definition}
+    \label{def:isogeny}
     A morphism $\phi$ between Elliptic Curves $E_1, E_2$ is called isogeny, if $\phi(\O) = \O$.
     A bijective isogeny whose inverse is also an isogeny is called isomorphism.
 \end{definition}
@@ -191,7 +193,7 @@ For this, we require the coordinate ring of an Elliptic Curve, which is the ring
 \end{prop}
 \begin{proof}
     The uniqueness is clear, as each representative of $u$ resp. $v$ yields the same value when evaluated at a point on the curve.
-    To show the existence, it suffices to show that for each $a = (a_1, a_2) \in E_1$ there are polynomials $g_1, g_2, g_3 \in K[X, Y]$ such that $g_1/g_3$ and $g_2/g_3$ are representatives of $u$ resp. $v$ and $(g_1(a), g_2(a), g_3(a)) \neq (0, 0, 0)$.
+    To show the existence, it suffices to show that for each $a = (a_1, a_2) \in E_1$ there are polynomials $g_1, g_2, g_3 \in K[X, Y]$ such that $g_1/g_3$ and $g_2/g_3$ are representatives of $u$ resp. $v$ and $(g_1(a), g_2(a), g_3(a)) \neq (0, 0, 0)$ with $(g_1(a) : g_2(a) : g_3(a)) \in E_2$.
     These polynomials $g_1, g_2, g_3$ then give a well-defined value for $\phi(a)$.
 
     As $E_1$ is smooth, we get that the localization $K[E_1]_a$ of $K[E_1]$ at the maximal ideal $(X - a_1, Y - a_2)$ is a discrete valuation domain (\cite[II.1.1]{arithmetic_elliptic_curves}).
@@ -206,6 +208,31 @@ For this, we require the coordinate ring of an Elliptic Curve, which is the ring
         d = \min \{ \mathrm{val}_t(u_1v_2), \mathrm{val}_t(v_1u_2), \mathrm{val}_t(v_2u_2) \} \in \N
     \end{equation*}
     and $\mathrm{val}_t$ is the valuation is the DVD $K[E_1]_a$.
+
+    As we have $F(u, v) = 0 \in K(E_1)$, it follows that 
+    \begin{equation*}
+        \overline{F^{\mathrm{hom}}(g_1/g_3, g_2/g_3, 1)} = \overline{g_3^{-1} \ F^{\mathrm{hom}}(g_1, g_2, g_3)} = 0 \in K(E_1)
+    \end{equation*}
+    and thus
+    \begin{equation*}
+        F^{\mathrm{hom}}(g_1, g_2, g_3)(a) = F^{\mathrm{hom}}(g_1(a), g_2(a), g_3(a)) = 0
+    \end{equation*}
+    This shows that $(g_1(a) : g_2(a) : g_3(a)) \in E_2$.
+\end{proof}
+
+The last theorem is interesting, as it does not hold for general projective varieties.
+Hence, in general there are rational maps that cannot be extended to morphisms.
+For Elliptic Curves however, every rational map with a maximal set of definition is a morphism.
+
+Another interesting fact is that nonconstant isogenies are surjective.
+This will be proven in the next section, by using the following result.
+
+\begin{lemma}
+    \label{prop:finite_kernel}
+    Let $E_1, E_2$ be Elliptic Curves and $\phi: E_1 \to E_2$ a nonconstant isogeny. Then the fiber $\phi^{-1}(\{\O\})$ is finite.
+\end{lemma}
+\begin{proof}
+    As $\phi$ is a morphism, $V := \phi^{-1}(\{\O\})$ is a subvariety of $E_1$. As $E_1$ is irreducible and by assumption $V \neq E_1$, it follows that $V$ is zero-dimensional, so consists of finitely many points.
 \end{proof}
 
 \subsection{A simpler formula}
@@ -345,7 +372,7 @@ This can be done by the so-called j-invariant.
     Now we have $x'^3 + A' x' + B' = y'^2$ and by plugging in the linear transformation $x' = (x - r) / u_1$ and $y' = (y - t - s_2 x') / u_2$ one can compute that $j(E) = j(E')$.
 \end{proof}
 
-\section{The group structure}
+\section{Elliptic Curves as Groups}
 
 Apart from the geometric nature of an elliptic curve, they have additional important structure: Elliptic curves are groups.
 In particular for cryptography, this is crucial. 
@@ -462,7 +489,23 @@ This now gives rise to a group structure.
     Let $E: y^2 = x^3 + Ax + B$ be an elliptic curve. Then we endow $E$ with a group structure, where $\O$ is the neutral element and the map from \ref{prop:group_operation} is the group operation.
 \end{definition}
 
-\section{Isogenies}
+Another property that follows directly is that the so-called rational points form a subgroup.
+
+\begin{definition}
+    Let $E$ be an Elliptic Curve defined over $K$ and let $\bar{K} | L | K$ be a field tower.
+    Then $E(L) := E \cap \mathbb{P}_L^2 = (E \cap L^2) \cup \{ \O \}$ is called the set of $L$-rational points of $E$.
+\end{definition}
+
+\begin{corollary}
+    Let $E$ be an Elliptic Curve defined over $K$ and let $\bar{K} | L | K$ be a field tower.
+    Then $E(L)$ is a subgroup of $E$.
+\end{corollary}
+\begin{proof}
+    We only have to show that $E(L)$ is closed under $+$. 
+    However by \ref{prop:group_operation} the coordinates of a sum of two points are given by a rational function of the summand coordinates, so stay in $L$.
+\end{proof}
+
+\section{Isogenies and the Group Structure}
 
 In \ref{def:isogeny} we have already defined what an isogeny is.
 Since this work is about isogeny-based cryptography, they will play a crucial role in the following parts.
@@ -478,7 +521,7 @@ A very fascinating and fundamental result is that isogenies are group homomorphi
     \begin{equation*}
         \psi^*: \bar{K}[E'] \to \bar{K}[E], \quad \overline{f} \mapsto \overline{f^{\mathrm{hom}}\left(\psi_1, \psi_2, \psi_3\right)}
     \end{equation*}
-    This is well-defined, as if $\overline{f} = \overline{g} \in \bar{K}[E']$, then $f - g$ vanishes on $E'$ an thus $f(\psi_1, \psi_2, \psi_3) - g(\psi_1, \psi_2, \psi_3)$ vanishes everywhere, thus is zero.
+    This is well-defined, because if $\overline{f} = \overline{g} \in \bar{K}[E']$, then $f - g$ vanishes on $E'$ an thus $f(\psi_1, \psi_2, \psi_3) - g(\psi_1, \psi_2, \psi_3)$ vanishes everywhere, thus is zero.
     Note that
     \begin{equation*}
         f^{\mathrm{hom}}(\psi_1, \psi_2, \psi_3) = \psi_3^d \ f\left(\frac {\psi_1} {\psi_3}, \frac {\psi_2} {\psi_3}\right) \ \text{for some} \ d \in \N
@@ -503,17 +546,16 @@ A very fascinating and fundamental result is that isogenies are group homomorphi
     The claim follows.
 \end{proof}
 
-\begin{prop}
-    Let $E, E'$ be elliptic curves and $\psi: E \to E'$ a nonconstant isogeny. Then $\ker\psi \subseteq E$ is finite.
-\end{prop}
+With this, a fact mentioned earlier directly follows:
+\begin{corollary}
+    \label{prop:isogeny_surjective}
+    Let $\psi: E_1 \to E_2$ be a nonconstant isogeny between Elliptic Curves. Then $\psi$ is surjective.
+\end{corollary}
 \begin{proof}
-    The fiber
-    \begin{equation*}
-        V := \ker\psi = \psi^{-1}(\{ \O \})
-    \end{equation*}
-    is a variety (it is the intersection of $Z(\langle \psi_1, \psi_3, \psi_2 - 1 \rangle) \cup Z(\langle \psi_1, \psi_2, \psi_3 \rangle)$, where $(\psi_1, \psi_2, \psi_3)$ runs through all representations of $\psi$, because for each preimage point, there is a representation such that the point is not in $Z(\langle \psi_1, \psi_2, \psi_3\rangle)$).
-
-    We have $E \not\subseteq V$ as $\psi$ is nonconstant. So $E$ is a proper subvariety of $E$, an as $E$ is irreducible, it follows that $V$ is 0-dimensional, hence finite.
+    Assume $\psi$ would not be surjective. By the Main Theorem of Elimination theory, its image $\mathrm{im}\psi$ then is a proper subvariety of $E_2$, and as $E_2$ is irreducible, it must be zero-dimensional.
+    Hence $\mathrm{im}\psi$ is finite, but by \ref{prop:finite_kernel} also $\ker\psi$ is finite.
+    By the isomorphism theorem, it follows that $E_1$ must be finite, as $E_1/\ker\psi \cong \mathrm{im}\psi$.
+    However $K$ is algebraically closed, so $E_1$ is infinite, a contradiction.
 \end{proof}
 
 The map $\psi^*$ considered in \ref{prop:isogeny_homomorphism} is indeed quite important, as it induces a field extension
@@ -534,35 +576,9 @@ This is not fundamental for the cryptosystem we consider later, but keeping it i
     Let $E$ be an elliptic curve and $\Phi \subseteq E$ a finite subgroup. Then there is a unique elliptic curve $E' = E/\Phi$ (up to isomorphism) and a unique separable isogeny $\phi: E \to E'$ with kernel $\Phi$.
 \end{prop}
 \begin{proof}
-    We present the proof from \cite[III.4.12]{arithmetic_elliptic_curves}. However, it heavily relies on some strong results from Algebraic Geometry that we cannot present in this work.
-
-    For $T \in \Phi$ consider the translation-by-$T$ map
-    \begin{equation*}
-        \tau_T: E \to E, \quad P \mapsto P + T
-    \end{equation*}
-    As discussed earlier, this is a variety-isomorphism (only in the sense of Algebraic Geometry) and thus given by $\tau_T = [\tau_1, \tau_2, \tau_3]$. Hence it induces a field isomorphism
-    \begin{equation*}
-        \tau_T^*: \bar{K}(E) \to \bar{K}(E), \quad \overline{f} \mapsto \overline{\tau_3^{\deg f} f\left( \frac {\tau_1} {\tau_3}, \frac {\tau_2} {\tau_3} \right)}
-    \end{equation*}
-    Let $\bar{K}(E)^\Phi$ be the subfield of $\bar{K}(E)$ fixed by all $\tau_T^*$ for $T \in \Phi$. Now the Galois group is $\mathrm{Gal}(\bar{K}(E) | \bar{K}(E)^\Phi) = \Phi$.
-    As this extension is finite, $\bar{K}(E)^\Phi$ has transcendence degree 1 over $\bar{K}$. We want to construct an isogeny $\phi: E \to E'$ with $\phi^*\bar{K}(E') = \bar{K}(E)^\Phi$.
-
-    From \cite[II.2.4c]{arithmetic_elliptic_curves} we get that there is a unique smooth curve $C$ defined over $\bar{K}$ and a morphism $\phi: E \to C$ with $\phi^*\bar{K}(C) = \bar{K}(E)^\Phi$.
-    As $\phi^*\bar{K}(C)$ is invariant under $\tau_T^*$, have for $f \in \bar{K}(C)$ that
-    \begin{equation*}
-        f(\phi(P + T)) = (\tau_T^* \circ \phi^*)(P) = (\phi^*f)(P) = f(\phi(P))
-    \end{equation*}
-    Thus $\phi(P + T) = \phi(P)$. For $P \in E$ and $Q = \phi(P)$ we hence have
-    \begin{equation*}
-        \phi^{-1}(Q) \supseteq P + \Phi \ \text{so} \ \#\phi^{-1}(Q) \geq \#\Phi
-    \end{equation*}
-    And by \cite[II.2.6a]{arithmetic_elliptic_curves} it follows that
-    \begin{equation*}
-        \#\phi^{-1}(Q) \leq \deg\phi = \#\Phi
-    \end{equation*}
-    with equality if and only if $\phi$ is unramified in $Q$.
-    So we get that $\phi$ is unramified everywhere, and the Hurwitz genus formula (\cite[II.5.9]{arithmetic_elliptic_curves}) implies that $C$ is an elliptic curve.
-    Defining $\phi(\O)$ as the point at infinity of $C$ yields the claim (equivalently, compose $\phi$ with $\tau_{-\phi(\O)}$).
+    See e.g. \cite[III.4.12]{arithmetic_elliptic_curves}.
+    The proof proceeds by first constructing a field extension $\bar{K}(E)|L$ using Galois theory and then finds a morphism $\phi$ with $L = \phi^*\bar{K}(E)$.
+    However, in many places the required Algebraic Geometry is beyond the scope of this work.
 \end{proof}
 
 As this curve is of fundamental importance, we introduce a new notation for it.
@@ -571,8 +587,7 @@ As this curve is of fundamental importance, we introduce a new notation for it.
     Let $E$ be an elliptic curve and $G \leq E$ a finite subgroup. Then the unique elliptic curve $E'$ such that there is an isogeny $E \to E'$ with kernel $G$ is denoted by $E/G := E'$.
 \end{definition}
 
-We will not prove it in this work, but nonconstant isogenies are always surjective.
-This motivates the notation $E/G$, as the group structure of this curve is then equal to the quotient group structure on $E$ by $G$ by the isomorphism theorem.
+This notation is compatible with the notation for a quotient group, as \ref{prop:isogeny_surjective} and the isomorphism theorem show that the group structure on the image Elliptic Curve matches the quotient group structure.
 
 This last theorem is a fundamental component in the construction of isogeny based cryptosystems.
 For this, a non-constructive proof as in \ref{prop:unique_isogeny} is not sufficient however, as we have to be able to compute the elliptic curve $E/\Phi$ and the corresponding isogeny efficiently.
@@ -594,14 +609,72 @@ Partly, this can be done by the famous Vélu formulas.
     (Here $x(P)$ resp. $y(P)$ are the $x$-resp. $y$-coordinates of $P \in \bar{K}^2$)
 \end{prop}
 \begin{proof}
-    Clearly $y^2 = x^3 + A'x + B'$ defines an elliptic curve and the map
-    \begin{align*}
-        \phi: E &\to E/G, \quad P \in G \mapsto \O \\
-        P \not\in G &\mapsto \Bigl( x(P) + \sum_{Q \in G \setminus \{\O\}} x(P + Q) - x(Q), \quad y(P) + \sum_{Q \in G \setminus \{\O\}} y(P + Q) - y(Q) \Bigr)
-    \end{align*}
-    is a morphism (as discussed earlier, the translation-by-$Q$ map is a morphism).
-    So it is left to show that $\phi$ is well-defined (in the sense that it maps to $E/G$), that it is separable and that its kernel is $G$.
-    Then the claim follows by the uniqueness of \ref{prop:unique_isogeny}.
+    By the uniqueness of \ref{prop:unique_isogeny} it suffices to show that the given morphism maps to this Elliptic Curve and has the specified kernel.
+    This is done e.g. in \cite[8.2]{defeo_phd} by a lengthy, but mostly elementary, computation.
+\end{proof}
+
+\section{Supersingular Curves}
+
+An advanced concept in the theory of Elliptic Curves is the distinction of ordinary and supersingular curves.
+These notions are defined in terms of the Endomorphism ring of an Elliptic Curve.
+
+\begin{definition}
+    \label{def:endomorphism_ring}
+    Let $E$ be an Elliptic Curve. Then
+    \begin{equation*}
+        \mathrm{End}(E) := \{ \psi: E \to E \ | \ \psi \ \text{isogeny (defined over $\bar{K}$)} \}
+    \end{equation*}
+    endowed with pointwise addition and composition is called the Endomorphism ring of $E$.
+\end{definition}
+
+True to its name, the Endomorphism ring is a (sometimes non-commutative) ring.
+
+\begin{prop}
+    Let $E$ be an Elliptic Curve. Then $\mathrm{End}(E)$ is a (non-commutative) ring.
+\end{prop}
+\begin{proof}
+    Clearly the zero-map $0: P \mapsto \O$ is an isogeny and neutral w.r.t $+$.
+    The identity $\mathrm{id}_E$ is also an isogeny and neutral w.r.t $\circ$.
+    It is also easy to see that both $+$ and $\circ$ are associative.
+
+    So it is left to show distributivity and the existence of inverse elements w.r.t $+$.
+    Let $\psi_1, \psi_2, \rho \in \mathrm{End}(E)$. Then for all $P \in E$ have
+    \begin{equation*}
+        ((\psi_1 + \psi_2) \circ \rho)(P) = (\psi_1 + \psi_2)(\rho(P)) = \psi_1(\rho(P)) + \psi_2(\rho(P)) = (\psi_1 \circ \rho + \psi_2 \circ \rho)(P)
+    \end{equation*}
+    and
+    \begin{equation*}
+        \rho \circ (\psi_1 + \psi_2)(P) = \rho(\psi_1(P) + \psi_2(P)) = \rho(\psi_1(P)) + \rho(\psi_2(P)) = (\rho \circ \psi_1 + \rho \circ \psi_2)(P)
+    \end{equation*}
+    as $\rho$ is a group homomorphism.
+
+    At last consider the isogeny $-1 := [X, -Y, 1]$. 
+    As $-(x : y : 1) = (x : -y : 1)$ it follows that $-1 + 1 = 0$. 
+    By distributivity, we get that $-1 \circ \psi$ is inverse to $\psi$ w.r.t $+$.
+\end{proof}
+
+Using this, we can define the notion of supersingular curves.
+
+\begin{definition}
+    An Elliptic Curve $E$ over a field $K$ of finite characteristic is called supersingular, if $\mathrm{End}$ is not commutative.
+    Otherwise it is called ordinary.
+\end{definition}
+
+There is a lot of interesting theory on this notion. 
+One usually starts by looking at the Frobenius endomorphism $\pi := [X^q, Y^q, 1] \in \mathrm{End}(E)$ where $E$ is defined over $\mathbb{F}_q$.
+This theory then yields that $\mathrm{End}(E)$ is either isomorphic to an order in a quadratic imaginary number field (the ordinary case), or to a Quaternion Algebra (the supersingular case).
+
+The Endomorphism ring is also important when examining the security of isogeny-based cryptography, but due to its complexity, we cannot present it in this work.
+The interested reader might refer to \cite{arithmetic_elliptic_curves} for an introduction to this theory.
+We will only require the following theorem on the group structure of supersingular Elliptic Curves.
+
+\begin{theorem}
+    Let $E$ be a supersingular Elliptic Curve over a field of characteristic $p$ such that $j(E) \neq 0, 1728$.
+    Then $E(\mathbb{F}_{p^2}) \cong (\Z / (p \pm 1)\Z)^2$.
+\end{theorem}
+\begin{proof}
+    A slightly more general theorem is presented in \cite[Thm 54]{mathematics_isogeny_crypto}.
+    For a proof, see e.g. \cite[Thm 4.2]{structure_supersingular_curve} and \cite[Lemma 4.8]{structure_supersingular_curve}.
 \end{proof}
 
 \section{Supersingular Diffie-Hellmann}
