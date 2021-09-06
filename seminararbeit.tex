@@ -34,6 +34,7 @@
 \newtheorem{theorem}[prop]{Theorem}
 \newtheorem{lemma}[prop]{Lemma}
 \newtheorem{corollary}[prop]{Corollary}
+\newtheorem{problem}[prop]{Problem}
 \newtheorem{alg}[prop]{Algorithm}
 \newtheorem{definition}[prop]{Definition}
 \newtheorem{example}[prop]{Example}
@@ -127,7 +128,8 @@ Note that we still defined rational maps as partial maps, i.e. although we use a
 Rational maps that are not partial are then the ``nice'' maps of Algebraic Geometry.
 
 \begin{definition}
-    A rational map between varieties that is defined everywhere is called morphism. If it is bijective and its inverse is a morphism, it is called a variety isomorphism.
+    A rational map between varieties that is defined everywhere is called morphism. 
+    If it is bijective and its inverse is a morphism, it is called a variety isomorphism.
 \end{definition}
 
 As we will see in the next part, Elliptic Curves contain more structure than just the geometric one.
@@ -153,16 +155,16 @@ For this, we require the coordinate ring of an Elliptic Curve, which is the ring
     Then the following are equivalent:
     \begin{itemize}
         \item $\phi$ is an isogeny
-        \item There are elements $u, v \in K(E)$ such that for all $a = (x, y) \in E$ there are polynomials $g_1, g_2, g_3 \in K[X, Y]$ with
+        \item There are elements $u, v \in \bar{K}(E)$ such that for all $a = (x, y) \in E$ there are polynomials $g_1, g_2, g_3 \in \bar{K}[X, Y]$ with
         \begin{equation*}
-            \frac {\overline{g_1}} {\overline{g_3}} = u, \ \frac {\overline{g_2}} {\overline{g_3}} = v \quad \text{in $K(E)$}
+            \frac {\overline{g_1}} {\overline{g_3}} = u, \ \frac {\overline{g_2}} {\overline{g_3}} = v \quad \text{in $\bar{K}(E)$}
         \end{equation*}
         and
         \begin{equation*}
             g_3(a) \neq 0, \ \phi(a) = \Bigl( \frac {g_1(a)} {g_3(a)}, \frac {g_2(a)} {g_3(a)} \Bigr) \quad \text{or} \quad (g_1(a), g_2(a)) \neq (0, 0), \ \phi(a) = \O
         \end{equation*}
     \end{itemize}
-    In this case we use the notation $\phi = [u, v, 1]$.
+    In this case $\phi = [u, v, 1]$.
 \end{prop}
 \begin{proof}
     For $\Leftarrow$ we have to show that $\phi$ is an isogeny, i.e. show the condition from \ref{def:rational_map}.
@@ -189,7 +191,7 @@ For this, we require the coordinate ring of an Elliptic Curve, which is the ring
 
 \begin{prop}
     Let $E_1, E_2$ be Elliptic Curves such that $E_2$ is defined by the equation $F(X, Y) = 0$ for $F \in \bar{K}[X, Y]$ and let $u, v \in \bar{K}(E_1)$ with $F(u, v) = 0 \in \bar{K}(E_1)$.
-    Then there is a unique isogeny $\phi: E_1 \to E_2$ such that $\phi = [u, v, 1]$.
+    Then there is a unique morphism $\phi: E_1 \to E_2$ such that $\phi = [u, v, 1]$.
 \end{prop}
 \begin{proof}
     The uniqueness is clear, as each representative of $u$ resp. $v$ yields the same value when evaluated at a point on the curve.
@@ -240,26 +242,26 @@ This will be proven in the next section, by using the following result.
 The general Weierstraß equation is still relatively complicated. If the characteristic of $K$ is not $2$ or $3$ however, we have the following simpler representation:
 
 \begin{prop}
-    Let $E$ be an elliptic curve defined over $K$ with $\mathrm{char}(K) \neq 2, 3$ by the Weierstraß equation $y^2 + a_1 xy + a_3 y = x^3 + a_2 x^2 + a_4 x + a_6$.
+    Let $E$ be an elliptic curve defined over $K$ with $\mathrm{char}(K) \neq 2, 3$ by the Weierstraß equation $Y^2 + a_1 XY + a_3 Y = X^3 + a_2 X^2 + a_4 X + a_6$.
     Then $E$ is isomorphic to an elliptic curve defined by a Weierstraß equation of the form
     \begin{equation*}
-        y^2 = x^3 + Ax + B
+        Y^2 = X^3 + AX + B
     \end{equation*}
     where $A, B \in K$.
 \end{prop}
 \begin{proof}
     Consider the isogeny given by
     \begin{equation*}
-        \phi_1 = \Bigl[ x, y - \frac {a_1 x + a_3} 2, 1 \Bigr]
+        \phi_1 = \Bigl[ X, Y - \frac {a_1 X + a_3} 2, 1 \Bigr]
     \end{equation*}
     Then have that
     \begin{align*}
-        &\left( y - \frac {a_1 x + a_3} 2 \right)^2 + (a_1 x + a_3) \left( y - \frac {a_1 x + a_3} 2 \right) \\
-        = & \ y^2 - y (a_1 x + a_3) + (a_1 x + a_3) y - \left( \frac {a_1 x + a_3} 2 \right)^2 = y^2 - \frac 1 4 ( a_1 x + a_3 )^2
+        &\left( Y - \frac {a_1 X + a_3} 2 \right)^2 + (a_1 X + a_3) \left( Y - \frac {a_1 X + a_3} 2 \right) \\
+        = & \ Y^2 - Y (a_1 X + a_3) + (a_1 X + a_3) Y - \left( \frac {a_1 X + a_3} 2 \right)^2 = Y^2 - \frac 1 4 ( a_1 X + a_3 )^2
     \end{align*}
     Let $E_1$ be the elliptic curve defined by 
     \begin{equation*}
-        E_1: y^2 = x^3 + \frac 1 4 b_2 x^2 + \frac 1 2 b_4 x + \frac 1 4 b_6
+        E_1: Y^2 = X^3 + \frac 1 4 b_2 X^2 + \frac 1 2 b_4 X + \frac 1 4 b_6
     \end{equation*}
     with $b_2 = 4a_2 + a_1^2$, $b_4 = 2 a_4 + a_1 a_3$ and $b_6 = 4a_6 + a_3^2$.
     Then $\phi_1$ maps $E_1$ to $E$ as by the above computation, $\phi(x : y : z) \in E$ for all $(x : y : z) \in E_1$.
@@ -267,9 +269,9 @@ The general Weierstraß equation is still relatively complicated. If the charact
 
     Similarly, consider the isogeny given by
     \begin{equation*}
-        \phi_2 = \Bigl[ x - \frac {b_2} {12}, y, 1 \Bigr]
+        \phi_2 = \Bigl[ X - \frac {b_2} {12}, Y, 1 \Bigr]
     \end{equation*}
-    By an analogous computation as above, get that $\phi_2$ is an isomorphism $E_2 \to E_1$ where $E_2: y^2 = x^3 + Ax + B$ for $A = \frac 1 2 (b_4 - \frac 1 {24} b_2^2)$ and $B = \frac 1 4 (\frac 1 6 b_2 b_4 - \frac 1 {216} b_2^3 - b_6)$.
+    By an analogous computation as above, get that $\phi_2$ is an isomorphism $E_2 \to E_1$ where $E_2: Y^2 = X^3 + AX + B$ for $A = \frac 1 2 (b_4 - \frac 1 {24} b_2^2)$ and $B = \frac 1 4 (\frac 1 6 b_2 b_4 - \frac 1 {216} b_2^3 - b_6)$.
     Composing $\phi_1 \circ \phi_2$ yields an isomorphism between $E_2$ and $E$.
 \end{proof}
 
@@ -277,7 +279,7 @@ The reader might compare the $b_2, b_4, b_6$ used in this proof with the definit
 This formula also gets much simpler when using the simplified form.
 
 \begin{remark}
-    Let $E$ be an elliptic curve defined by $E: y^2 = x^3 + Ax + B$. Then
+    Let $E$ be an elliptic curve defined by $E: Y^2 = X^3 + AX + B$. Then
     \begin{equation*}
         \Delta(E) = -16(27 B^2 + 4 A^3)
     \end{equation*}
@@ -296,7 +298,7 @@ To completely classify whether two curves are isomorphic, it is now left to stud
 This can be done by the so-called j-invariant.
 
 \begin{definition}
-    Let $E$ be an elliptic curve defined by $E: y^2 = x^3 + Ax + B$. Then the j-invariant is given by
+    Let $E$ be an elliptic curve defined by $E: Y^2 = X^3 + AX + B$. Then the j-invariant is given by
     \begin{equation*}
         j(E) := \frac {(-48 A)^3} {\Delta(E)} = 1728 \frac {4A^3} {27 B^2 + 4A^3}
     \end{equation*}
@@ -326,53 +328,62 @@ This can be done by the so-called j-invariant.
     \begin{equation*}
         B'^2 = \frac 1 {u^{12}} B^2 + \frac 1 {27 u^{12}} (4 A^3 - 4 A^3) = \frac 1 {u^{12}} B^2
     \end{equation*}
-    It follows that $u^6 = B/B'$ and so $\phi$ maps $E$ to $E'$. It is only a linear transformation, hence also an isomorphism.
+    It follows that $u^6 = B/B'$ and so $\phi$ maps $E$ to $E'$. 
+    It is only a linear transformation, hence also an isomorphism.
 
-    For the other direction, assume there is an isomorphism $\phi = [x', y', 1]$ from $E$ to $E'$ where $E': y^2 = x^3 + A'x + B'$ and $x', y' \in K[E]$.
-    \paragraph{Claim} Then $x = u_1 x' + r$ and $y = u_2 y' + x_2 x' + t$ for $u_1, u_2 \in \bar{K}^*$ and $r, t \in \bar{K}$.
+    For the other direction, assume there is an isomorphism $\phi = [x, y, 1]$ from $E$ to $E'$ where $E': Y^2 = X^3 + A'X + B'$ and $x, y \in K(E)$ (for simplicity of notation, assume $K = \bar{K}$).
+    \paragraph{Claim} Then $x = u_1 X + r$ and $y = u_2 Y + x_2 X + t$ for $u_1, u_2 \in K^*$ and $r, t \in K$.
     To prove this claim, we require some advanced Algebraic Geometry. 
-    To examine $\O$ using an ``affine'' approach, we change our embedding $K^2 \to \mathbb{P}^2$ such that $(x, z) \mapsto (x : 1 : z)$ and get the affine curve
+    To examine $\O$ using an ``affine'' approach, we change our embedding $K^2 \to \mathbb{P}^2$ such that $(u, v) \mapsto (u : 1 : v)$ and get the affine curves
     \begin{align*}
         E \ &\text{defined by} \ Z = X^3 + A X Z^2 + B Z^3 \ \text{resp.} \\
         E' \ &\text{defined by} \ Z = X^3 + A' X Z^2 + B' Z^3
     \end{align*}
-    The curves do not change by this, we just consider another affine part of the projective plane that now contains $\O$. In particular, $\O$ is now the origin $(0, 0)$.
-    Note that this is just a conceptual tool, formally this is given by the isomorphism 
+    The (projective) curves do not change by this, we just consider another affine part of the projective plane that now contains $\O$. 
+    In particular, the point $\O$ has now the affine coordinates $(0, 0)$
+    \footnote{This might be slightly confusing, as we do not properly distinguish projective and affine varieties. To be completely correct, say that we change to another (affine) curve that has the same projective closure.}.
+
+    Note that this is an intuitive idea, formally this is given by the $K$-field isomorphism 
     \begin{align*}
-        K(E) &= \Quot\left(K[x, y] / (y^2 - x^3 - A x - B)\right) \\
-        \cong \ K(\tilde{E}) &= \Quot\left(K[X, Z]/(Z - X^3 - A X Z^2 - B Z^3)\right)
+        K(E) &= \Quot\left(K[X, Y] / (Y^2 - X^3 - A X - B)\right) \\
+        \cong \ K(\tilde{E}) &= \Quot\left(K[\tilde{X}, \tilde{Z}]/(\tilde{Z} - \tilde{X}^3 - A \tilde{X} \tilde{Z}^2 - B \tilde{Z}^3)\right)
     \end{align*}
-    via $x \mapsto X/Z, \ y \mapsto 1/Z$, where $\tilde{E} = E \cap K^2$ is the considered affine part of the curve. 
-    We identify those two representations, in particular have $x, y, x', y' \in K(\tilde{E})$.
+    via $X \mapsto \tilde{X}/\tilde{Z}, \ Y \mapsto 1/\tilde{Z}$, where $\tilde{E} = \bar{E} \cap K^2$ is the considered affine part of the curve. 
+    Let $\tilde{x}/\tilde{z}, 1/\tilde{z} \in K(\tilde{E})$ be the images of $x$ and $y$ under this isomorphism.
     
     Now consider the localization
     \begin{equation*}
-        R := K[\tilde{E}]_{(0, 0)} := K[\tilde{E}]_{\mathfrak{m}} \subseteq K(\tilde{E}) \ \text{where} \ \mathfrak{m} = \langle x, z \rangle = \{ f \in K[\tilde{E}] \ | \ f(0, 0) = 0 \}
+        R := K[\tilde{E}]_{(0, 0)} := K[\tilde{E}]_{\mathfrak{m}} \subseteq K(\tilde{E}) \ \text{where} \ \mathfrak{m} = \langle \tilde{X}, \tilde{Z} \rangle = \{ f \in K[\tilde{E}] \ | \ f(0, 0) = 0 \}
     \end{equation*}
-    of the affine coordinate ring $K[\tilde{E}] = K[X, Z]/(Z - X^3 - A X Z^2 - B Z^3)$ at $(0, 0) \in K^2$.
+    of the affine coordinate ring $K[\tilde{E}] = K[\tilde{X}, \tilde{Z}]/(\tilde{Z} - \tilde{X}^3 - A \tilde{X} \tilde{Z}^2 - B \tilde{Z}^3)$ at $(0, 0) \in K^2$.
     This is a local ring with unique maximal ideal $\mathfrak{m}$.
-    We show that the valuation of $X$ and $X' := x'/y'$ in $R$ is -2.
-    Now have that $Z = X^3 + A X Z^2 + B Z^3$ and hence
+    We show that the valuation of $\tilde{X}/\tilde{Z}$ and $\tilde{x}/\tilde{z}$ in $R$ is -2.
+    Now have that $\tilde{Z} = \tilde{X}^3 + A \tilde{X} \tilde{Z}^2 + B \tilde{Z}^3$ and hence
     \begin{equation*}
-        \underbrace{\left( 1 - B Z^2 \right)}_{=:\ \alpha \ \in R^*} Z = X (Z^2 + A Z^2)
+        \underbrace{\left( 1 - B \tilde{Z}^2 \right)}_{=:\ \alpha \ \in R^*} \tilde{Z} = \tilde{X} (\tilde{X}^2 + A \tilde{Z}^2)
     \end{equation*}
-    It follows that $Z \in \langle X \rangle$ and thus $\mathfrak{m} = \langle X \rangle$.
-    Furthermore have $X (X^2 + A Z^2) = X (X^2 + A \alpha X^2) = X^3 (1 + A \alpha)$ and $1 + A \alpha$ is a unit.
-    Therefore $\langle X \rangle^3 = \langle Z \rangle$ and thus $x = X / Z$ has valuation $1 - 3 = -2$.
-    The same calculation for $X' := x' Z', Z' := 1/y'$ shows that $x' = X' / Z'$ has valuation -2.
-    Here we require that $\phi$ maps $\O$ to $\O$, as then $Z' \in \mathfrak{m}$ and hence $\alpha' = 1 - B' Z'^2$ is a unit.
+    It follows that $\tilde{Z} \in \langle \tilde{X} \rangle$ and thus $\mathfrak{m} = \langle \tilde{X} \rangle$.
+    
+    Furthermore have $\tilde{X}^3 = \alpha \tilde{Z} - A \tilde{X} \tilde{Z}^2 = (\alpha - A \tilde{X} \tilde{Z}) \tilde{Z}$ and $\alpha - A \tilde{X} \tilde{Z}$ is a unit.
+    Therefore $\langle \tilde{X} \rangle^3 = \langle \tilde{Z} \rangle$ and thus $X = \tilde{X} / \tilde{Z}$ has valuation $1 - 3 = -2$.
+    The same calculation for $\tilde{x}/\tilde{z}, \ 1/\tilde{z}$ shows that $\tilde{x}/\tilde{z}$ has valuation -2.
+    Here we require that $\phi$ maps $\O$ to $\O$, as then $\tilde{z} \in \mathfrak{m}$ and hence $\alpha' = 1 - B' \tilde{z}^2$ is a unit.
     The Riemann-Roche theorem tells us that
     \begin{equation*}
         V_2 := \{ f \in K(E)^* = K(\tilde{E})^* \ | \ \text{valuation of $f$ in $R$} \geq -2 \} \cup \{ 0 \}
     \end{equation*}
-    is a 2-dimensional $K$-vector space. By the above, $x, x' \in V_2$ and thus there must be a linear dependency between $1, x$ and $x'$.
-    By an analogue computation we also find a linear dependency between $1, x, y, y'$ as the corresponding $V_3$ is 3-dimensional by Riemann-Roche.
+    is a 2-dimensional $K$-vector space. 
+    By the above, $\tilde{X}/\tilde{Z}, \ \tilde{x}/\tilde{z} \in V_2$ and thus there must be a linear dependency between $1, \tilde{X}/\tilde{Z}$ and $\tilde{x}/\tilde{z}$.
+    As we have an isomorphism, this gives a linear dependency between $1, X$ and $x$.
+    By an analogue computation we also find a linear dependency between $1, X, Y, y$ as the corresponding $V_3$ is 3-dimensional by Riemann-Roche.
     This shows the claim.
 
-    Now we have $x'^3 + A' x' + B' = y'^2$ and by plugging in the linear transformation $x' = (x - r) / u_1$ and $y' = (y - t - s_2 x') / u_2$ one can compute that $j(E) = j(E')$.
+    Now we have $x^3 + A' x + B' = y^2$ and by plugging in the linear transformation $x = (X - r) / u_1$ and $y = (Y - t - s_2 x') / u_2$ one can compute that $j(E) = j(E')$.
 \end{proof}
 
 \section{Elliptic Curves as Groups}
+
+\subsection{The Group Law}
 
 Apart from the geometric nature of an elliptic curve, they have additional important structure: Elliptic curves are groups.
 In particular for cryptography, this is crucial. 
@@ -410,9 +421,9 @@ Now we consider a second binary operation $+_{\mathrm{alg}}$ on $E$. This will b
 
 \begin{prop}
     \label{prop:dedekind_domain}
-    Let $E: y^2 = x^3 + Ax + B$ be an elliptic curve. Then the affine coordinate ring $\bar{K}[E]$ is a Dedekind domain and there is a bijection
+    Let $E: Y^2 = X^3 + AX + B$ be an elliptic curve. Then the affine coordinate ring $\bar{K}[E]$ is a Dedekind domain and there is a bijection
     \begin{equation*}
-        \phi: E \to \mathrm{Cl}(\bar{K}[E]), \quad (\lambda, \mu) \mapsto \overline{\langle x - \lambda, y - \mu \rangle}, \ \O \mapsto \overline{\langle 1 \rangle}
+        \phi: E \to \mathrm{Cl}(\bar{K}[E]), \quad (\lambda, \mu) \mapsto \overline{\langle X - \lambda, Y - \mu \rangle}, \ \O \mapsto \overline{\langle 1 \rangle}
     \end{equation*}
 \end{prop}
 \begin{proof}
@@ -450,19 +461,19 @@ Note that $+_{\mathrm{poly}}$ is given by polynomials. We do not consider the ge
 Let $P = (u, v) \in E$ and consider the map $\tau_P: E \to E, \ Q \mapsto Q + P$.
 In $K(E)$ we have
 \begin{equation*}
-    \frac {v - y} {u - x} = \frac {v^2 - y^2} {(u - x)(v + y)} = \frac {u^3 + Au - x^3 - Ax} {(u - x)(v + y)} = \frac {u^2 + ux + x^2 + A} {v + y}
+    \frac {v - Y} {u - X} = \frac {v^2 - Y^2} {(u - X)(v + Y)} = \frac {u^3 + Au - X^3 - AX} {(u - X)(v + Y)} = \frac {u^2 + uX + X^2 + A} {v + Y}
 \end{equation*}
 and so 
 \begin{equation*}
-    \tau_P = [-u - x + \lambda^2, \ -y_1 + \lambda (x - \lambda^2), 1] \ \text{where} \ \lambda = \frac {v - y} {u - x} \in K(E)
+    \tau_P = [-u - X + \lambda^2, \ -Y + \lambda (X - \lambda^2), \ 1] \ \text{where} \ \lambda = \frac {v - Y} {u - X} \in K(E)
 \end{equation*}
-is a morphism ($\lambda$ is regular everywhere except at $(u, -v)$, but here we clearly get $\O$).
+is a morphism ($\lambda$ is regular everywhere except at $(u, -v)$ and $\O$, but here we get $\O$ resp. $P$; the latter however follows from a nontrivial computation).
 
 Similarly, the scalar multiplication 
 \begin{equation*}
     [m]: E \to E, \ Q \mapsto \underbrace{Q + ... + Q}_{m \ \text{times}}
 \end{equation*}
-is a morphism and hence an isogeny (almost the same calculation).
+is a morphism and hence an isogeny (a similar calculation).
 
 Now we get the fundamental result on the group structure of elliptic curves.
 
@@ -474,7 +485,7 @@ Now we get the fundamental result on the group structure of elliptic curves.
 Now combining the well-known properties of the different definitions of $+$, we get the
 
 \begin{corollary}
-    Let $E: y^2 = x^3 + Ax + B$ be an elliptic curve. Then 
+    Let $E: Y^2 = X^3 + AX + B$ be an elliptic curve. Then 
     \begin{itemize}
         \item $E$ together with the binary operation $+$ from \ref{prop:group_operation} is a group.
         \item $E$ has neutral element $\O$
@@ -486,7 +497,7 @@ Now combining the well-known properties of the different definitions of $+$, we 
 This now gives rise to a group structure.
 
 \begin{definition}
-    Let $E: y^2 = x^3 + Ax + B$ be an elliptic curve. Then we endow $E$ with a group structure, where $\O$ is the neutral element and the map from \ref{prop:group_operation} is the group operation.
+    Let $E$ be an elliptic curve. Then we endow $E$ with a group structure, where $\O$ is the neutral element and the map from \ref{prop:group_operation} is the group operation.
 \end{definition}
 
 Another property that follows directly is that the so-called rational points form a subgroup.
@@ -502,10 +513,10 @@ Another property that follows directly is that the so-called rational points for
 \end{corollary}
 \begin{proof}
     We only have to show that $E(L)$ is closed under $+$. 
-    However by \ref{prop:group_operation} the coordinates of a sum of two points are given by a rational function of the summand coordinates, so stay in $L$.
+    However by \ref{prop:group_operation} the coordi-nates of a sum of two points are given by a rational function of the summand coordinates, so stay in $L$.
 \end{proof}
 
-\section{Isogenies and the Group Structure}
+\subsection{Isogenies}
 
 In \ref{def:isogeny} we have already defined what an isogeny is.
 Since this work is about isogeny-based cryptography, they will play a crucial role in the following parts.
@@ -527,7 +538,7 @@ A very fascinating and fundamental result is that isogenies are group homomorphi
         f^{\mathrm{hom}}(\psi_1, \psi_2, \psi_3) = \psi_3^d \ f\left(\frac {\psi_1} {\psi_3}, \frac {\psi_2} {\psi_3}\right) \ \text{for some} \ d \in \N
     \end{equation*}
     and in the class group $\mathrm{Cl}(\bar{K}[E])$ have further $\overline{\langle \psi_3 \rangle} = 1$.
-    Now we have by \ref{prop:dedekind_domain} that the following diagram is commutative
+    Now we have by Proposition~\ref{prop:dedekind_domain} that the following diagram is commutative
     
     \begin{center}
     \begin{tikzpicture}
@@ -566,6 +577,7 @@ Using this, we can describe certain properties of isogenies.
 
 \begin{definition}
     An isogeny $\psi: E \to E'$ is called separable, if the corresponding field extension $\bar{K}(E) | \psi^*\bar{K}(E)$ is separable.
+    The degree of $\bar{K}(E) | \psi^*\bar{K}(E)$ is called the degree of $\psi$.
 \end{definition}
 
 There are many nice propositions in this context. For example, the field extension $\bar{K}(E) | \psi^*\bar{K}(E)$ is always finite, and if the isogeny is separable, then its degree is equal to $\#\ker\psi$.
@@ -613,7 +625,9 @@ Partly, this can be done by the famous Vélu formulas.
     This is done e.g. in \cite[8.2]{defeo_phd} by a lengthy, but mostly elementary, computation.
 \end{proof}
 
-\section{Supersingular Curves}
+\section{Supersingular Diffie-Hellmann}
+
+\subsection{Supersingular Curves}
 
 An advanced concept in the theory of Elliptic Curves is the distinction of ordinary and supersingular curves.
 These notions are defined in terms of the Endomorphism ring of an Elliptic Curve.
@@ -669,7 +683,8 @@ The interested reader might refer to \cite{arithmetic_elliptic_curves} for an in
 We will only require the following theorem on the group structure of supersingular Elliptic Curves.
 
 \begin{theorem}
-    Let $E$ be a supersingular Elliptic Curve over a field of characteristic $p$ such that $j(E) \neq 0, 1728$.
+    \label{prop:supersingular_structure}
+    Let $E$ be a supersingular Elliptic Curve defined over $\bar{\mathbb{F}}_p$ such that $j(E) \neq 0, 1728$.
     Then $E(\mathbb{F}_{p^2}) \cong (\Z / (p \pm 1)\Z)^2$.
 \end{theorem}
 \begin{proof}
@@ -677,10 +692,93 @@ We will only require the following theorem on the group structure of supersingul
     For a proof, see e.g. \cite[Thm 4.2]{structure_supersingular_curve} and \cite[Lemma 4.8]{structure_supersingular_curve}.
 \end{proof}
 
-\section{Supersingular Diffie-Hellmann}
+\subsection{The Isogeny Path Problem}
 
-\subsection{The Key Exchange}
-Consider the following key exchange protocol:
+We already presented the Vélu formulas \ref{prop:velu_formulas} as a way to compute quotient Elliptic Curves and the corresponding isogenies.
+However there is one fundamental obstacle to directly using this in a cryptosystem.
+In a cryptographic scheme, the kernel subgroup will usually be of exponential size, and so a naive implementation of the Vélu formulas has infeasible running time complexity.
+If the order of the kernel is smooth however (i.e. has only small prime factors), we can use the following approach.
+
+\begin{remark}
+    \label{prop:efficient_isogeny_computation}
+    Let $E$ be an Elliptic Curve and $P, Q \in E$ be points.
+    As isogenies are group homomorphisms, we see that $E/\langle P, Q \rangle \cong (E / \langle P \rangle) / \langle \overline{Q} \rangle$, where $\overline{Q}$ is the image of $Q$ under the canonical isogeny $E \to E/\langle P \rangle$.
+    
+    More generally, given a chain of subgroups
+    \begin{equation*}
+        \{ \O \} \leq G_1 \leq G_2 \leq ... \leq G_m \leq E
+    \end{equation*}
+    we have that $E/G_m \cong E/G_1/G_2'/.../G_m'$ where $G_i'$ is the image of $G_i$ under the canonical isogeny $E \to E/G_{i - 1}$.
+    Computing the quotients of $E/G_1/G_2'/.../G_m'$ one after another using the Vélu formulas can now be done in
+    \begin{equation*}
+        \mathrm{poly}\Bigl( [\{\O\} : G_1]\ [G_1 : G_2]\ ...\ [G_{m - 1} : G_m] \Bigr)
+    \end{equation*}
+    operations.
+\end{remark}
+
+Because of this reason, the kernels are usually cyclic subgroups whose order is a power of 2 or 3.
+For these cases, the SIKE scheme uses optimized formulas for point doubling \cite[1.1.6]{sike} and tripling \cite[1.1.7]{sike} as well as for computing isogenies with kernels of order 2 or 3 \cite[1.1.9]{sike}.
+This idea leads us to another view onto isogeny problems.
+
+\begin{definition}
+    Let $p, l$ be distinct primes. 
+    Then the graph whose vertices are the isomorphism classes of supersingular Elliptic Curves defined over $\bar{\mathbb{F}_p}$, and whose edges are given by the pairs of Elliptic Curves between whom there exists a separable isogeny of degree $l$, is called the supersingular $l$-isogeny graph over $\bar{\mathbb{F}_p}$.
+\end{definition}
+
+There is the notion of a dual isogeny (see e.g. \cite{arithmetic_elliptic_curves}), hence it makes sense that the graph is undirected.
+An example of supersingular isogeny graphs in $\mathbb{F}_{97^2}$ is displayed in Figure~\ref{fig:isogeny_graphs}.
+
+\begin{figure}
+    \centering
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics[width = \textwidth]{isogeny_graph1.pdf}
+    \end{minipage}
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics[width = \textwidth]{isogeny_graph2.pdf}
+    \end{minipage}
+    \caption{\label{fig:isogeny_graphs} supersingular 2-and 3-isogeny graphs in $\mathbb{F}_{97^2}$, from\cite{mathematics_isogeny_crypto}}
+\end{figure}
+
+Note that by the above approach, an isogeny of degree $l^e$ corresponds to a path of length $e$ is this graph.
+Finding such paths is now the basic problem isogeny-based cryptography relies upon.
+
+\begin{problem}[Supersingular Isogeny Path]
+    Given two supersingular Elliptic Curves $E, E'$ defined over $\bar{\mathbb{F}_p}$ and a prime $l \neq p$, find an isogeny $\phi: E \to E'$ of degree $l^e$ for some $e \in \N$.
+\end{problem}
+
+This problem is conjectured to be extremely difficult, and the only known algorithms require time exponential in $\log \#E(\mathbb{F}_{p^2})$ \cite{mathematics_isogeny_crypto}.
+Because of this, the problem (and its ordinary counterpart) seem like good candidates for building cryptographic schemes.
+In the following, we will look at a kind of Diffie-Hellmann key exchange scheme.
+
+\subsection{Supersingular Isogeny Diffie-Hellman}
+
+The idea of the SIDH scheme is that Alice and Bob choose secret subgroups $A, B \leq E$ of a public Elliptic Curve $E$ and exchange $E/A$ resp. $E/B$.
+The joint key is then $E/\langle A, B \rangle$.
+To allow a short representation of $A$ and $B$, we will choose the Elliptic Curve such that Theorem~\ref{prop:supersingular_structure} applies, and then take cyclic subgroups with $\mathbb{F}_{p^2}$-rational generators.
+
+The main problem that is left is that there is no efficient way of computing $E/\langle A, B \rangle$ given only $A$ and $E/B$.
+In SIDH, this problem is solved by exchanging slightly more information about the secret isogenies $E \to E/A$ resp. $E \to E/B$.
+
+Before we can present the cryptosystem, we require one last notation.
+
+\begin{definition}
+    Let $E$ be an Elliptic Curve defined over $\mathbb{F}_q$ and $n \in \N_{>0}$. Then
+    \begin{equation*}
+        E[n] := \{ P \in E(\mathbb{F}_q) \ | \ n \cdot a = \O \} \leq E
+    \end{equation*}
+    is the $n$-torsion subgroup of $E$.
+\end{definition}
+
+Now consider the following key exchange scheme, which is also displayed in Figure~\ref{fig:sidh}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width = 0.8\textwidth]{scheme2.pdf}
+    \caption{\label{fig:sidh} The SIDH protocol}
+\end{figure}
+
 \begin{description}
     \item[Public data] 
         Choose primes $l_A, l_B$ such that $p := l_A^{e_A} l_B^{e_B} f \pm 1$ is prime for some (small) $f \in \N$. Now find a supersingular elliptic curve $E$ defined over $\F_q$ with $q = p^2$ and
@@ -691,11 +789,13 @@ Consider the following key exchange protocol:
         \begin{center}
             The public data consists now of $l_A, e_A, l_B, e_B, E, P_A, Q_A, P_B, Q_B$
         \end{center}
+
     \item[Secret Generation] 
         Alice chooses a secret point $A := [m_A]P_A + [n_A]Q_A \in E[l_A^{e_A}]$ with maximal order $l_A^{e_A}$ using random $m_A, n_A \in \Z$. 
-        Similarly, Bob chooses a secret point $B := [m_B]P_B + [n_B]Q_B \in E[l_B^{e_B}]$ with maximal order $l_B^{e_B}$. Note that these points correspond to unique separable isogenies
+        Similarly, Bob chooses a secret point $B := [m_B]P_B + [n_B]Q_B \in E[l_B^{e_B}]$ with maximal order $l_B^{e_B}$. 
+        Note that these points correspond to unique separable isogenies
         \begin{equation*}
-            \alpha: E \to E_A \ \text{and} \ \beta: E \to E_B
+            \alpha: E \to E_A := E/\langle A \rangle \ \text{and} \ \beta: E \to E_B := E/\langle B \rangle
         \end{equation*}
         with kernels $\langle A \rangle$ resp. $\langle B \rangle$. 
         Now they publish $E_A$ and $E_B$ and additionally $\alpha(P_B), \alpha(Q_B)$ resp. $\beta(P_A), \beta(Q_A)$.
@@ -703,15 +803,16 @@ Consider the following key exchange protocol:
             Secret are $m_A, n_A, m_B, n_B$ resp. $A, B, \alpha, \beta$; \\
             Public are $E_A, E_B, \alpha(P_B), \alpha(Q_B), \beta(P_A), \beta(Q_A)$
         \end{center}
+
     \item[Key Computation]
         Alice now computes $A' := [m_A]\beta(P_A) + [n_A]\beta(Q_A) \in E_B(\F_q)$ and the unique separable isogeny
         \begin{equation*}
-            \alpha': E_B \to E_{BA}
+            \alpha': E_B \to E_{BA} := E_B/\langle A' \rangle
         \end{equation*}
         with kernel $\langle A' \rangle$. 
         Similarly, Bob computes $B' := [m_B]\alpha(P_B) + [n_B]\alpha(Q_B)$ and the unique separable isogeny
         \begin{equation*}
-            \beta': E_A \to E_{AB}
+            \beta': E_A \to E_{AB} := E_A/\langle B' \rangle
         \end{equation*}
         with kernel $\langle B' \rangle$. 
         \begin{center}
@@ -719,7 +820,7 @@ Consider the following key exchange protocol:
         \end{center}
 \end{description}
 Note $l_A^{e_A}l_B^{e_B}f \pm 1$ is prime relatively often, so in the first step, we can simply try multiple choices and use a suitable one.
-The isogeny computations can be efficiently done using Velu's formulas (\ref{prop:velu_formulas}).
+The isogeny computations can be done efficiently as described in \ref{prop:efficient_isogeny_computation}.
 To show correctness, it suffices now to show that $j(E_{AB}) = j(E_{BA})$.
 \begin{proof}
     As $B' = \alpha(B)$ have $\alpha^{-1}(\{B'\}) = \ker(\alpha) + B = \langle A \rangle + B$.
@@ -742,6 +843,10 @@ To show correctness, it suffices now to show that $j(E_{AB}) = j(E_{BA})$.
         \end{tikzpicture}
     \end{center}
 \end{proof}
+
+\subsection{Supersingular Isogeny Key Exchange}
+
+In this section, we will comment on the implementation of the SIDH protocol in the SIKE cryptosystem \cite{sike}, which is the (alternative) NIST candidate based on Isogenies.
 
 \printbibliography
 
