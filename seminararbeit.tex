@@ -116,13 +116,14 @@ However, we try to give sufficient intuition that one can follow the rest of thi
     The rational map is said to be defined over $K$, if $f_1, f_2, f_3 \in K[X, Y, Z]$.
 \end{definition}
 
-This definition is quite technical, as it is local in nature.
-The intuition is that each coordinate of such a map is given by a quotient of polynomials
-(or, as projective points are invariant under scaling of their coefficients, just by polynomials).
-However, this means we cannot define a correct value for the map if evaluating the polynomials yields ``$\frac 0 0$'' or ``$(0 : 0 : 0)$''.
-Now one can define such a polynomial function on a somewhat bigger set by using a local definition as explained above:
-We use different ``representations'' by polynomials for different subsets of the domain on which they are defined, and require that two of them coincide on points at which both are defined.
-For more information, the reader should refer to a book on Algebraic Geometry.
+This definition is quite technical, as one wants a local definition.
+The idea is that one considers different functions given by fractions of polynomials, each defined only on a subset of $E$ (i.e. excluding the cases where one would get ``$\frac 0 0$'' or ``$(0 : 0 : 0)$'').
+We now get a rational map by ``gluing'' them together, i.e. define the value of the map as the value of an applicable function.
+For the rational map to be well-defined, we thus require that on points where multiple functions are applicable, they yield the same value.
+
+As these sets of definition, one allows only sets that are open in the Zariski topology.
+As a result, their areas of intersection are again open in the Zariski-topology, and thus already uniquely determine the polynomial.
+The result is that all the polynomials that are glued together must be ``equivalent'' according to the above definition.
 
 Note that we still defined rational maps as partial maps, i.e. although we use a local definition, it is possible that no value is defined for a certain point.
 Rational maps that are not partial are then the ``nice'' maps of Algebraic Geometry.
@@ -785,7 +786,7 @@ Now consider the following key exchange scheme, which is also displayed in Figur
         \begin{equation*}
             E(\F_q) \cong \left( \Z / (p \mp 1) \Z \right)^2
         \end{equation*}
-        In particular, every subgroup is a free rank 2 $\Z$-module, and so we find a basis $P_A, Q_A$ of the $l_A^{e_A}$-torsion subgroup $E[l_A^{e_A}]$ of $E(\F_q)$ and similarly $P_B, Q_B$ of $E[l_B^{e_A}]$.
+        In particular, every subgroup is a free $\Z$-module of rank (at most) 2, and so we find a basis $P_A, Q_A$ of the $l_A^{e_A}$-torsion subgroup $E[l_A^{e_A}]$ of $E(\F_q)$ and similarly $P_B, Q_B$ of $E[l_B^{e_A}]$.
         \begin{center}
             The public data consists now of $l_A, e_A, l_B, e_B, E, P_A, Q_A, P_B, Q_B$
         \end{center}
@@ -844,9 +845,57 @@ To show correctness, it suffices now to show that $j(E_{AB}) = j(E_{BA})$.
     \end{center}
 \end{proof}
 
-\subsection{Supersingular Isogeny Key Exchange}
+As with classical Diffie-Hellman, no reduction to the Isogeny Path problem is known (comparable to the Discrete Logarithm problem in the classical case).
+For SIDH, the situation is even worse, as it is required to additionally publish the values $\alpha(P_B), \alpha(Q_B)$ and $\beta(P_A), \beta(Q_A)$.
+It is still not well understood how this influences the security of the scheme.
+However, the scheme is known for almost a decade now and not been broken.
+In fact, the algorithms breaking SIDH have not even improved significantly and the initial security estimates remain valid.
 
-In this section, we will comment on the implementation of the SIDH protocol in the SIKE cryptosystem \cite{sike}, which is the (alternative) NIST candidate based on Isogenies.
+\subsection{Supersingular Isogeny Key Encapsulation}
+
+Supersingular Isogeny Key Encapsulation (SIKE) is the name of the (alternative) NIST candidate that is based on SIDH.
+In the following, we will outline some of its less theoretical features.
+A more detailed overview is given in the specification document \cite{sike}.
+
+The core of SIKE is an implementation of SIDH, that uses various techniques for optimization.
+Most important among those is the representation of points using only three x-coordinates.
+Concretely, instead of publishing $\alpha(P_B), \alpha(Q_B)$ Alice transmits the x-coordinates of $\alpha(P_B), \alpha(Q_B), \alpha(P_B - Q_B)$ and similar for Bob.
+Elliptic Curves are also represented by their Montgomery form, i.e. by a defining equation of the form $bY^2 = X^3 + aX^2 + x$.
+Interestingly, the x-coordinates of $\alpha(P_B), \alpha(Q_B), \alpha(P_B - Q_B)$ are already sufficient for determining $E/\langle A \rangle$ (up to isomorphism).
+The reason is that the j-invariant of a curve in Montgomery form is
+\begin{equation*}
+    j(E) = \frac {256(a^2 - 3)^3} {a^2 - 4} \quad \text{(if $a^2 \neq 4$)}
+\end{equation*}
+which does not depend on $b$ \cite[1.1.8]{sike}.
+Because of this, the public key size of SIDH-based schemes is extremely low.
+On the other hand, the running time is more than an order of magnitude slower than the one of other PQC candidates.
+
+Based on SIDH, SIKE then defines an encryption protocol à la ElGamal.
+Finally, a variant of the Fujisaki-Okamoto transform by \cite{kem_transform} is used on top of the encryption scheme to provide an IND-CCA secure key encapsulation scheme.
+Both of these construc-tions are standard and have nothing to do with Elliptic Curves.
+
+The SIKE submission provides four sets of parameters for different security levels.
+All of them use the curve $E_0: y^2 = x^3 + 6x^2 + x$ defined over $\mathbb{F}_{p^2}$, albeit with different $p$ as displayed in Table~\ref{tab:sike_statistics}.
+
+\begin{figure}
+    \centering
+    \begin{tabular}{ r | c c c c }
+        & SIKEp434 & SIKEp503 & SIKEp610 & SIKEp751 \\
+        \hline\\
+        bitlength of $p$ & 434 & 503 & 610 & 751 \\
+        $e_A$ & 216 & 250 & 305 & 372 \\
+        $e_B$ & 137 & 159 & 192 & 239 \\
+        Key Generation cycles & $5.9 \cdot 10^6$ & $8.2 \cdot 10^6$ & $1.5 \cdot 10^7$ & $2.5 \cdot 10^7$ \\
+        Key Encapsulation cycles & $9.7 \cdot 10^6$ & $1.4 \cdot 10^7$ & $2.7 \cdot 10^7$ & $4.1 \cdot 10^7$ \\
+        Key Decapsulation cycles & $1.0 \cdot 10^7$ & $1.4 \cdot 10^7$ & $2.7 \cdot 10^7$ & $4.4 \cdot 10^7$ \\
+        Public Key size (bytes) & 330 & 378 & 462 & 564 \\
+        Secret Key size (bytes) & 374 & 434 & 524 & 644 \\
+        Ciphertext size (bytes) & 346 & 402 & 486 & 596 \\
+        Shared secret size (bytes) & 16 & 24 & 24 & 32 \\
+        Estimated security level (bits) & 142 & 169 & 209 & 263
+    \end{tabular}
+    \caption{\label{tab:sike_statistics} Statistics on the different parameter sets of SIKE from \cite{sike}; Performance was measured on a 3.4GHz Intel i7-6700 using an optimized assembly implementation for x64}
+\end{figure}
 
 \printbibliography
 
