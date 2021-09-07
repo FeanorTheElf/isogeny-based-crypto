@@ -67,10 +67,11 @@ of its defining polynomials, i.e. say that the curve $E$ is defined by the equat
 \begin{equation*}
     E: \ Y^2 + a_1 XY + a_3 Y = X^3 + a_2 X^2 + a_4 X + a_6
 \end{equation*}
+which is also called Weierstraß equation of $E$.
 By homogenizing the polynomial equation, one can retrieve the original homogeneous polynomial, so this representation defines the Elliptic Curve uniquely.
 
 Readers that are not used to working with projective geometry may also think of an Elliptic Curve as the (affine) set of solutions of this equation, together with a dedicated point $\O$ ``at infinity''.
-Using this point of view, we will also identify affine points $(x, y)$ with $(x : y : 1)$.
+In this spirit, we will also identify affine points $(x, y)$ with $(x : y : 1)$.
 
 Usually, one only considers elliptic curves that are smooth. 
 This is a property that can be defined for all varieties, but here we will only give a definition applicable only to elliptic curves.
@@ -81,7 +82,7 @@ This relies on the so-called discriminant of an elliptic curve.
     A (possibly nonsmooth) elliptic curve $E$ defined by $Y^2 + a_1 XY + a_3 Y = X^3 + a_2 X^2 + a_4 X + a_6$ is called smooth, if the discriminant
     \begin{align*}
         \Delta(E) = & - b_2^2 b_8 - 8 b_4^3 - 27 b_6^2 + 9 b_2 b_4 b_6 \\
-        \text{where} \ & b_2 = a_1^2 + 4 a_2 \\
+        \text{where} \quad & b_2 = a_1^2 + 4 a_2 \\
         & b_4 = a_1 a_3 + 2 a_4 \\
         & b_6 = a_3^2 + 4 a_6 \\
         & b_8 = a_1^2 a_6 + 4 a_2 a_6 - a_1 a_3 a_4 + a_2 a_3^2 - a_4
@@ -103,12 +104,12 @@ However, we try to give sufficient intuition that one can follow the rest of thi
 \begin{definition}
     \label{def:rational_map}
     Given irreducible varieties $V = \mathcal{Z}_{\bar{K}}(I), W \subseteq \mathbb{P}_{\bar{K}}^2$, a partial map $\phi: V \to W$ is called rational if it is given locally by rational functions.
-    Namely, $\phi$ is rational if there are homogeneous $f_1, f_2, f_3 \in \bar{K}[X, Y, Z]$ of same degree and not all zero such that for each point $(x : y : z) \in V$ at which $\phi$ is defined, there are ``equivalent'' homogeneous polynomials $(g_1, g_2, g_3) \in \bar{K}[X, Y, Z], \ (g_1, g_2, g_3) \sim (f_1, f_2, f_3)$ of same degree such that
+    Namely, $\phi$ is rational if there are homogeneous $f_1, f_2, f_3 \in \bar{K}[X, Y, Z]$ of same degree and not all zero such that for each point $(a_1 : a_2 : a_3) \in V$ at which $\phi$ is defined, there are ``equivalent'' homogeneous polynomials $(g_1, g_2, g_3) \in \bar{K}[X, Y, Z], \ (g_1, g_2, g_3) \sim (f_1, f_2, f_3)$ of same degree such that
     \begin{align*}
         (g_1(a), g_2(a), g_3(a)) &\neq (0, 0, 0) \quad \text{and}\\
-        (g_1(a) : g_2(a) : g_3(a)) &= \phi((a_1 : a_2 : a_0))
+        (g_1(a) : g_2(a) : g_3(a)) &= \phi((a_1 : a_2 : a_3))
     \end{align*}
-    where $a = (x, y, z)$.
+    where $a = (a_1, a_2, a_3)$.
 
     Here we define equivalence as $(f_1, f_2, f_3) \sim (g_1, g_2, g_3)$ if $f_i g_j = f_j g_i \mod I$ for all $i, j$.
     We use the notation $\phi = [f_1^{\mathrm{deh}} / f_3^{\mathrm{deh}}, f_2^{\mathrm{deh}} / f_3^{\mathrm{deh}}, 1]$
@@ -116,14 +117,14 @@ However, we try to give sufficient intuition that one can follow the rest of thi
     The rational map is said to be defined over $K$, if $f_1, f_2, f_3 \in K[X, Y, Z]$.
 \end{definition}
 
-This definition is quite technical, as one wants a local definition.
+This definition is quite technical, as rational maps are defined locally.
 The idea is that one considers different functions given by fractions of polynomials, each defined only on a subset of $E$ (i.e. excluding the cases where one would get ``$\frac 0 0$'' or ``$(0 : 0 : 0)$'').
 We now get a rational map by ``gluing'' them together, i.e. define the value of the map as the value of an applicable function.
 For the rational map to be well-defined, we thus require that on points where multiple functions are applicable, they yield the same value.
 
 As these sets of definition, one allows only sets that are open in the Zariski topology.
-As a result, their areas of intersection are again open in the Zariski-topology, and thus already uniquely determine the polynomial.
-The result is that all the polynomials that are glued together must be ``equivalent'' according to the above definition.
+As a result, their intersections are again open in the Zariski-topology, and thus already uniquely determine the polynomial.
+It follows that all the polynomials that are glued together must be ``equivalent'' according to the above definition.
 
 Note that we still defined rational maps as partial maps, i.e. although we use a local definition, it is possible that no value is defined for a certain point.
 Rational maps that are not partial are then the ``nice'' maps of Algebraic Geometry.
@@ -189,6 +190,35 @@ For this, we require the coordinate ring of an Elliptic Curve, which is the ring
         u = \frac {\overline{f_1^{\mathrm{deh}}}} {\overline{f_3^{\mathrm{deh}}}}, \ v = \frac {\overline{f_2^{\mathrm{deh}}}} {\overline{f_3^{\mathrm{deh}}}} \quad \text{and} \quad g_i' = g_i^{\mathrm{deh}}
     \end{equation*}
 \end{proof}
+
+Now we want to illustrate this notion with an example.
+
+\begin{example}
+    Let $E: Y^2 = X^3 - X$ be an Elliptic Curve. Consider
+    \begin{equation*}
+        \psi: E \to \mathbb{P}^2, \quad (x, y) \mapsto \begin{cases}
+            \Bigl( \frac {y^2} {x^2}, \ \frac y x \left( 2x - \frac {y^2} {x^2} \right) \Bigr) & \text{if $x \neq 0$} \\
+            \O & \text{otherwise}
+        \end{cases}
+    \end{equation*}
+    Then $\psi$ is an isogeny, as for $(x, y) \in E$ with $x \neq 0$ its value is given by
+    \begin{equation*}
+        \Bigl( \frac {g_1(x, y)} {g_3(x, y)}, \ \frac {g_2(x, y)} {g_3(x, y)} \Bigr) \quad \text{where} \quad g_1 = Y^2X, \ g_2 = 2YX^3 - Y^3, \ g_3 = X^3
+    \end{equation*}
+    The interesting point is now $(0, 0)$, as $(g_1(0, 0), g_2(0, 0), g_3(0, 0)) = (0, 0, 0)$ and thus this does not define a value.
+    However, note that in $K(E)$ we have $Y^2 = X^3 - X$ and thus
+    \begin{equation*}
+        XY \cdot \frac {g_2} {g_3} = \frac {2Y^2X^3 - Y^4} {X^2} = 2Y^2X - \frac {Y^4} {X^2} = 2Y^2X - (X^2 - 1)^2
+    \end{equation*}
+    So we find
+    \begin{equation*}
+        g_1' = XYg_1, \ g_2' = 2Y^2X - (X^2 - 1)^2, \ g_3' = XYg_3 \quad \text{with} \quad \frac {\overline{g_i'}} {\overline{g_3'}} = \frac {\overline{g_i}} {\overline{g_3}} \in K(E)
+    \end{equation*}
+    with $g_3'(0, 0) = 0, g_2'(0, 0) = -1 \neq 0$. And indeed, $\psi(0, 0) = \O$.
+    Intuitively speaking, we ``fixed'' the zero in the denominator by switching to another representation of $\psi$ by polynomials.
+
+    Observing now that in $K(E)$ the components $g_1/g_3$ and $g_2/g_3$ of $\psi$ also fulfill the equation $Y^2 = X^3 + 4$, we see that $\psi$ is an isogeny from $E$ to $E': Y^2 = X^3 + 4$.
+\end{example}
 
 \begin{prop}
     Let $E_1, E_2$ be Elliptic Curves such that $E_2$ is defined by the equation $F(X, Y) = 0$ for $F \in \bar{K}[X, Y]$ and let $u, v \in \bar{K}(E_1)$ with $F(u, v) = 0 \in \bar{K}(E_1)$.
@@ -438,7 +468,7 @@ Now we consider a second binary operation $+_{\mathrm{alg}}$ on $E$. This will b
     \end{equation*}
 \end{definition}
 
-Lastly, we look at a third operation $+_{poly}$ that is given explicitly by rational functions.
+Lastly, we look at a third operation $+_{poly}$ that is given explicitly by fractions of polynomials.
 
 \begin{definition}
     Define the map 
@@ -495,8 +525,6 @@ Now combining the well-known properties of the different definitions of $+$, we 
     \end{itemize}
 \end{corollary}
 
-This now gives rise to a group structure.
-
 \begin{definition}
     Let $E$ be an elliptic curve. Then we endow $E$ with a group structure, where $\O$ is the neutral element and the map from \ref{prop:group_operation} is the group operation.
 \end{definition}
@@ -529,7 +557,7 @@ A very fascinating and fundamental result is that isogenies are group homomorphi
     Let $E, E'$ be elliptic curves and $\psi: E \to E'$ an isogeny. Then $\psi$ is a group homomorphisms.
 \end{prop}
 \begin{proof}
-    Have $\psi = [\psi_1, \psi_2, \psi_3]$ with $\psi_i \in K[E]$ and consider the ring homomorphism
+    Have $\psi = [\psi_1/\psi_3, \psi_2/\psi_3, 1]$ with $\psi_i \in K[E]$ and consider the ring homomorphism
     \begin{equation*}
         \psi^*: \bar{K}[E'] \to \bar{K}[E], \quad \overline{f} \mapsto \overline{f^{\mathrm{hom}}\left(\psi_1, \psi_2, \psi_3\right)}
     \end{equation*}
