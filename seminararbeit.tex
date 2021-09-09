@@ -258,14 +258,16 @@ Hence, in general there are rational maps that cannot be extended to morphisms.
 For Elliptic Curves however, every rational map with a maximal set of definition is a morphism.
 
 Another interesting fact is that nonconstant isogenies are surjective.
-This will be proven in the next section, by using the following result.
 
 \begin{lemma}
-    \label{prop:finite_kernel}
-    Let $E_1, E_2$ be Elliptic Curves and $\phi: E_1 \to E_2$ a nonconstant isogeny. Then the fiber $\phi^{-1}(\{\O\})$ is finite.
+    \label{prop:isogeny_surjective}
+    Let $E_1, E_2$ be Elliptic Curves and $\phi: E_1 \to E_2$ a nonconstant isogeny. Then $\phi$ is surjective.
 \end{lemma}
 \begin{proof}
-    As $\phi$ is a morphism, $V := \phi^{-1}(\{\O\})$ is a subvariety of $E_1$. As $E_1$ is irreducible and by assumption $V \neq E_1$, it follows that $V$ is zero-dimensional, so consists of finitely many points.
+    By the Main Theorem of Elimination Theory, the image $\mathrm{im}\phi \subseteq E_2$ is a subvariety.
+    As $\phi$ is a morphism, $\mathrm{im}\phi$ is irreducible.
+    As $E_2$ is irreducible of dimension 1, find that either $\mathrm{im}\phi = E_2$ or $\mathrm{im}\phi$ has dimension 0.
+    In the latter case however, $\mathrm{im}\phi$ would consist of a single point only, thus $\phi$ would be constant.
 \end{proof}
 
 \subsection{A simpler formula}
@@ -554,20 +556,40 @@ Hence it is important that we study the properties of isogenies in more detail.
 A very fascinating and fundamental result is that isogenies are group homomorphisms.
 \begin{prop}
     \label{prop:isogeny_homomorphism}
-    Let $E, E'$ be elliptic curves and $\psi: E \to E'$ an isogeny. Then $\psi$ is a group homomorphisms.
+    Let $E, E': Y^2 = X^3 + A'X + B'$ be elliptic curves and $\psi: E \to E'$ an isogeny. Then $\psi$ is a group homomorphisms.
 \end{prop}
 \begin{proof}
-    Have $\psi = [\psi_1/\psi_3, \psi_2/\psi_3, 1]$ with $\psi_i \in K[E]$ and consider the ring homomorphism
+    Have $\psi = [\psi_1, \psi_2, 1]$ with $\psi_1, \psi_2 \in \bar{K}(E)$ and consider the field homomorphism
     \begin{equation*}
-        \psi^*: \bar{K}[E'] \to \bar{K}[E], \quad \overline{f} \mapsto \overline{f^{\mathrm{hom}}\left(\psi_1, \psi_2, \psi_3\right)}
+        \psi^*: \bar{K}(E') \to \bar{K}(E), \quad \overline{f} \mapsto \overline{f( \psi_1, \psi_2 )}
     \end{equation*}
-    This is well-defined, because if $\overline{f} = \overline{g} \in \bar{K}[E']$, then $f - g$ vanishes on $E'$ an thus $f(\psi_1, \psi_2, \psi_3) - g(\psi_1, \psi_2, \psi_3)$ vanishes everywhere, thus is zero.
-    Note that
+    This is well-defined, because if $\overline{f} = \overline{g} \in \bar{K}[E']$, then $f - g$ vanishes on $E'$ an thus $f(\psi_1, \psi_2) - g(\psi_1, \psi_2)$ vanishes everywhere, thus is zero.
+    Now we look at the field extension 
     \begin{equation*}
-        f^{\mathrm{hom}}(\psi_1, \psi_2, \psi_3) = \psi_3^d \ f\left(\frac {\psi_1} {\psi_3}, \frac {\psi_2} {\psi_3}\right) \ \text{for some} \ d \in \N
+        \bar{K}(E') = \bar{K}(X, Y) \ | \ \psi^*\bar{K}(E) = \bar{K}(\psi_1, \psi_2)
     \end{equation*}
-    and in the class group $\mathrm{Cl}(\bar{K}[E])$ have further $\overline{\langle \psi_3 \rangle} = 1$.
-    Now we have by Proposition~\ref{prop:dedekind_domain} that the following diagram is commutative
+    %Clearly $\psi_2 \notin K[\psi_1]$ as $T^3 + A'T + B' \in K(E)[T]$ is square-free and $\psi_2^2 = \psi_1^3 + A'\psi_1 + B'$.
+    %Thus $[\psi^*K(E) : K(\psi_1)] = 2$.
+    
+    As $\psi(\O) = \O$ we see that there are homogeneous polynomials $f, g, h \in \bar{K}[R, S, T]$ of same degree with
+    \begin{equation*}
+        f(0, 1, 0) = h(0, 1, 0) = 0, \ g(0, 1, 0) = 1, \quad \psi_1 = \frac {f^{\mathrm{deh}}(X, Y)} {h^{\mathrm{deh}}(X, Y)}, \ \psi_2 = \frac {g^{\mathrm{deh}}(X, Y)} {h^{\mathrm{deh}}(X, Y)}
+    \end{equation*}
+    Since $f, h$ are homogeneous of same degree, we see that $f(0, y, 0) = h(0, y, 0) = 0$ for all $y \in \bar{K}$.
+    It follows that $\psi_1 \in \bar{K}(X)$. 
+    Futhermore, if $\psi_1 = f(X)/h(X)$ for $f, h \in \bar{K}[T]$ we can then assume wlog that $f - \psi_1 h \in \psi^*\bar{K}(E)[T]$ is the minimal polynomial of $X$ over $\psi^*\bar{K}(E)$ or equivalently $\bar{K}(\psi_1)$.
+
+    By \ref{prop:isogeny_surjective} we see that $\psi$ is surjective, so Algebraic Geometry tells us that $\psi^*$ is injective.
+    We can then define
+    \begin{equation*}
+        \psi_* := \left(\psi^*\right)^{-1} \circ N_{\bar{K}(E') | \psi^*\bar{K}(E)}: \bar{K}(E) \to \bar{K}(E')
+    \end{equation*}
+    This map is a (multiplicative) group homomorphism, as $\psi^*$ is a field homomorphism and the norm map $N$ is multiplicative.
+    Thus it induces a well-defined group homomorphism
+    \begin{equation*}
+        \overline{\psi_*}: \mathrm{Cl}(\bar{K}[E]) \to \mathrm{Cl}(\bar{K}[E']), \quad \overline{I} \mapsto \overline{\langle \psi_*I \rangle}
+    \end{equation*}
+    Now we show that the following diagram is commutative and the claim follows by \ref{prop:dedekind_domain} and \ref{prop:group_operation}.
     
     \begin{center}
     \begin{tikzpicture}
@@ -579,23 +601,36 @@ A very fascinating and fundamental result is that isogenies are group homomorphi
         \draw[->] (E) -- (Ep) node[midway, above] {$\psi$};
         \draw[->] (E) -- (KE) node[midway, left] {$\phi$};
         \draw[->] (Ep) -- (KEp) node[midway, left] {$\phi$};
-        \draw[->] (KEp) -- (KE) node[midway, above] {$\overline{\psi^*}$};
+        \draw[->] (KE) -- (KEp) node[midway, above] {$\overline{\psi_*}$};
     \end{tikzpicture}
     \end{center}
-    Clearly $\overline{\psi^*}: \mathrm{Cl}(\bar{K}[E']) \to \mathrm{Cl}(\bar{K}[E])$ is a group homomorphism, and by \ref{prop:group_operation} we know that $\phi$ is a group isomorphism.
-    The claim follows.
-\end{proof}
 
-With this, a fact mentioned earlier directly follows:
-\begin{corollary}
-    \label{prop:isogeny_surjective}
-    Let $\psi: E_1 \to E_2$ be a nonconstant isogeny between Elliptic Curves. Then $\psi$ is surjective.
-\end{corollary}
-\begin{proof}
-    Assume $\psi$ would not be surjective. By the Main Theorem of Elimination theory, its image $\mathrm{im}\psi$ then is a proper subvariety of $E_2$, and as $E_2$ is irreducible, it must be zero-dimensional.
-    Hence $\mathrm{im}\psi$ is finite, but by \ref{prop:finite_kernel} also $\ker\psi$ is finite.
-    By the isomorphism theorem, it follows that $E_1$ must be finite, as $E_1/\ker\psi \cong \mathrm{im}\psi$.
-    However $K$ is algebraically closed, so $E_1$ is infinite, a contradiction.
+    Clearly this holds for $\O$, so consider $(\lambda, \mu) \in E$ with $\psi(\lambda, \mu) \neq \O$.
+    As $\psi^*$ is injective, is suffices to show that $(\psi^* \circ \phi \circ \psi)(\lambda, \mu) = (\psi^* \circ \overline{\psi_*} \circ \phi)(\lambda, \mu)$.
+
+    Using the definition of $\phi$ we find
+    \begin{align*}
+        &(\psi^* \circ \overline{\psi_*} \circ \phi)(\lambda, \mu) = \overline{\langle N(X - \lambda), N(Y - \mu) \rangle} \quad \text{and} \\
+        &(\psi^* \circ \phi \circ \psi)(\lambda, \mu) = \psi^*\left(\overline{\langle X - \psi_1(\lambda, \mu), Y - \psi_2(\lambda, \mu) \rangle}\right)  = \overline{\langle \psi_1 - \psi_1(\lambda, \mu), \psi_2 - \psi_2(\lambda, \mu) \rangle}
+    \end{align*}
+    Explicitly computing the determinant of the multiplication map shows that
+    \begin{equation*}
+        N(X - \lambda) = \mathrm{MiPo}_{\psi^*\bar{K}(E)}(X)(\lambda) = \mathrm{MiPo}_{\bar{K}(\psi_1)}(X)(\lambda)
+    \end{equation*}
+    By the above, find $f, h \in \bar{K}[T]$ such that $\psi_1 = f(X)/h(X)$ and $f(T) - \psi_1h(T)$ is the minimal polynomial of $X$.
+    Now we see that ($\psi(\lambda, \mu) \neq \O$ so $h(\lambda) \neq 0$)
+    \begin{equation*}
+        N(X - \lambda) = f(\lambda) - \psi_1h(\lambda) = -h(\lambda)(\psi_1 - \psi_1(\lambda, \mu))
+    \end{equation*}
+    By a similar approach one can also compute that
+    \begin{equation*}
+        N(Y - \mu) = -h(\lambda)(\psi_2 - \psi(\lambda, \mu))
+    \end{equation*}
+    So
+    \begin{equation*}
+        \overline{\langle N(X - \lambda), N(Y - \mu) \rangle} = \overline{\langle \psi_1 - \psi_1(\lambda, \mu), \psi_2 - \psi_2(\lambda, \mu) \rangle} \in \mathrm{Cl}(\bar{K}[E])
+    \end{equation*}
+    and we are done.
 \end{proof}
 
 The map $\psi^*$ considered in \ref{prop:isogeny_homomorphism} is indeed quite important, as it induces a field extension
