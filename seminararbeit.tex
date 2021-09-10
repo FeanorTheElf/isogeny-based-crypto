@@ -46,7 +46,25 @@
 
 \tableofcontents
 
+\subsection*{Introduction}
+
+In the last decade, there has been significant progress in the development of quantum computers that might be able to break many current cryptographic schemes, 
+namely those that are based on the hardness of the prime factorization or the discrete logarithm problem.
+The possibility of such a breakthrough has caused a lot of interest in Post-Quantum Cryptography, and the National Institute for Standards and Technology has started a competition for the standardization of some suitable schemes.
+Recently, the second round was completed \cite{NISTReport}, and the last round started.
+
+In the last round, the scheme SIKE (Supersingular Isogeny Key Exchange) participates as an alternative candidate.
+SIKE is based on the relatively new idea of a Diffie-Hellman-like key exchange using isogeny graphs.
+Due to its young age, there is not yet enough trust in its security, but due to its potential it was still accepted as an alternative candidate, to possibly be standardized after some more research has been done.
+In this work, we give an introduction to the mathematical basics and the Supersingular Isogeny Diffie-Hellman (SIDH) protocol, which is the main part of SIKE. 
+
 \section{Elliptic Curves as Varieties}
+
+As the name already indicates, the main ingredient for SIDH are isogenies, so a certain kind of maps between Elliptic Curves.
+Hence the structure of Elliptic Curves and isogenies are crucial for the rest of this work.
+However, this structure has two parts, and the interaction of them is one of the reasons that make Elliptic Curves an extremely fascinating topic in algebra.
+Namely, Elliptic Curves are varieties (i.e. objects studied in Algebraic Geometry), but also have a (more or less) canonical group structure.
+In this section, we will consider the geometric structure, and move the study of the group structure to the next section.
 
 \subsection{Definition}
 
@@ -75,7 +93,7 @@ In this spirit, we will also identify affine points $(x, y)$ with $(x : y : 1)$.
 
 Usually, one only considers elliptic curves that are smooth. 
 This is a property that can be defined for all varieties, but here we will only give a definition applicable only to elliptic curves.
-This relies on the so-called discriminant of an elliptic curve.
+It relies on the so-called discriminant of an elliptic curve.
 
 \begin{definition}
     \label{def:discriminant}
@@ -90,6 +108,7 @@ This relies on the so-called discriminant of an elliptic curve.
     is nonzero. In this work, the term ``elliptic curve'' will be used for smooth elliptic curves.
 \end{definition}
 
+From now on, unless otherwise mentioned, all Elliptic Curves will be smooth.
 One can now check by a lengthy computation that having a nonzero discriminant is equivalent to having a well-defined tangent line at every point.
 For the sake of brevity, we will not perform the computation in this work.
 
@@ -97,7 +116,7 @@ For the sake of brevity, we will not perform the computation in this work.
 
 In this section, we will introduce the notion of an isogeny, which are the structure-preserving maps between Elliptic Curves.
 A crucial part of this definition are morphisms, which are the structure-preserving maps in the category of algebraic varieties.
-Their theory is quite wide, and anything further than giving the definitions and some basic facts is beyond the scope of this work.
+Their theory is huge, so we will only scratch on its surface in this work.
 The interested reader is advised to refer to a book on Algebraic Geometry.
 However, we try to give sufficient intuition that one can follow the rest of this work without a background in Algebraic Geometry.
 
@@ -118,12 +137,12 @@ However, we try to give sufficient intuition that one can follow the rest of thi
 \end{definition}
 
 This definition is quite technical, as rational maps are defined locally.
-The idea is that one considers different functions given by fractions of polynomials, each defined only on a subset of $E$ (i.e. excluding the cases where one would get ``$\frac 0 0$'' or ``$(0 : 0 : 0)$'').
+The idea is to consider different functions given by fractions of polynomials, each defined only on a subset of $E$ (i.e. excluding the cases where one would get ``$\frac 0 0$'' or ``$(0 : 0 : 0)$'').
 We now get a rational map by ``gluing'' them together, i.e. define the value of the map as the value of an applicable function.
 For the rational map to be well-defined, we thus require that on points where multiple functions are applicable, they yield the same value.
 
 As these sets of definition, one allows only sets that are open in the Zariski topology.
-As a result, their intersections are again open in the Zariski-topology, and thus already uniquely determine the polynomial.
+As a result, their intersections are again open in the Zariski-topology, and thus the polynomial functions defined on them are equal at infinitely many points.
 It follows that all the polynomials that are glued together must be ``equivalent'' according to the above definition.
 
 Note that we still defined rational maps as partial maps, i.e. although we use a local definition, it is possible that no value is defined for a certain point.
@@ -143,14 +162,17 @@ Thus we will work with the stronger notion than that of a morphism.
     A bijective isogeny whose inverse is also an isogeny is called isomorphism.
 \end{definition}
 
-Similar to the convention of defining Elliptic Curves by dehomogenized polynomials, we will use a notation that does not rely on homogeneous coordinates.
-For this, we require the coordinate ring of an Elliptic Curve, which is the ring of ``polynomial functions'' defined on the curve.
+Similar to the convention of defining Elliptic Curves by dehomogenized polynomials, we will use a notation that does not rely on homogeneous coordinates, as defined in \ref{def:rational_map}.
+Continuing this path yields a nice way to work with isogenies, but first we require the coordinate ring of an Elliptic Curve.
 
 \begin{definition}
     Let $E$ be an Elliptic Curve defined by the polynomial $F(X, Y) = Y^2 + a_1 XY + a_3 Y - X^3 - a_2 X^2 - a_4 X - a_6$.
     Then the ring $K[E] := K[X, Y] / (F(X, Y))$ is called the (affine) coordinate ring of $E$.
     Its field of fractions is called the function field of $E$ and denoted by $K(E)$.
 \end{definition}
+
+Note that all representatives of an element of $K[E]$ yield the same value when evaluated on a point of $E$, so can be seen as ``polynomials'' defined on $E$.
+Although strictly speaking, the cosets of $X, Y$ in $K[E]$ or $K(E)$ should be $\overline{X}, \overline{Y}$, for simplicity of notation, we will also denote them by $X, Y$.
 
 \begin{prop}
     Let $E_1, E_2$ be Elliptic Curves and $\phi: E_1 \to E_2$ be a map with $\phi(\O) = \O$.
@@ -166,29 +188,10 @@ For this, we require the coordinate ring of an Elliptic Curve, which is the ring
             g_3(a) \neq 0, \ \phi(a) = \Bigl( \frac {g_1(a)} {g_3(a)}, \frac {g_2(a)} {g_3(a)} \Bigr) \quad \text{or} \quad (g_1(a), g_2(a)) \neq (0, 0), \ \phi(a) = \O
         \end{equation*}
     \end{itemize}
-    In this case $\phi = [u, v, 1]$.
+    In this case, we also use the notation $\phi = [u, v, 1]$, i.e. allow the notation $[\cdot, \cdot, 1]$ to be used with elements of $K(E)$.
 \end{prop}
 \begin{proof}
-    For $\Leftarrow$ we have to show that $\phi$ is an isogeny, i.e. show the condition from \ref{def:rational_map}.
-    Let $f_1, f_2, f_3 \in K[X, Y, Z]$ homogeneous of same degree such that $f_1^{\mathrm{deh}} / f_3^{\mathrm{deh}}$ is a representative of $u$ and $f_2^{\mathrm{deh}} / f_3^{\mathrm{deh}}$ is a representative of $v$.
-    For a point $(x : y : z) \neq \O$ we have wlog that $z = 1$, so $(x : y : z) = (x, y)$.
-    
-    Let now be $g_1, g_2, g_3 \in K[X, Y]$ the polynomials given by the assumption and $d = \max \{ \deg g_1, \deg g_2, \deg g_3 \}$.
-    Then the polynomials $g_i' := g_i^{\mathrm{hom}} Z^{d - \deg g_i}$ are equivalent to $f_1, f_2, f_3$ as in \ref{def:rational_map}.
-    If $g_3(a) \neq 0$ have
-    \begin{equation*}
-        \phi(a) = \Bigl( \frac {g_1(a)} {g_3(a)}, \frac {g_2(a)} {g_3(a)} \Bigr) = ( g_1(a) : g_2(a) : g_3(a) )
-    \end{equation*} 
-    and clearly $(g_1(a), g_2(a), g_3(a)) \neq (0, 0, 0)$.
-
-    Otherwise have $\phi(a) = \O$ and $g_3 = 0, \ (g_1(a), g_2(a)) \neq (0, 0)$.
-    Thus clearly\\$(g_1(a), g_2(a), g_3(a)) \neq (0, 0, 0)$ and $p := (g_1(a) : g_2(a) : g_3(a)) = (g_1(a) : g_2(a) : 0)$ is a point on the hyperplane at infinity $H = \mathcal{Z}_{\bar{K}}(Z)$.
-    As $H \cap E = \{ \O \}$ get $p = \O$ and thus $\phi(a) = \O = (g_1(a) : g_2(a) : g_3(a))$.
-
-    The direction $\Rightarrow$ works similarly, but instead of homogenizing the polynomials from the assumption we dehomogenize them, i.e. we choose
-    \begin{equation*}
-        u = \frac {\overline{f_1^{\mathrm{deh}}}} {\overline{f_3^{\mathrm{deh}}}}, \ v = \frac {\overline{f_2^{\mathrm{deh}}}} {\overline{f_3^{\mathrm{deh}}}} \quad \text{and} \quad g_i' = g_i^{\mathrm{deh}}
-    \end{equation*}
+    Both conditions are equivalent up to homogenizing/dehomogenizing and taking cosets/representatives modulo the defining polynomial of $E$.
 \end{proof}
 
 Now we want to illustrate this notion with an example.
@@ -205,7 +208,7 @@ Now we want to illustrate this notion with an example.
     \begin{equation*}
         \Bigl( \frac {g_1(x, y)} {g_3(x, y)}, \ \frac {g_2(x, y)} {g_3(x, y)} \Bigr) \quad \text{where} \quad g_1 = Y^2X, \ g_2 = 2YX^3 - Y^3, \ g_3 = X^3
     \end{equation*}
-    The interesting point is now $(0, 0)$, as $(g_1(0, 0), g_2(0, 0), g_3(0, 0)) = (0, 0, 0)$ and thus this does not define a value.
+    The interesting point is now $(0, 0)$, as $(g_1(0, 0), g_2(0, 0), g_3(0, 0)) = (0, 0, 0)$ and thus this does not yield a well-defined point.
     However, note that in $K(E)$ we have $Y^2 = X^3 - X$ and thus
     \begin{equation*}
         XY \cdot \frac {g_2} {g_3} = \frac {2Y^2X^3 - Y^4} {X^2} = 2Y^2X - \frac {Y^4} {X^2} = 2Y^2X - (X^2 - 1)^2
@@ -217,7 +220,7 @@ Now we want to illustrate this notion with an example.
     with $g_3'(0, 0) = 0, g_2'(0, 0) = -1 \neq 0$. And indeed, $\psi(0, 0) = \O$.
     Intuitively speaking, we ``fixed'' the zero in the denominator by switching to another representation of $\psi$ by polynomials.
 
-    Observing now that in $K(E)$ the components $g_1/g_3$ and $g_2/g_3$ of $\psi$ also fulfill the equation $Y^2 = X^3 + 4$, we see that $\psi$ is an isogeny from $E$ to $E': Y^2 = X^3 + 4$.
+    Observing now that in $K(E)$ the fractions $\overline{g_1/g_3}$ and $\overline{g_2/g_3}$ also fulfill the equation $Y^2 = X^3 + 4$, so we see that $\psi$ is an isogeny from $E$ to $E': Y^2 = X^3 + 4X$.
 \end{example}
 
 \begin{prop}
@@ -226,25 +229,25 @@ Now we want to illustrate this notion with an example.
 \end{prop}
 \begin{proof}
     The uniqueness is clear, as each representative of $u$ resp. $v$ yields the same value when evaluated at a point on the curve.
-    To show the existence, it suffices to show that for each $a = (a_1, a_2) \in E_1$ there are polynomials $g_1, g_2, g_3 \in K[X, Y]$ such that $g_1/g_3$ and $g_2/g_3$ are representatives of $u$ resp. $v$ and $(g_1(a), g_2(a), g_3(a)) \neq (0, 0, 0)$ with $(g_1(a) : g_2(a) : g_3(a)) \in E_2$.
+    To show the existence, it suffices to show that for each $a = (a_1, a_2) \in E_1$ there are polynomials $g_1, g_2, g_3 \in \bar{K}[X, Y]$ such that $g_1/g_3$ and $g_2/g_3$ are representatives of $u$ resp. $v$ and $(g_1(a), g_2(a), g_3(a)) \neq (0, 0, 0)$ with $(g_1(a) : g_2(a) : g_3(a)) \in E_2$.
     These polynomials $g_1, g_2, g_3$ then give a well-defined value for $\phi(a)$.
 
-    As $E_1$ is smooth, we get that the localization $K[E_1]_a$ of $K[E_1]$ at the maximal ideal $(X - a_1, Y - a_2)$ is a discrete valuation domain (\cite[II.1.1]{arithmetic_elliptic_curves}).
-    Hence, $K[E_1]_a$ has a uniformizer $t \in K[E_1]$. 
-    Now let $u = u_1 / u_2$ and $v = v_1 / v_2$ for $u_1, u_2, v_1, v_2 \in K[E_1]$.
-    Then claim the follows with
+    As $E_1$ is smooth, we get that the localization $\bar{K}[E_1]_a$ of $\bar{K}[E_1]$ at the maximal ideal $(X - a_1, Y - a_2)$ is a discrete valuation domain (\cite[II.1.1]{arithmetic_elliptic_curves}).
+    Hence, $\bar{K}[E_1]_a$ has a uniformizer $t \in \bar{K}[E_1]$. 
+    Now let $u = u_1 / u_2$ and $v = v_1 / v_2$ for $u_1, u_2, v_1, v_2 \in \bar{K}[E_1]$.
+    Then the claim follows with any representatives $g_1, g_2, g_3 \in \bar{K}[T]$ such that
     \begin{equation*}
-        g_1 = t^{-d} u_1v_2, \quad g_2 = t^{-d} v_1u_2, \quad g_3 = t^{-d} v_2u_2
+        \overline{g_1} = t^{-d} u_1v_2, \quad \overline{g_2} = t^{-d} v_1u_2, \quad \overline{g_3} = t^{-d} v_2u_2 \in \bar{K}[E]_a
     \end{equation*}
     where
     \begin{equation*}
         d = \min \{ \mathrm{val}_t(u_1v_2), \mathrm{val}_t(v_1u_2), \mathrm{val}_t(v_2u_2) \} \in \N
     \end{equation*}
-    and $\mathrm{val}_t$ is the valuation is the DVD $K[E_1]_a$.
+    and $\mathrm{val}_t$ is the valuation is the DVD $\bar{K}[E_1]_a$.
 
-    As we have $F(u, v) = 0 \in K(E_1)$, it follows that 
+    As we have $F(u, v) = 0 \in \bar{K}(E_1)$, it follows that 
     \begin{equation*}
-        \overline{F^{\mathrm{hom}}(g_1/g_3, g_2/g_3, 1)} = \overline{g_3^{-1} \ F^{\mathrm{hom}}(g_1, g_2, g_3)} = 0 \in K(E_1)
+        F^{\mathrm{hom}}\Bigl( \frac {g_1(X)} {g_3(X)}, \frac {g_2(X)} {g_3(X)}, 1 \Bigr) = g_3^{-1}(X) \ F^{\mathrm{hom}}(g_1(X), g_2(X), g_3(X)) = 0 \in \bar{K}(E_1)
     \end{equation*}
     and thus
     \begin{equation*}
@@ -253,8 +256,7 @@ Now we want to illustrate this notion with an example.
     This shows that $(g_1(a) : g_2(a) : g_3(a)) \in E_2$.
 \end{proof}
 
-The last theorem is interesting, as it does not hold for general projective varieties.
-Hence, in general there are rational maps that cannot be extended to morphisms.
+Interestingly, this theorem is not true for general projective varieties.
 For Elliptic Curves however, every rational map with a maximal set of definition is a morphism.
 
 Another interesting fact is that nonconstant isogenies are surjective.
@@ -339,15 +341,15 @@ This can be done by the so-called j-invariant.
 
 \begin{prop}
     \label{prop:j_invariant}
-    Let $E: y^2 = x^3 = Ax - B$ and $E': y^2 = x^3 - A'x - B'$ be elliptic curves. Then there is an isomorphism $E \to E'$ if and only if $j(E) = j(E')$.
+    Let $E: Y^2 = X^3 = AX - B$ and $E': Y^2 = X^3 - A'X - B'$ be elliptic curves. Then there is an isomorphism $E \to E'$ if and only if $j(E) = j(E')$.
 \end{prop}
 \begin{proof}
     First, assume $j(E) = j(E')$ and consider the isogeny $\phi = [u^2 x, u^3 y, 1]$ where $u^4 = A/A'$.
     Then
     \begin{align*}
-        (u^3 y)^2 =& \ u^6 y^2 \quad \text{and} \\
-        (u^2 x)^3 - A (u^2 x) - B =& \ u^6 \Bigl(x^3 - \frac 1 {u^4} A x - \frac 1 {u^6} B \Bigr) \\
-        =& \ u^6 \Bigl( x^3 - A' x - \frac 1 {u^6} B \Bigr)
+        (u^3 Y)^2 =& \ u^6 Y^2 \quad \text{and} \\
+        (u^2 X)^3 - A (u^2 X) - B =& \ u^6 \Bigl(X^3 - \frac 1 {u^4} A X - \frac 1 {u^6} B \Bigr) \\
+        =& \ u^6 \Bigl( X^3 - A' X - \frac 1 {u^6} B \Bigr)
     \end{align*}
     From $j(E) = j(E')$ we get
     \begin{equation*}
@@ -367,21 +369,17 @@ This can be done by the so-called j-invariant.
     For the other direction, assume there is an isomorphism $\phi = [x, y, 1]$ from $E$ to $E'$ where $E': Y^2 = X^3 + A'X + B'$ and $x, y \in K(E)$ (for simplicity of notation, assume $K = \bar{K}$).
     \paragraph{Claim} Then $x = u_1 X + r$ and $y = u_2 Y + x_2 X + t$ for $u_1, u_2 \in K^*$ and $r, t \in K$.
     To prove this claim, we require some advanced Algebraic Geometry. 
-    To examine $\O$ using an ``affine'' approach, we change our embedding $K^2 \to \mathbb{P}^2$ such that $(u, v) \mapsto (u : 1 : v)$ and get the affine curves
-    \begin{align*}
-        E \ &\text{defined by} \ Z = X^3 + A X Z^2 + B Z^3 \ \text{resp.} \\
-        E' \ &\text{defined by} \ Z = X^3 + A' X Z^2 + B' Z^3
-    \end{align*}
-    The (projective) curves do not change by this, we just consider another affine part of the projective plane that now contains $\O$. 
-    In particular, the point $\O$ has now the affine coordinates $(0, 0)$
-    \footnote{This might be slightly confusing, as we do not properly distinguish projective and affine varieties. To be completely correct, say that we change to another (affine) curve that has the same projective closure.}.
+    
 
-    Note that this is an intuitive idea, formally this is given by the $K$-field isomorphism 
+    First of all, consider the $K$-field isomorphism 
     \begin{align*}
         K(E) &= \Quot\left(K[X, Y] / (Y^2 - X^3 - A X - B)\right) \\
         \cong \ K(\tilde{E}) &= \Quot\left(K[\tilde{X}, \tilde{Z}]/(\tilde{Z} - \tilde{X}^3 - A \tilde{X} \tilde{Z}^2 - B \tilde{Z}^3)\right)
     \end{align*}
-    via $X \mapsto \tilde{X}/\tilde{Z}, \ Y \mapsto 1/\tilde{Z}$, where $\tilde{E} = \bar{E} \cap K^2$ is the considered affine part of the curve. 
+    via $X \mapsto \tilde{X}/\tilde{Z}, \ Y \mapsto 1/\tilde{Z}$, where $\tilde{E} = \bar{E} \cap \{ (a_1 : 1 : a_2) \ | \ a_1, a_2 \in K \}$ is another affine part of $E$
+    \footnote{Intuitively, we just change which part of the projective plane is ``the'' affine plane used to define the (affine) coordinate ring.
+    Instead of $K^2 \to \mathbb{P}^2$ via $(a_1, a_2) \mapsto (a_1 : a_2 : 1)$ we use now $(a_1, a_2) \mapsto (a_1 : 1 : a_2)$.
+    This allows us to examine $\O$ using only ``affine'' formulas.}. 
     Let $\tilde{x}/\tilde{z}, 1/\tilde{z} \in K(\tilde{E})$ be the images of $x$ and $y$ under this isomorphism.
     
     Now consider the localization
@@ -398,23 +396,27 @@ This can be done by the so-called j-invariant.
     It follows that $\tilde{Z} \in \langle \tilde{X} \rangle$ and thus $\mathfrak{m} = \langle \tilde{X} \rangle$.
     
     Furthermore have $\tilde{X}^3 = \alpha \tilde{Z} - A \tilde{X} \tilde{Z}^2 = (\alpha - A \tilde{X} \tilde{Z}) \tilde{Z}$ and $\alpha - A \tilde{X} \tilde{Z}$ is a unit.
-    Therefore $\langle \tilde{X} \rangle^3 = \langle \tilde{Z} \rangle$ and thus $X = \tilde{X} / \tilde{Z}$ has valuation $1 - 3 = -2$.
+    Therefore $\langle \tilde{X} \rangle^3 = \langle \tilde{Z} \rangle$ and thus $\tilde{X} / \tilde{Z}$ has valuation $1 - 3 = -2$.
     The same calculation for $\tilde{x}/\tilde{z}, \ 1/\tilde{z}$ shows that $\tilde{x}/\tilde{z}$ has valuation -2.
     Here we require that $\phi$ maps $\O$ to $\O$, as then $\tilde{z} \in \mathfrak{m}$ and hence $\alpha' = 1 - B' \tilde{z}^2$ is a unit.
-    The Riemann-Roche theorem tells us that
+    The Riemann-Roch theorem tells us that
     \begin{equation*}
         V_2 := \{ f \in K(E)^* = K(\tilde{E})^* \ | \ \text{valuation of $f$ in $R$} \geq -2 \} \cup \{ 0 \}
     \end{equation*}
     is a 2-dimensional $K$-vector space. 
     By the above, $\tilde{X}/\tilde{Z}, \ \tilde{x}/\tilde{z} \in V_2$ and thus there must be a linear dependency between $1, \tilde{X}/\tilde{Z}$ and $\tilde{x}/\tilde{z}$.
     As we have an isomorphism, this gives a linear dependency between $1, X$ and $x$.
-    By an analogue computation we also find a linear dependency between $1, X, Y, y$ as the corresponding $V_3$ is 3-dimensional by Riemann-Roche.
+    By an analogue computation we also find a linear dependency between $1, X, Y, y$ as the corresponding $V_3$ is 3-dimensional by Riemann-Roch.
     This shows the claim.
 
     Now we have $x^3 + A' x + B' = y^2$ and by plugging in the linear transformation $x = (X - r) / u_1$ and $y = (Y - t - s_2 x') / u_2$ one can compute that $j(E) = j(E')$.
 \end{proof}
 
 \section{Elliptic Curves as Groups}
+
+As already mention, we will now move to the group structure one can endow on Elliptic Curves.
+The group operation has a few different characterizations, which we will start with.
+Interestingly, it has very deep connections to the geometric properties of Elliptic Curves, which might seem strange at first but gives rise to a huge and complex theory.
 
 \subsection{The Group Law}
 
@@ -426,6 +428,9 @@ In this section, we will see how this group structure looks like.
     \label{prop:bezout_theorem_case}
     Let $E$ be an elliptic curve. Then each projective line meets $E$ at exactly three points, with multiplicity.
 \end{prop}
+\begin{proof}
+    Follows directly from Bezout's Theorem.
+\end{proof}
 
 \begin{definition}
     Define a map
@@ -476,8 +481,8 @@ Lastly, we look at a third operation $+_{poly}$ that is given explicitly by frac
     Define the map 
     \begin{align*}
         +_{\mathrm{poly}}: E \times E \to E, \quad ((x_1, y_1), (x_2, y_2)) &\mapsto (x_3, y_3), \\
-        (\O, P), (P, \O) &\mapsto P \\
-        ((x, y), (x, -y)) &\mapsto \O
+        ((x, y), (x, -y)) &\mapsto \O \\
+        (\O, P), \ (P, \O) &\mapsto P
     \end{align*}
     where for $P = (x_1, y_1), \ Q = (x_2, y_2) \neq (x_1, -y_1)$ we set
     \begin{align*}
@@ -490,7 +495,8 @@ Lastly, we look at a third operation $+_{poly}$ that is given explicitly by frac
     \end{align*}
 \end{definition}
 
-Note that $+_{\mathrm{poly}}$ is given by polynomials. We do not consider the general case here, but note that both the ``translation'' map and the ``scalar multiplication'' map are morphisms:
+Note that $+_{\mathrm{poly}}$ is given by polynomials. 
+It follows that both the ``translation'' map and the ``scalar multiplication'' map are morphisms:
 Let $P = (u, v) \in E$ and consider the map $\tau_P: E \to E, \ Q \mapsto Q + P$.
 In $K(E)$ we have
 \begin{equation*}
@@ -514,6 +520,10 @@ Now we get the fundamental result on the group structure of elliptic curves.
     \label{prop:group_operation}
     Let $E: y^2 = x^3 + Ax + B$ be an elliptic curve. Then $+ := +_{\mathrm{geo}} = +_{\mathrm{alg}} = +_{\mathrm{poly}}$.
 \end{prop}
+\begin{proof}
+    Showing that $+_{\mathrm{geo}} = +_{\mathrm{poly}}$ is a straightforward computation.
+    For $+_{\mathrm{alg}} = +_{\mathrm{poly}}$, note that the class group is canonically isomorphic to the Picard group (\ref{prop:dedekind_domain} and \cite[I.12.14]{Neukirch}), then see \cite[III.3.4e]{arithmetic_elliptic_curves}.
+\end{proof}
 
 Now combining the well-known properties of the different definitions of $+$, we get the
 
@@ -523,29 +533,9 @@ Now combining the well-known properties of the different definitions of $+$, we 
         \item $E$ together with the binary operation $+$ from \ref{prop:group_operation} is a group.
         \item $E$ has neutral element $\O$
         \item $E$ is abelian
-        \item the $K$-rational points $E(K) := E \cap \mathbb{P}_K^2$ form a subgroup
+        \item for a field tower $\bar{K}|L|K$, the so-called $L$-rational points $E(L) := E \cap \mathbb{P}_L^2 = (E \cap L^2) \cup \{ \O \}$ form a subgroup
     \end{itemize}
 \end{corollary}
-
-\begin{definition}
-    Let $E$ be an elliptic curve. Then we endow $E$ with a group structure, where $\O$ is the neutral element and the map from \ref{prop:group_operation} is the group operation.
-\end{definition}
-
-Another property that follows directly is that the so-called rational points form a subgroup.
-
-\begin{definition}
-    Let $E$ be an Elliptic Curve defined over $K$ and let $\bar{K} | L | K$ be a field tower.
-    Then $E(L) := E \cap \mathbb{P}_L^2 = (E \cap L^2) \cup \{ \O \}$ is called the set of $L$-rational points of $E$.
-\end{definition}
-
-\begin{corollary}
-    Let $E$ be an Elliptic Curve defined over $K$ and let $\bar{K} | L | K$ be a field tower.
-    Then $E(L)$ is a subgroup of $E$.
-\end{corollary}
-\begin{proof}
-    We only have to show that $E(L)$ is closed under $+$. 
-    However by \ref{prop:group_operation} the coordi-nates of a sum of two points are given by a rational function of the summand coordinates, so stay in $L$.
-\end{proof}
 
 \subsection{Isogenies}
 
@@ -559,6 +549,7 @@ A very fascinating and fundamental result is that isogenies are group homomorphi
     Let $E, E': Y^2 = X^3 + A'X + B'$ be elliptic curves and $\psi: E \to E'$ an isogeny. Then $\psi$ is a group homomorphisms.
 \end{prop}
 \begin{proof}
+    Wlog assume that $\psi$ is nonconstant.
     Have $\psi = [\psi_1, \psi_2, 1]$ with $\psi_1, \psi_2 \in \bar{K}(E)$ and consider the field homomorphism
     \begin{equation*}
         \psi^*: \bar{K}(E') \to \bar{K}(E), \quad \overline{f} \mapsto \overline{f( \psi_1, \psi_2 )}
@@ -570,14 +561,13 @@ A very fascinating and fundamental result is that isogenies are group homomorphi
     \end{equation*}
     %Clearly $\psi_2 \notin K[\psi_1]$ as $T^3 + A'T + B' \in K(E)[T]$ is square-free and $\psi_2^2 = \psi_1^3 + A'\psi_1 + B'$.
     %Thus $[\psi^*K(E) : K(\psi_1)] = 2$.
-    
     As $\psi(\O) = \O$ we see that there are homogeneous polynomials $f, g, h \in \bar{K}[R, S, T]$ of same degree with
     \begin{equation*}
         f(0, 1, 0) = h(0, 1, 0) = 0, \ g(0, 1, 0) = 1, \quad \psi_1 = \frac {f^{\mathrm{deh}}(X, Y)} {h^{\mathrm{deh}}(X, Y)}, \ \psi_2 = \frac {g^{\mathrm{deh}}(X, Y)} {h^{\mathrm{deh}}(X, Y)}
     \end{equation*}
     Since $f, h$ are homogeneous of same degree, we see that $f(0, y, 0) = h(0, y, 0) = 0$ for all $y \in \bar{K}$.
     It follows that $\psi_1 \in \bar{K}(X)$. 
-    Futhermore, if $\psi_1 = f(X)/h(X)$ for $f, h \in \bar{K}[T]$ we can then assume wlog that $f - \psi_1 h \in \psi^*\bar{K}(E)[T]$ is the minimal polynomial of $X$ over $\psi^*\bar{K}(E)$ or equivalently $\bar{K}(\psi_1)$.
+    Furthermore, if $\psi_1 = f(X)/h(X)$ for $f, h \in \bar{K}[T]$ we can then assume wlog that $f - \psi_1 h \in \psi^*\bar{K}(E)[T]$ is the minimal polynomial of $X$ over $\psi^*\bar{K}(E)$ or over $\bar{K}(\psi_1)$.
 
     By \ref{prop:isogeny_surjective} we see that $\psi$ is surjective, so Algebraic Geometry tells us that $\psi^*$ is injective.
     We can then define
@@ -585,9 +575,10 @@ A very fascinating and fundamental result is that isogenies are group homomorphi
         \psi_* := \left(\psi^*\right)^{-1} \circ N_{\bar{K}(E') | \psi^*\bar{K}(E)}: \bar{K}(E) \to \bar{K}(E')
     \end{equation*}
     This map is a (multiplicative) group homomorphism, as $\psi^*$ is a field homomorphism and the norm map $N$ is multiplicative.
+    Note that it is also surjective.
     Thus it induces a well-defined group homomorphism
     \begin{equation*}
-        \overline{\psi_*}: \mathrm{Cl}(\bar{K}[E]) \to \mathrm{Cl}(\bar{K}[E']), \quad \overline{I} \mapsto \overline{\langle \psi_*I \rangle}
+        \overline{\psi_*}: \mathrm{Cl}(\bar{K}[E]) \to \mathrm{Cl}(\bar{K}[E']), \quad \overline{I} \mapsto \overline{(\psi_*I)}
     \end{equation*}
     Now we show that the following diagram is commutative and the claim follows by \ref{prop:dedekind_domain} and \ref{prop:group_operation}.
     
@@ -610,8 +601,8 @@ A very fascinating and fundamental result is that isogenies are group homomorphi
 
     Using the definition of $\phi$ we find
     \begin{align*}
-        &(\psi^* \circ \overline{\psi_*} \circ \phi)(\lambda, \mu) = \overline{\langle N(X - \lambda), N(Y - \mu) \rangle} \quad \text{and} \\
-        &(\psi^* \circ \phi \circ \psi)(\lambda, \mu) = \psi^*\left(\overline{\langle X - \psi_1(\lambda, \mu), Y - \psi_2(\lambda, \mu) \rangle}\right)  = \overline{\langle \psi_1 - \psi_1(\lambda, \mu), \psi_2 - \psi_2(\lambda, \mu) \rangle}
+        &(\psi^* \circ \psi_* \circ \phi)(\lambda, \mu) = ( N(X - \lambda), N(Y - \mu) ) \quad \text{and} \\
+        &(\psi^* \circ \phi \circ \psi)(\lambda, \mu) = \psi^*\left(( X - \psi_1(\lambda, \mu), Y - \psi_2(\lambda, \mu) )\right)  = ( \psi_1 - \psi_1(\lambda, \mu), \psi_2 - \psi_2(\lambda, \mu) )
     \end{align*}
     Explicitly computing the determinant of the multiplication map shows that
     \begin{equation*}
@@ -622,13 +613,14 @@ A very fascinating and fundamental result is that isogenies are group homomorphi
     \begin{equation*}
         N(X - \lambda) = f(\lambda) - \psi_1h(\lambda) = -h(\lambda)(\psi_1 - \psi_1(\lambda, \mu))
     \end{equation*}
-    By a similar approach one can also compute that
+    
+    By a more complicated but not fundamentally different calculation one finds that also
     \begin{equation*}
-        N(Y - \mu) = -h(\lambda)(\psi_2 - \psi(\lambda, \mu))
+        N(Y - \mu) = c(\psi_2 - \psi_2(\lambda, \mu)) \quad \text{for some $c \in \bar{K}^*$}
     \end{equation*}
     So
     \begin{equation*}
-        \overline{\langle N(X - \lambda), N(Y - \mu) \rangle} = \overline{\langle \psi_1 - \psi_1(\lambda, \mu), \psi_2 - \psi_2(\lambda, \mu) \rangle} \in \mathrm{Cl}(\bar{K}[E])
+        ( N(X - \lambda), N(Y - \mu) ) = ( \psi_1 - \psi_1(\lambda, \mu), \psi_2 - \psi_2(\lambda, \mu) ) \in \mathrm{Cl}(\bar{K}[E])
     \end{equation*}
     and we are done.
 \end{proof}
@@ -690,6 +682,9 @@ Partly, this can be done by the famous Vélu formulas.
 \end{proof}
 
 \section{Supersingular Diffie-Hellmann}
+
+Now at last we have most of the necessary foundations to present the SIDH scheme.
+We still require the notion of supersingular Curves, but will only introduce it very briefly.
 
 \subsection{Supersingular Curves}
 
