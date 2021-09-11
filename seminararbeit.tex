@@ -558,6 +558,9 @@ A very fascinating and fundamental result is that isogenies are group homomorphi
     Let $E, E': Y^2 = X^3 + A'X + B'$ be elliptic curves and $\psi: E \to E'$ an isogeny. Then $\psi$ is a group homomorphisms.
 \end{prop}
 \begin{proof}
+    A proof using again the Picard group can be found in \cite[III.4.8]{arithmetic_elliptic_curves}.
+    Here we will present a group relying on the class group instead.
+
     Wlog assume that $\psi$ is nonconstant.
     Have $\psi = [\psi_1, \psi_2, 1]$ with $\psi_1, \psi_2 \in \bar{K}(E)$ and consider the field homomorphism
     \begin{equation*}
@@ -584,7 +587,6 @@ A very fascinating and fundamental result is that isogenies are group homomorphi
         \psi_* := \left(\psi^*\right)^{-1} \circ N_{\bar{K}(E') | \psi^*\bar{K}(E)}: \bar{K}(E) \to \bar{K}(E')
     \end{equation*}
     This map is a (multiplicative) group homomorphism, as $\psi^*$ is a field homomorphism and the norm map $N$ is multiplicative.
-    Note that it is also surjective.
     Thus it induces a well-defined group homomorphism
     \begin{equation*}
         \overline{\psi_*}: \mathrm{Cl}(\bar{K}[E]) \to \mathrm{Cl}(\bar{K}[E']), \quad \overline{I} \mapsto \overline{(\psi_*I)}
