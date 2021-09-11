@@ -495,24 +495,33 @@ Lastly, we look at a third operation $+_{poly}$ that is given explicitly by frac
     \end{align*}
 \end{definition}
 
-Note that $+_{\mathrm{poly}}$ is given by polynomials. 
-It follows that both the ``translation'' map and the ``scalar multiplication'' map are morphisms:
-Let $P = (u, v) \in E$ and consider the map $\tau_P: E \to E, \ Q \mapsto Q + P$.
-In $K(E)$ we have
-\begin{equation*}
-    \frac {v - Y} {u - X} = \frac {v^2 - Y^2} {(u - X)(v + Y)} = \frac {u^3 + Au - X^3 - AX} {(u - X)(v + Y)} = \frac {u^2 + uX + X^2 + A} {v + Y}
-\end{equation*}
-and so 
-\begin{equation*}
-    \tau_P = [-u - X + \lambda^2, \ -Y + \lambda (X - \lambda^2), \ 1] \ \text{where} \ \lambda = \frac {v - Y} {u - X} \in K(E)
-\end{equation*}
-is a morphism ($\lambda$ is regular everywhere except at $(u, -v)$ and $\O$, but here we get $\O$ resp. $P$; the latter however follows from a nontrivial computation).
+Note that $+_{\mathrm{poly}}$ is given by polynomials.
 
-Similarly, the scalar multiplication 
-\begin{equation*}
-    [m]: E \to E, \ Q \mapsto \underbrace{Q + ... + Q}_{m \ \text{times}}
-\end{equation*}
-is a morphism and hence an isogeny (a similar calculation).
+\begin{remark}
+    \label{prop:sum_morphisms}
+    Both the ``translation'' map and the ``scalar multiplication'' map are mor-phisms.
+    To see this, consider two morphisms $[x, y, 1], [u, v, 1]: E \to E$ with $u, v, x, y \in K(E)$. Then
+    \begin{equation*}
+        \frac {v - y} {u - x} = \frac {v^2 - y^2} {(u - x)(v + y)} = \frac {u^3 + Au - x^3 - Ax} {(u - x)(v + y)} = \frac {u^2 + ux + x^2 + A} {v + y}
+    \end{equation*}
+    and so by defining addition of morphisms pointwise in $E$, we get that
+    \begin{equation*}
+        [x,y,1] + [u,v,1] = [-u - x + \lambda^2, -y + \lambda(x - \lambda^2), 1] \ \text{where} \ \lambda = \frac {v - y} {u - x} \in K(E)
+    \end{equation*}
+    By the above computation, this holds except if $[x, y, 1](P) = -[u, v, 1](P), \ [x, y, 1](P) = \O$ or $[u, v, 1](P) = \O$.
+    These special cases are easily checked by another computation, however.
+    Thus, the sum of morphisms is again a morphism. 
+    
+    It follows that the translation map
+    \begin{equation*}
+        \tau_Q: E \to E, \quad P \mapsto P + Q
+    \end{equation*}
+    is a morphism and the scalar multiplication map
+    \begin{equation*}
+        [m]: E \to E, \ Q \mapsto \underbrace{Q + ... + Q}_{m \ \text{times}}
+    \end{equation*}
+    is an isogeny.
+\end{remark}
 
 Now we get the fundamental result on the group structure of elliptic curves.
 
@@ -706,6 +715,9 @@ True to its name, the Endomorphism ring is a (sometimes non-commutative) ring.
     Let $E$ be an Elliptic Curve. Then $\mathrm{End}(E)$ is a (non-commutative) ring.
 \end{prop}
 \begin{proof}
+    First of all, $\mathrm{End}(E)$ is closed under composition and addition.
+    The former is trivial, and the latter was already proven in \ref{prop:sum_morphisms}.
+
     Clearly the zero-map $0: P \mapsto \O$ is an isogeny and neutral w.r.t $+$.
     The identity $\mathrm{id}_E$ is also an isogeny and neutral w.r.t $\circ$.
     It is also easy to see that both $+$ and $\circ$ are associative.
@@ -734,7 +746,7 @@ Using this, we can define the notion of supersingular curves.
 \end{definition}
 
 There is a lot of interesting theory on this notion. 
-One usually starts by looking at the Frobenius endomorphism $\pi := [X^q, Y^q, 1] \in \mathrm{End}(E)$ where $E$ is defined over $\mathbb{F}_q$.
+One usually starts by looking at the Frobenius endomorphism $\pi := [X^q, Y^q, 1] \in \mathrm{End}(E)$ where $E$ is defined over $\F_q$.
 This theory then yields that $\mathrm{End}(E)$ is either isomorphic to an order in a quadratic imaginary number field (the ordinary case), or to a Quaternion Algebra (the supersingular case).
 
 The Endomorphism ring is also important when examining the security of isogeny-based cryptography, but due to its complexity, we cannot present it in this work.
@@ -743,8 +755,8 @@ We will only require the following theorem on the group structure of supersingul
 
 \begin{theorem}
     \label{prop:supersingular_structure}
-    Let $E$ be a supersingular Elliptic Curve defined over $\bar{\mathbb{F}}_p$ such that $j(E) \neq 0, 1728$.
-    Then $E(\mathbb{F}_{p^2}) \cong (\Z / (p \pm 1)\Z)^2$.
+    Let $E$ be a supersingular Elliptic Curve defined over $\bar{\F}_p$ such that $j(E) \neq 0, 1728$.
+    Then $E(\F_{p^2}) \cong (\Z / (p \pm 1)\Z)^2$.
 \end{theorem}
 \begin{proof}
     A slightly more general theorem is presented in \cite[Thm 54]{mathematics_isogeny_crypto}.
@@ -781,11 +793,11 @@ This idea leads us to another view onto isogeny problems.
 
 \begin{definition}
     Let $p, l$ be distinct primes. 
-    Then the graph whose vertices are the isomorphism classes of supersingular Elliptic Curves defined over $\bar{\mathbb{F}_p}$, and whose edges are given by the pairs of Elliptic Curves between whom there exists a separable isogeny of degree $l$, is called the supersingular $l$-isogeny graph over $\bar{\mathbb{F}_p}$.
+    Then the graph whose vertices are the isomorphism classes of supersingular Elliptic Curves defined over $\bar{\F}_p$, and whose edges are given by the pairs of Elliptic Curves between whom there exists a separable isogeny of degree $l$, is called the supersingular $l$-isogeny graph over $\bar{\F}_p$.
 \end{definition}
 
 There is the notion of a dual isogeny (see e.g. \cite{arithmetic_elliptic_curves}), hence it makes sense that the graph is undirected.
-An example of supersingular isogeny graphs in $\mathbb{F}_{97^2}$ is displayed in Figure~\ref{fig:isogeny_graphs}.
+An example of supersingular isogeny graphs in $\F_{97^2}$ is displayed in Figure~\ref{fig:isogeny_graphs}.
 
 \begin{figure}
     \centering
@@ -797,25 +809,25 @@ An example of supersingular isogeny graphs in $\mathbb{F}_{97^2}$ is displayed i
         \centering
         \includegraphics[width = \textwidth]{isogeny_graph2.pdf}
     \end{minipage}
-    \caption{\label{fig:isogeny_graphs} supersingular 2-and 3-isogeny graphs in $\mathbb{F}_{97^2}$, from\cite{mathematics_isogeny_crypto}}
+    \caption{\label{fig:isogeny_graphs} supersingular 2-and 3-isogeny graphs in $\F_{97^2}$, from \cite{mathematics_isogeny_crypto}}
 \end{figure}
 
 Note that by the above approach, an isogeny of degree $l^e$ corresponds to a path of length $e$ is this graph.
 Finding such paths is now the basic problem isogeny-based cryptography relies upon.
 
 \begin{problem}[Supersingular Isogeny Path]
-    Given two supersingular Elliptic Curves $E, E'$ defined over $\bar{\mathbb{F}_p}$ and a prime $l \neq p$, find an isogeny $\phi: E \to E'$ of degree $l^e$ for some $e \in \N$.
+    Given two supersingular Elliptic Curves $E, E'$ defined over $\bar{\F}_p$ and a prime $l \neq p$, find an isogeny $\phi: E \to E'$ of degree $l^e$ for some $e \in \N$.
 \end{problem}
 
-This problem is conjectured to be extremely difficult, and the only known algorithms require time exponential in $\log \#E(\mathbb{F}_{p^2})$ \cite{mathematics_isogeny_crypto}.
+This problem is conjectured to be extremely difficult, and the only known algorithms require time exponential in $\log \#E(\F_{p^2})$ \cite{mathematics_isogeny_crypto}.
 Because of this, the problem (and its ordinary counterpart) seem like good candidates for building cryptographic schemes.
-In the following, we will look at a kind of Diffie-Hellmann key exchange scheme.
+In the following, we will look at one of them, namely a kind of Diffie-Hellmann key exchange scheme.
 
 \subsection{Supersingular Isogeny Diffie-Hellman}
 
 The idea of the SIDH scheme is that Alice and Bob choose secret subgroups $A, B \leq E$ of a public Elliptic Curve $E$ and exchange $E/A$ resp. $E/B$.
 The joint key is then $E/\langle A, B \rangle$.
-To allow a short representation of $A$ and $B$, we will choose the Elliptic Curve such that Theorem~\ref{prop:supersingular_structure} applies, and then take cyclic subgroups with $\mathbb{F}_{p^2}$-rational generators.
+To allow a short representation of $A$ and $B$, we will choose the Elliptic Curve such that Theorem~\ref{prop:supersingular_structure} applies, and then take cyclic subgroups with $\F_{p^2}$-rational generators.
 
 The main problem that is left is that there is no efficient way of computing $E/\langle A, B \rangle$ given only $A$ and $E/B$.
 In SIDH, this problem is solved by exchanging slightly more information about the secret isogenies $E \to E/A$ resp. $E \to E/B$.
@@ -823,9 +835,9 @@ In SIDH, this problem is solved by exchanging slightly more information about th
 Before we can present the cryptosystem, we require one last notation.
 
 \begin{definition}
-    Let $E$ be an Elliptic Curve defined over $\mathbb{F}_q$ and $n \in \N_{>0}$. Then
+    Let $E$ be an Elliptic Curve defined over $\F_q$ and $n \in \N_{>0}$. Then
     \begin{equation*}
-        E[n] := \{ P \in E(\mathbb{F}_q) \ | \ n \cdot a = \O \} \leq E
+        E[n] := \{ P \in E(\F_q) \ | \ [n] \cdot a = \O \} \leq E
     \end{equation*}
     is the $n$-torsion subgroup of $E$.
 \end{definition}
@@ -844,6 +856,8 @@ Now consider the following key exchange scheme, which is also displayed in Figur
         \begin{equation*}
             E(\F_q) \cong \left( \Z / (p \mp 1) \Z \right)^2
         \end{equation*}
+        (see also Theorem~\ref{prop:supersingular_structure})
+
         In particular, every subgroup is a free $\Z$-module of rank (at most) 2, and so we find a basis $P_A, Q_A$ of the $l_A^{e_A}$-torsion subgroup $E[l_A^{e_A}]$ of $E(\F_q)$ and similarly $P_B, Q_B$ of $E[l_B^{e_A}]$.
         \begin{center}
             The public data consists now of $l_A, e_A, l_B, e_B, E, P_A, Q_A, P_B, Q_B$
@@ -907,7 +921,7 @@ As with classical Diffie-Hellman, no reduction to the Isogeny Path problem is kn
 For SIDH, the situation is even worse, as it is required to additionally publish the values $\alpha(P_B), \alpha(Q_B)$ and $\beta(P_A), \beta(Q_A)$.
 It is still not well understood how this influences the security of the scheme.
 However, the scheme is known for almost a decade now and not been broken.
-In fact, the algorithms breaking SIDH have not even improved significantly and the initial security estimates remain valid.
+In fact, the algorithms breaking SIDH have not even improved significantly and the initial security estimates remain valid \cite{sike_is_cool}.
 
 \subsection{Supersingular Isogeny Key Encapsulation}
 
@@ -918,9 +932,9 @@ A more detailed overview is given in the specification document \cite{sike}.
 The core of SIKE is an implementation of SIDH, that uses various techniques for optimization.
 Most important among those is the representation of points using only three x-coordinates.
 Concretely, instead of publishing $\alpha(P_B), \alpha(Q_B)$ Alice transmits the x-coordinates of $\alpha(P_B), \alpha(Q_B), \alpha(P_B - Q_B)$ and similar for Bob.
-Elliptic Curves are also represented by their Montgomery form, i.e. by a defining equation of the form $bY^2 = X^3 + aX^2 + x$.
-Interestingly, the x-coordinates of $\alpha(P_B), \alpha(Q_B), \alpha(P_B - Q_B)$ are already sufficient for determining $E/\langle A \rangle$ (up to isomorphism).
-The reason is that the j-invariant of a curve in Montgomery form is
+Elliptic Curves are also represented by their Montgomery form, i.e. by a defining equation of the form $bY^2 = X^3 + aX^2 + X$.
+Interestingly, the x-coordinates of $\alpha(P_B), \alpha(Q_B), \alpha(P_B - Q_B)$ are already sufficient for determining $E/\langle A \rangle$ up to isomorphism.
+This is connected to the fact that the j-invariant of a curve in Montgomery form depends only on one parameter, namely it is
 \begin{equation*}
     j(E) = \frac {256(a^2 - 3)^3} {a^2 - 4} \quad \text{(if $a^2 \neq 4$)}
 \end{equation*}
@@ -933,7 +947,7 @@ Finally, a variant of the Fujisaki-Okamoto transform by \cite{kem_transform} is 
 Both of these construc-tions are standard and have nothing to do with Elliptic Curves.
 
 The SIKE submission provides four sets of parameters for different security levels.
-All of them use the curve $E_0: y^2 = x^3 + 6x^2 + x$ defined over $\mathbb{F}_{p^2}$, albeit with different $p$ as displayed in Table~\ref{tab:sike_statistics}.
+All of them use the curve $E_0: Y^2 = X^3 + 6X^2 + X$ defined over $\F_{p^2}$, albeit with different $p$ as displayed in Table~\ref{tab:sike_statistics}.
 
 \begin{figure}
     \centering
