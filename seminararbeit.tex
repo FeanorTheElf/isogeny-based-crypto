@@ -617,23 +617,34 @@ A very fascinating and fundamental result is that isogenies are group homomorphi
     \end{align*}
     Explicitly computing the determinant of the multiplication map shows that
     \begin{equation*}
-        N(X - \lambda) = \mathrm{MiPo}_{\psi^*\bar{K}(E)}(X)(\lambda) = \mathrm{MiPo}_{\bar{K}(\psi_1)}(X)(\lambda)
+        N_{L(\alpha)|L}(\alpha - \lambda) = \mathrm{MiPo}_L(\alpha)(\lambda) \quad \text{so} \quad N(X - \lambda) = \mathrm{MiPo}_{\bar{K}(\psi_1)}(X)(\lambda)
     \end{equation*}
     By the above, find $f, h \in \bar{K}[T]$ such that $\psi_1 = f(X)/h(X)$ and $f(T) - \psi_1h(T)$ is the minimal polynomial of $X$.
     Now we see that ($\psi(\lambda, \mu) \neq \O$ so $h(\lambda) \neq 0$)
     \begin{equation*}
         N(X - \lambda) = f(\lambda) - \psi_1h(\lambda) = -h(\lambda)(\psi_1 - \psi_1(\lambda, \mu))
     \end{equation*}
-    
-    By a more complicated but not fundamentally different calculation one finds that also
+    As $\psi_2^2 = u(\psi_1)$ for some $u \in \bar{K}[T]$ we find $u, v \in \bar{K}[S, T]$ such that
     \begin{equation*}
-        N(Y - \mu) = c(\psi_2 - \psi_2(\lambda, \mu)) \quad \text{for some $c \in \bar{K}^*$}
+        \mathrm{MiPo}_{\psi^*\bar{K}(E)}(Y) = v(T, \psi_1)\psi_2 - u(T, \psi_1) \in \bar{K}(\psi_1, \psi_2)(T)
     \end{equation*}
+    Hence
+    \begin{equation*}
+        N(Y - \mu) = v(\mu, \psi_1)\psi_2 - u(\mu, \psi_1)
+    \end{equation*}
+    As $\mathrm{MiPo}(Y)(Y) = 0$ we find
+    \begin{equation*}
+        \mathrm{MiPo}(Y)(Y)(\lambda, \mu) = v(\mu, \psi_1(\lambda, \mu))\psi_2(\lambda, \mu) - u(\mu, \psi_1(\lambda, \mu)) = 0
+    \end{equation*}
+    Together, modulo $\psi_1 - \psi_1(\lambda, \mu)$ we get
+    \begin{align*}
+        \frac 1 {v(\mu, \psi_1(\lambda, \mu))} N(Y - \mu) = \psi_2 - \frac {u(\mu, \psi_1)} {v(\mu, \psi_1)} \equiv \psi_2 - \underbrace{\frac {u(\mu, \psi_1(\lambda, \mu))} {v(\mu, \psi_1(\lambda, \mu))}}_{= \psi_2(\lambda, \mu)} = \psi_2 - \psi_2(\lambda, \mu)
+    \end{align*}
     So
     \begin{equation*}
         ( N(X - \lambda), N(Y - \mu) ) = ( \psi_1 - \psi_1(\lambda, \mu), \psi_2 - \psi_2(\lambda, \mu) ) \in \mathrm{Cl}(\bar{K}[E])
     \end{equation*}
-    and we are done.
+    and the claim follows.
 \end{proof}
 
 The map $\psi^*$ considered in \ref{prop:isogeny_homomorphism} is indeed quite important, as it induces a field extension
