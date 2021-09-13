@@ -4,7 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
-\usepackage{babel}
+\usepackage[english]{babel}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{mathtools}
@@ -34,6 +34,8 @@
 \newtheorem{theorem}[prop]{Theorem}
 \newtheorem{lemma}[prop]{Lemma}
 \newtheorem{corollary}[prop]{Corollary}
+
+\theoremstyle{definition}
 \newtheorem{problem}[prop]{Problem}
 \newtheorem{alg}[prop]{Algorithm}
 \newtheorem{definition}[prop]{Definition}
@@ -51,20 +53,19 @@
 In the last decade, there has been significant progress in the development of quantum computers that might be able to break many current cryptographic schemes, 
 namely those that are based on the hardness of the prime factorization or the discrete logarithm problem.
 The possibility of such a breakthrough has caused a lot of interest in Post-Quantum Cryptography, and the National Institute for Standards and Technology has started a competition for the standardization of some suitable schemes.
-Recently, the second round was completed \cite{NISTReport}, and the last round started.
+Recently, the second round was completed \cite{NISTReport}.
 
-In the last round, the scheme SIKE (Supersingular Isogeny Key Exchange) participates as an alternative candidate.
-SIKE is based on the relatively new idea of a Diffie-Hellman-like key exchange using isogeny graphs.
+In the third and last round, the scheme SIKE (Supersingular Isogeny Key Exchange) participates as an alternative candidate.
+SIKE is based on the relatively new idea of using isogeny graphs for a key exchange similar to the classical Diffie-Hellman protocol.
 Due to its young age, there is not yet enough trust in its security, but due to its potential it was still accepted as an alternative candidate, to possibly be standardized after some more research has been done.
-In this work, we give an introduction to the mathematical basics and the Supersingular Isogeny Diffie-Hellman (SIDH) protocol, which is the main part of SIKE. 
+In this work, we give an introduction to the mathematical basics and the Supersingular Isogeny Diffie-Hellman (SIDH) scheme, which is the core of SIKE. 
 
 \section{Elliptic Curves as Varieties}
 
-As the name already indicates, the main ingredient for SIDH are isogenies, so a certain kind of maps between Elliptic Curves.
-Hence the structure of Elliptic Curves and isogenies are crucial for the rest of this work.
-However, this structure has two parts, and the interaction of them is one of the reasons that make Elliptic Curves an extremely fascinating topic in algebra.
-Namely, Elliptic Curves are varieties (i.e. objects studied in Algebraic Geometry), but also have a (more or less) canonical group structure.
-In this section, we will consider the geometric structure, and move the study of the group structure to the next section.
+As the name already indicates, the main ingredient for SIDH are isogenies, which are a class of maps between Elliptic Curves.
+In this section, we will give an introduction to the geometric structure of Elliptic Curves and isogenies.
+However, Elliptic Curves are special in the sense that they are not only objects of pure Algebraic Geometry, but can also be endowed with a group structure.
+The latter is extremely relevant for cryptography, and will be introduced in the next section.
 
 \subsection{Definition}
 
@@ -103,7 +104,7 @@ It relies on the so-called discriminant of an elliptic curve.
         \text{where} \quad & b_2 = a_1^2 + 4 a_2 \\
         & b_4 = a_1 a_3 + 2 a_4 \\
         & b_6 = a_3^2 + 4 a_6 \\
-        & b_8 = a_1^2 a_6 + 4 a_2 a_6 - a_1 a_3 a_4 + a_2 a_3^2 - a_4
+        & b_8 = a_1^2 a_6 + 4 a_2 a_6 - a_1 a_3 a_4 + a_2 a_3^2 - a_4^2
     \end{align*}
     is nonzero. In this work, the term ``elliptic curve'' will be used for smooth elliptic curves.
 \end{definition}
@@ -114,8 +115,8 @@ For the sake of brevity, we will not perform the computation in this work.
 
 \subsection{Isogenies}
 
-In this section, we will introduce the notion of an isogeny, which are the structure-preserving maps between Elliptic Curves.
-A crucial part of this definition are morphisms, which are the structure-preserving maps in the category of algebraic varieties.
+Now we will introduce the notion of an isogeny, which is a structure-preserving map between Elliptic Curves.
+A crucial part of the definition are morphisms, which are the structure-preserving maps in the category of algebraic varieties.
 Their theory is huge, so we will only scratch on its surface in this work.
 The interested reader is advised to refer to a book on Algebraic Geometry.
 However, we try to give sufficient intuition that one can follow the rest of this work without a background in Algebraic Geometry.
@@ -162,8 +163,7 @@ Thus we will work with the stronger notion than that of a morphism.
     A bijective isogeny whose inverse is also an isogeny is called isomorphism.
 \end{definition}
 
-Similar to the convention of defining Elliptic Curves by dehomogenized polynomials, we will use a notation that does not rely on homogeneous coordinates, as defined in \ref{def:rational_map}.
-Continuing this path yields a nice way to work with isogenies, but first we require the coordinate ring of an Elliptic Curve.
+The ``equivalence'' from Definition~\ref{def:rational_map} can be very nicely described by the coordinate ring of an Elliptic Curve.
 
 \begin{definition}
     Let $E$ be an Elliptic Curve defined by the polynomial $F(X, Y) = Y^2 + a_1 XY + a_3 Y - X^3 - a_2 X^2 - a_4 X - a_6$.
@@ -209,16 +209,16 @@ Now we want to illustrate this notion with an example.
         \Bigl( \frac {g_1(x, y)} {g_3(x, y)}, \ \frac {g_2(x, y)} {g_3(x, y)} \Bigr) \quad \text{where} \quad g_1 = Y^2X, \ g_2 = 2YX^3 - Y^3, \ g_3 = X^3
     \end{equation*}
     The interesting point is now $(0, 0)$, as $(g_1(0, 0), g_2(0, 0), g_3(0, 0)) = (0, 0, 0)$ and thus this does not yield a well-defined point.
-    However, note that in $K(E)$ we have $Y^2 = X^3 - X$ and thus
+    However, note that in $K(E)$ we have $Y^2 = X^3 - X$ and so
     \begin{equation*}
         XY \cdot \frac {g_2} {g_3} = \frac {2Y^2X^3 - Y^4} {X^2} = 2Y^2X - \frac {Y^4} {X^2} = 2Y^2X - (X^2 - 1)^2
     \end{equation*}
-    So we find
+    Hence we find
     \begin{equation*}
         g_1' = XYg_1, \ g_2' = 2Y^2X - (X^2 - 1)^2, \ g_3' = XYg_3 \quad \text{with} \quad \frac {\overline{g_i'}} {\overline{g_3'}} = \frac {\overline{g_i}} {\overline{g_3}} \in K(E)
     \end{equation*}
-    with $g_3'(0, 0) = 0, g_2'(0, 0) = -1 \neq 0$. And indeed, $\psi(0, 0) = \O$.
-    Intuitively speaking, we ``fixed'' the zero in the denominator by switching to another representation of $\psi$ by polynomials.
+    such that $g_3'(0, 0) = 0, g_2'(0, 0) = -1 \neq 0$. And indeed, $\psi(0, 0) = \O$.
+    Intuitively speaking, we ``fixed'' the zero in the denominator by switching to another polynomial representation of $\psi$.
 
     Observing now that in $K(E)$ the fractions $\overline{g_1/g_3}$ and $\overline{g_2/g_3}$ also fulfill the equation $Y^2 = X^3 + 4$, so we see that $\psi$ is an isogeny from $E$ to $E': Y^2 = X^3 + 4X$.
 \end{example}
@@ -269,8 +269,9 @@ The general Weierstraß equation is still relatively complicated. If the charact
     \end{equation*}
     Then have that
     \begin{align*}
-        &\left( Y - \frac {a_1 X + a_3} 2 \right)^2 + (a_1 X + a_3) \left( Y - \frac {a_1 X + a_3} 2 \right) \\
-        = & \ Y^2 - Y (a_1 X + a_3) + (a_1 X + a_3) Y - \left( \frac {a_1 X + a_3} 2 \right)^2 = Y^2 - \frac 1 4 ( a_1 X + a_3 )^2
+        &\left( Y - \frac {a_1 X + a_3} 2 \right)^2 + a_1 X \left( Y - \frac {a_1 X + a_3} 2 \right) + a_3 \left( Y - \frac {a_1 X + a_3} 2 \right) \\
+        = & \left( Y - \frac {a_1 X + a_3} 2 \right)^2 + (a_1 X + a_3) \left( Y - \frac {a_1 X + a_3} 2 \right) \\
+        = & \ Y^2 - Y (a_1 X + a_3) + (a_1 X + a_3) Y - \frac {(a_1 X + a_3)^2} 4 = Y^2 - \frac 1 4 ( a_1 X + a_3 )^2
     \end{align*}
     Let $E_1$ be the elliptic curve defined by 
     \begin{equation*}
@@ -345,7 +346,7 @@ This can be done by the so-called j-invariant.
     It is only a linear transformation, hence also an isomorphism.
 
     For the other direction, assume there is an isomorphism $\phi = [x, y, 1]$ from $E$ to $E'$ where $E': Y^2 = X^3 + A'X + B'$ and $x, y \in K(E)$ (for simplicity of notation, assume $K = \bar{K}$).
-    \paragraph{Claim} Then $x = u_1 X + r$ and $y = u_2 Y + x_2 X + t$ for $u_1, u_2 \in K^*$ and $r, t \in K$.
+    \paragraph{Claim} Then $x = u_1 X + r$ and $y = u_2 Y + s x + t$ for $u_1, u_2 \in K^*$ and $r, t, s \in K$.
     To prove this claim, we require some advanced Algebraic Geometry. 
     
 
@@ -379,7 +380,7 @@ This can be done by the so-called j-invariant.
     Here we require that $\phi$ maps $\O$ to $\O$, as then $\tilde{z} \in \mathfrak{m}$ and hence $\alpha' = 1 - B' \tilde{z}^2$ is a unit.
     The Riemann-Roch theorem tells us that
     \begin{equation*}
-        V_2 := \{ f \in K(E)^* = K(\tilde{E})^* \ | \ \text{valuation of $f$ in $R$} \geq -2 \} \cup \{ 0 \}
+        V_2 := \{ f \in K(\tilde{E})^* \ | \ \text{valuation of $f$ in $R$} \geq -2 \} \cup \{ 0 \}
     \end{equation*}
     is a 2-dimensional $K$-vector space. 
     By the above, $\tilde{X}/\tilde{Z}, \ \tilde{x}/\tilde{z} \in V_2$ and thus there must be a linear dependency between $1, \tilde{X}/\tilde{Z}$ and $\tilde{x}/\tilde{z}$.
@@ -394,7 +395,7 @@ This can be done by the so-called j-invariant.
 
 As already mention, we will now move to the group structure one can endow on Elliptic Curves.
 The group operation has a few different characterizations, which we will start with.
-Interestingly, it has very deep connections to the geometric properties of Elliptic Curves, which might seem strange at first but gives rise to a huge and complex theory.
+Interestingly, there are very deep connections to the geometric properties of Elliptic Curves, which gives rise to a fascinating theory.
 
 \subsection{The Group Law}
 
@@ -407,7 +408,7 @@ In this section, we will see how this group structure looks like.
     Let $E$ be an elliptic curve. Then each projective line meets $E$ at exactly three points, with multiplicity.
 \end{prop}
 \begin{proof}
-    Follows directly from Bezout's Theorem.
+    Follows from Bezout's Theorem.
 \end{proof}
 
 \begin{definition}
@@ -433,7 +434,8 @@ So have the following special cases
     &(x, y) +_{\mathrm{geo}} (x, -y) = (x, -y) +_{\mathrm{geo}} (x, y) = \O
 \end{align*}
 
-Now we consider a second binary operation $+_{\mathrm{alg}}$ on $E$. This will be described using algebra, hence we require the following theorem.
+Now we consider a second binary operation $+_{\mathrm{alg}}$ on $E$. 
+This will be described using algebra, and we require the following theorem.
 
 \begin{prop}
     \label{prop:dedekind_domain}
@@ -473,11 +475,9 @@ Lastly, we look at a third operation $+_{poly}$ that is given explicitly by frac
     \end{align*}
 \end{definition}
 
-Note that $+_{\mathrm{poly}}$ is given by polynomials.
-
 \begin{remark}
     \label{prop:sum_morphisms}
-    Both the ``translation'' map and the ``scalar multiplication'' map are mor-phisms.
+    Both the ``translation'' map and the ``scalar multiplication'' map are morphisms.
     To see this, consider two morphisms $[x, y, 1], [u, v, 1]: E \to E$ with $u, v, x, y \in K(E)$. Then
     \begin{equation*}
         \frac {v - y} {u - x} = \frac {v^2 - y^2} {(u - x)(v + y)} = \frac {u^3 + Au - x^3 - Ax} {(u - x)(v + y)} = \frac {u^2 + ux + x^2 + A} {v + y}
@@ -487,16 +487,16 @@ Note that $+_{\mathrm{poly}}$ is given by polynomials.
         [x,y,1] + [u,v,1] = [-u - x + \lambda^2, -y + \lambda(x - \lambda^2), 1] \ \text{where} \ \lambda = \frac {v - y} {u - x} \in K(E)
     \end{equation*}
     By the above computation, this holds except if $[x, y, 1](P) = -[u, v, 1](P), \ [x, y, 1](P) = \O$ or $[u, v, 1](P) = \O$.
-    These special cases are easily checked by another computation, however.
+    One can easily check that the equality also holds in these cases.
     Thus, the sum of morphisms is again a morphism. 
     
     It follows that the translation map
     \begin{equation*}
-        \tau_Q: E \to E, \quad P \mapsto P + Q
+        \tau_Q: E \to E, \quad P \mapsto P +_{\mathrm{poly}} Q
     \end{equation*}
     is a morphism and the scalar multiplication map
     \begin{equation*}
-        [m]: E \to E, \ Q \mapsto \underbrace{Q + ... + Q}_{m \ \text{times}}
+        [m]: E \to E, \ Q \mapsto \underbrace{Q +_{\mathrm{poly}} ... +_{\mathrm{poly}} Q}_{m \ \text{times}}
     \end{equation*}
     is an isogeny.
 \end{remark}
@@ -527,10 +527,8 @@ Now combining the well-known properties of the different definitions of $+$, we 
 \subsection{Isogenies}
 
 In \ref{def:isogeny} we have already defined what an isogeny is.
-Since this work is about isogeny-based cryptography, they will play a crucial role in the following parts.
-Hence it is important that we study the properties of isogenies in more detail.
-
-A very fascinating and fundamental result is that isogenies are group homomorphisms.
+Now we will study their connection to the group structure.
+In particular, we have the following, very fascinating theorem.
 \begin{prop}
     \label{prop:isogeny_homomorphism}
     Let $E, E': Y^2 = X^3 + A'X + B'$ be elliptic curves and $\psi: E \to E'$ an isogeny. Then $\psi$ is a group homomorphisms.
@@ -544,7 +542,10 @@ A very fascinating and fundamental result is that isogenies are group homomorphi
     \begin{equation*}
         \psi^*: \bar{K}(E') \to \bar{K}(E), \quad \overline{f} \mapsto \overline{f( \psi_1, \psi_2 )}
     \end{equation*}
-    This is well-defined, because if $\overline{f} = \overline{g} \in \bar{K}[E']$, then $f - g$ vanishes on $E'$ an thus $f(\psi_1, \psi_2) - g(\psi_1, \psi_2)$ vanishes everywhere, thus is zero.
+    This is well-defined, because if $\overline{f} = \overline{g}$ then
+    \begin{equation*}
+        f(\psi_1, \psi_2) \equiv g(\psi_1, \psi_2) \mod \underbrace{\psi_2^2 - \psi_1^3 + A'\psi_1 + B'}_{= (0)}
+    \end{equation*}
     Now we look at the field extension 
     \begin{equation*}
         \bar{K}(E') = \bar{K}(X, Y) \ | \ \psi^*\bar{K}(E) = \bar{K}(\psi_1, \psi_2)
@@ -610,7 +611,7 @@ A very fascinating and fundamental result is that isogenies are group homomorphi
     \begin{equation*}
         N(Y - \mu) = v(\mu, \psi_1)\psi_2 - u(\mu, \psi_1)
     \end{equation*}
-    As $\mathrm{MiPo}(Y)(Y) = 0$ we find
+    As $\mathrm{MiPo}(Y)(Y) = 0$ have
     \begin{equation*}
         \mathrm{MiPo}(Y)(Y)(\lambda, \mu) = v(\mu, \psi_1(\lambda, \mu))\psi_2(\lambda, \mu) - u(\mu, \psi_1(\lambda, \mu)) = 0
     \end{equation*}
@@ -663,8 +664,8 @@ Partly, this can be done by the famous Vélu formulas.
 
 \begin{prop}
     \label{prop:velu_formulas}
-    Let $E: y^2 = x^3 + Ax + B$ be an elliptic curve defined over $K$ and $G \leq E$ be a finite subgroup.
-    Then $E/G$ is defined by $y^2 = x^3 + A'x + B'$ where
+    Let $E: Y^2 = X^3 + AX + B$ be an elliptic curve defined over $K$ and $G \leq E$ be a finite subgroup.
+    Then $E/G$ is defined by $Y^2 = X^3 + A'X + B'$ where
     \begin{align*}
         A' &= A - 5\sum_{(u, v) \in G \setminus \{\O\}} 3u^2 + A \\
         B' &= B - 7\sum_{(u, v) \in G \setminus \{\O\}} 5u^3 + 3Au + B
@@ -828,7 +829,7 @@ Before we can present the cryptosystem, we require one last notation.
 \begin{definition}
     Let $E$ be an Elliptic Curve defined over $\F_q$ and $n \in \N_{>0}$. Then
     \begin{equation*}
-        E[n] := \{ P \in E(\F_q) \ | \ [n] \cdot a = \O \} \leq E
+        E[n] := \{ P \in E(\F_q) \ | \ [n] a = \O \} \leq E
     \end{equation*}
     is the $n$-torsion subgroup of $E$.
 \end{definition}
@@ -914,7 +915,7 @@ It is still not well understood how this influences the security of the scheme.
 However, the scheme is known for almost a decade now and not been broken.
 In fact, the algorithms breaking SIDH have not even improved significantly and the initial security estimates remain valid \cite{sike_is_cool}.
 
-\subsection{Supersingular Isogeny Key Encapsulation}
+\subsection{SIKE}
 
 Supersingular Isogeny Key Encapsulation (SIKE) is the name of the (alternative) NIST candidate that is based on SIDH.
 In the following, we will outline some of its less theoretical features.
@@ -935,7 +936,7 @@ On the other hand, the running time is more than an order of magnitude slower th
 
 Based on SIDH, SIKE then defines an encryption protocol à la ElGamal.
 Finally, a variant of the Fujisaki-Okamoto transform by \cite{kem_transform} is used on top of the encryption scheme to provide an IND-CCA secure key encapsulation scheme.
-Both of these construc-tions are standard and have nothing to do with Elliptic Curves.
+Both of these constructions are standard and have nothing to do with Elliptic Curves.
 
 The SIKE submission provides four sets of parameters for different security levels.
 All of them use the curve $E_0: Y^2 = X^3 + 6X^2 + X$ defined over $\F_{p^2}$, albeit with different $p$ as displayed in Table~\ref{tab:sike_statistics}.
