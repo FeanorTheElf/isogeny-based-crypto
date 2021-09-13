@@ -228,32 +228,10 @@ Now we want to illustrate this notion with an example.
     Then there is a unique morphism $\phi: E_1 \to E_2$ such that $\phi = [u, v, 1]$.
 \end{prop}
 \begin{proof}
-    The uniqueness is clear, as each representative of $u$ resp. $v$ yields the same value when evaluated at a point on the curve.
-    To show the existence, it suffices to show that for each $a = (a_1, a_2) \in E_1$ there are polynomials $g_1, g_2, g_3 \in \bar{K}[X, Y]$ such that $g_1/g_3$ and $g_2/g_3$ are representatives of $u$ resp. $v$ and $(g_1(a), g_2(a), g_3(a)) \neq (0, 0, 0)$ with $(g_1(a) : g_2(a) : g_3(a)) \in E_2$.
-    These polynomials $g_1, g_2, g_3$ then give a well-defined value for $\phi(a)$.
-
-    As $E_1$ is smooth, we get that the localization $\bar{K}[E_1]_a$ of $\bar{K}[E_1]$ at the maximal ideal $(X - a_1, Y - a_2)$ is a discrete valuation domain (\cite[II.1.1]{arithmetic_elliptic_curves}).
-    Hence, $\bar{K}[E_1]_a$ has a uniformizer $t \in \bar{K}[E_1]$. 
-    Now let $u = u_1 / u_2$ and $v = v_1 / v_2$ for $u_1, u_2, v_1, v_2 \in \bar{K}[E_1]$.
-    Then the claim follows with any representatives $g_1, g_2, g_3 \in \bar{K}[T]$ such that
-    \begin{equation*}
-        \overline{g_1} = t^{-d} u_1v_2, \quad \overline{g_2} = t^{-d} v_1u_2, \quad \overline{g_3} = t^{-d} v_2u_2 \in \bar{K}[E]_a
-    \end{equation*}
-    where
-    \begin{equation*}
-        d = \min \{ \mathrm{val}_t(u_1v_2), \mathrm{val}_t(v_1u_2), \mathrm{val}_t(v_2u_2) \} \in \N
-    \end{equation*}
-    and $\mathrm{val}_t$ is the valuation is the DVD $\bar{K}[E_1]_a$.
-
-    As we have $F(u, v) = 0 \in \bar{K}(E_1)$, it follows that 
-    \begin{equation*}
-        F^{\mathrm{hom}}\Bigl( \frac {g_1(X)} {g_3(X)}, \frac {g_2(X)} {g_3(X)}, 1 \Bigr) = g_3^{-1}(X) \ F^{\mathrm{hom}}(g_1(X), g_2(X), g_3(X)) = 0 \in \bar{K}(E_1)
-    \end{equation*}
-    and thus
-    \begin{equation*}
-        F^{\mathrm{hom}}(g_1, g_2, g_3)(a) = F^{\mathrm{hom}}(g_1(a), g_2(a), g_3(a)) = 0
-    \end{equation*}
-    This shows that $(g_1(a) : g_2(a) : g_3(a)) \in E_2$.
+    Let $\phi: E_1 \to \mathbb{P}^2$ be a rational map with a maximal set of definition such that $\phi = [u, v, 1]$.
+    By \cite[II.2.1]{arithmetic_elliptic_curves} $\phi$ is then a morphism (here it is crucial that $E_1$ is smooth).
+    As $F(u, v) = 0$ one sees that $\mathrm{im}\phi \subseteq E_2$ so $\phi: E_1 \to E_2$.
+    Uniqueness holds, as each representative of $u$ resp. $v$ yields the same value when evaluated at a point of $E$.
 \end{proof}
 
 Interestingly, this theorem is not true for general projective varieties.
